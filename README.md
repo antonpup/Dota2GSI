@@ -140,6 +140,9 @@ GameState
 +-- Added (Added information to the new Game State)
 ```
 
+### Item, and Hero names
+Item and hero names are presented in their "internal name" format. A full list of item names can be found [here](http://dota2.gamepedia.com/Cheats#Item_names) and a full list of heroes can be located [here](http://dota2.gamepedia.com/Cheats#Hero_names).
+
 ##### Examples:
 ```C#
 int Health = gs.Hero.Health; // 560
