@@ -13,7 +13,7 @@
         internal Item(string json_data) : base(json_data)
         {
             Name = GetString("name");
-            ContainsRune = GetString("contains_rune");
+            ContainsRune = GetString("contains_rune"); //double_damage, haste, illusion, invisibility, regeneration, arcane, bounty, empty
             CanCast = GetBool("can_cast");
             Cooldown = GetInt("cooldown");
             IsPassive = GetBool("passive");

@@ -32,7 +32,7 @@ Manual installation:
 1. Create a `GameStateListener` instance by providing a port or passing a specific URI:
 
 ```C#
-GameStateListener gsl = new GameStateListener(3000); //http://localhost:3000
+GameStateListener gsl = new GameStateListener(3000); //http://localhost:3000/
 GameStateListener gsl = new GameStateListener("http://127.0.0.1:81/");
 ```
 
@@ -217,7 +217,7 @@ You will also need to create a custom `gamestate_integration_*.cfg` in `game/dot
 ```
 "Dota 2 Integration Configuration"
 {
-    "uri"           "http://localhost:4000"
+    "uri"           "http://localhost:4000/"
     "timeout"       "5.0"
     "buffer"        "0.1"
     "throttle"      "0.1"
@@ -230,7 +230,6 @@ You will also need to create a custom `gamestate_integration_*.cfg` in `game/dot
         "hero"          "1"
         "abilities"     "1"
         "items"         "1"
-        "allplayers"    "1"
     }
 }
 

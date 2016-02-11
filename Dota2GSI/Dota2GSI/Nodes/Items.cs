@@ -43,10 +43,10 @@ namespace Dota2GSI.Nodes
         /// <returns></returns>
         public Item GetStashAt(int index)
         {
-            if (index > inventory.Count - 1)
+            if (index > stash.Count - 1)
                 return new Item("");
 
-            return inventory[index];
+            return stash[index];
         }
 
         /// <summary>
