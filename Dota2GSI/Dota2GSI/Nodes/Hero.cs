@@ -28,8 +28,8 @@
         {
             ID = GetInt("id");
             Name = GetString("name");
+            Level = GetInt("level");
             IsAlive = GetBool("alive");
-            ID = GetInt("id");
             SecondsToRespawn = GetInt("respawn_seconds");
             BuybackCost = GetInt("buyback_cost");
             BuybackCooldown = GetInt("buyback_cooldown");

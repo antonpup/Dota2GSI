@@ -11,7 +11,8 @@
         DOTA_GAMERULES_STATE_POST_GAME,
         DOTA_GAMERULES_STATE_PRE_GAME,
         DOTA_GAMERULES_STATE_STRATEGY_TIME,
-        DOTA_GAMERULES_STATE_WAIT_FOR_PLAYERS_TO_LOAD
+        DOTA_GAMERULES_STATE_WAIT_FOR_PLAYERS_TO_LOAD,
+        DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP
     }
 
     public enum PlayerTeam
@@ -25,7 +26,7 @@
     public class Map : Node
     {
         public readonly string Name;
-        public readonly int MatchID;
+        public readonly long MatchID;
         public readonly int GameTime;
         public readonly int ClockTime;
         public readonly bool IsDaytime;
@@ -38,7 +39,7 @@
         internal Map(string json_data) : base(json_data)
         {
             Name = GetString("name");
-            MatchID = GetInt("matchid");
+            MatchID = GetLong("matchid");
             GameTime = GetInt("game_time");
             ClockTime = GetInt("clock_time");
             IsDaytime = GetBool("daytime");

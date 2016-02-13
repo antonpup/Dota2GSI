@@ -121,6 +121,7 @@ namespace Dota2GSI
             }
         }
 
+        /*
         public GameState Added
         {
             get
@@ -131,6 +132,7 @@ namespace Dota2GSI
                 return added;
             }
         }
+        */
 
         private String GetNode(string name)
         {

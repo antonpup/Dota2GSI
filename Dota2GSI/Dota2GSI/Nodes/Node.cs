@@ -35,6 +35,16 @@ namespace Dota2GSI.Nodes
                 return -1;
         }
 
+        internal long GetLong(string Name)
+        {
+            Newtonsoft.Json.Linq.JToken value;
+
+            if (_ParsedData.TryGetValue(Name, out value))
+                return Convert.ToInt64(value.ToString());
+            else
+                return -1;
+        }
+
         internal T GetEnum<T>(string Name)
         {
             Newtonsoft.Json.Linq.JToken value;
