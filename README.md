@@ -168,6 +168,13 @@ All Enums have a value `enum.Undefined` that serves the same purpose.
 
 ## Example program
 
+A user, [judge2020](https://github.com/judge2020), has created an example program to demonstrate Dota2GSI functionalities. It can be found in the "Dota2GSI Example program" folder.
+Video demonstration: 
+
+[![Dota 2 GSI Exmaple Program Demo](http://img.youtube.com/vi/-58BSNLnXdA/0.jpg)](https://www.youtube.com/watch?v=-58BSNLnXdA)
+
+## Example implementation
+
 Prints "You bought an item" when you buy an item, and "It is night time" when it is night time.
 
 ```C#
@@ -240,3 +247,4 @@ You will also need to create a custom `gamestate_integration_*.cfg` in `game/dot
 ## Credits
 Special thanks to [rakijah](https://github.com/rakijah) for his CSGO Game State Integration library.
 
+Thanks to [judge2020](https://github.com/judge2020) for providing an example program.
