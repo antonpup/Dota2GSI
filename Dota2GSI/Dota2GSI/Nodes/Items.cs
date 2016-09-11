@@ -11,6 +11,24 @@ namespace Dota2GSI.Nodes
         public int CountInventory { get { return inventory.Count; } }
         public int CountStash { get { return stash.Count; } }
 
+        public IEnumerable<Item> Inventory
+        {
+            get
+            {
+                // Use ToList to make a copy, so original list is safe even when casted
+                return this.inventory.ToList();
+            }
+        }
+
+        public IEnumerable<Item> Stash
+        {
+            get
+            {
+                // Use ToList to make a copy, so original list is safe even when casted
+                return this.stash;
+            }
+        }
+
         internal Items(string json_data) : base(json_data)
         {
             List<string> slots = _ParsedData.Properties().Select(p => p.Name).ToList();
@@ -56,7 +74,7 @@ namespace Dota2GSI.Nodes
         /// <returns></returns>
         public bool InventoryContains(string itemname)
         {
-            foreach(Item inventory_item in this.inventory)
+            foreach (Item inventory_item in this.inventory)
             {
                 if (inventory_item.Name == itemname)
                 {
