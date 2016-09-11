@@ -25,7 +25,7 @@ namespace Dota2GSI.Nodes
             get
             {
                 // Use ToList to make a copy, so original list is safe even when casted
-                return this.stash;
+                return this.stash.ToList();
             }
         }
 
