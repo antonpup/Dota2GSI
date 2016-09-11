@@ -98,6 +98,11 @@ namespace Dota2GSI
                     return false;
                 }
                 isRunning = true;
+
+                // Set this to true, so when the program wants to terminate,
+                // this thread won't stop the program from exiting.
+                ListenerThread.IsBackground = true;
+
                 ListenerThread.Start();
                 return true;
             }
@@ -167,6 +172,7 @@ namespace Dota2GSI
         public void Dispose()
         {
             this.Stop();
+            this.waitForConnection.Dispose();
             this.net_Listener.Close();
         }
     }
