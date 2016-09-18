@@ -87,6 +87,9 @@
         Radiant
     }
 
+    /// <summary>
+    /// Class representing information about the map
+    /// </summary>
     public class Map : Node
     {
         /// <summary>

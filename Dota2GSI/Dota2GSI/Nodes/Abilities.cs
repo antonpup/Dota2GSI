@@ -53,6 +53,9 @@ namespace Dota2GSI.Nodes
             }
         }
 
+        /// <summary>
+        /// Gets the IEnumerable of Abilities
+        /// </summary>
         public IEnumerator<Ability> GetEnumerator()
         {
             return abilities.GetEnumerator();
@@ -63,11 +66,13 @@ namespace Dota2GSI.Nodes
             return abilities.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns the json string that generated this Abilities instance
+        /// </summary>
+        /// <returns>Json string</returns>
         public override string ToString()
         {
             return json;
         }
-
-
     }
 }

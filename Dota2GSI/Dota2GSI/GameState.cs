@@ -171,6 +171,10 @@ namespace Dota2GSI
                 return "";
         }
 
+        /// <summary>
+        /// Returns the json string that generated this GameState instance
+        /// </summary>
+        /// <returns>Json string</returns>
         public override string ToString()
         {
             return json;
