@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using Dota2GSI;
 using Microsoft.Win32;
-
+using System.Threading;
 
 namespace Dota2GSI_Example_program
 {
@@ -37,11 +37,19 @@ namespace Dota2GSI_Example_program
             }
             Console.WriteLine("Listening for game integration calls...");
 
-
+            Console.WriteLine("Press ESC to quit");
+            do
+            {
+                while (!Console.KeyAvailable)
+                {
+                    Thread.Sleep(1000);
+                }
+            } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
         static void OnNewGameState(GameState gs)
         {
             Console.Clear();
+            Console.WriteLine("Press ESC to quit");
             Console.WriteLine("Current Dota version: " + gs.Provider.Version);
             Console.WriteLine("Current time as displayed by the clock (in seconds): " + gs.Map.ClockTime);
             Console.WriteLine("Your steam name: " + gs.Player.Name);
@@ -64,9 +72,6 @@ namespace Dota2GSI_Example_program
                 Console.WriteLine("You DO NOT have a blink dagger");
         }
 
-
-
-
         private static void CreateGsifile()
         {
             RegistryKey regKey = Registry.CurrentUser.OpenSubKey(@"Software\Valve\Steam");
@@ -78,16 +83,13 @@ namespace Dota2GSI_Example_program
                 Directory.CreateDirectory(gsifolder);
                 string gsifile = gsifolder + @"\gamestate_integration_testGSI.cfg";
                 if (File.Exists(gsifile))
-                {
                     return;
-                }
-                File.Create(gsifile);
 
                 string[] contentofgsifile =
                 {
                     "\"Dota 2 Integration Configuration\"",
                     "{",
-                    "    \"uri\"           \"http://localhost:4000/\"",
+                    "    \"uri\"           \"http://localhost:4000\"",
                     "    \"timeout\"       \"5.0\"",
                     "    \"buffer\"        \"0.1\"",
                     "    \"throttle\"      \"0.1\"",
