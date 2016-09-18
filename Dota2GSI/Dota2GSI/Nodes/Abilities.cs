@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Dota2GSI.Nodes
 {
-    public class Abilities : Node
+    public class Abilities : Node, IEnumerable<Ability>
     {
         private List<Ability> abilities = new List<Ability>();
         public readonly Attributes Attributes;
@@ -42,9 +44,21 @@ namespace Dota2GSI.Nodes
             }
         }
 
+        public IEnumerator<Ability> GetEnumerator()
+        {
+            return this.abilities.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.abilities.GetEnumerator();
+        }
+
         public override string ToString()
         {
             return json;
         }
+
+        
     }
 }
