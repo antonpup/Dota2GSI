@@ -1,17 +1,26 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Dota2GSI.Nodes
 {
+    /// <summary>
+    /// Class representing hero abilities
+    /// </summary>
     public class Abilities : Node, IEnumerable<Ability>
     {
         private List<Ability> abilities = new List<Ability>();
+
+        /// <summary>
+        /// The attributes a hero has to spend on abilities
+        /// </summary>
         public readonly Attributes Attributes;
 
         private string json;
 
+        /// <summary>
+        /// The number of abilities
+        /// </summary>
         public int Count { get { return abilities.Count; } }
 
         internal Abilities(string json_data) : base(json_data)
@@ -29,9 +38,9 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Gets the ability in the selected index
+        /// Gets the ability at a specified index
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="index">The index</param>
         /// <returns></returns>
         public Ability this[int index]
         {
@@ -46,12 +55,12 @@ namespace Dota2GSI.Nodes
 
         public IEnumerator<Ability> GetEnumerator()
         {
-            return this.abilities.GetEnumerator();
+            return abilities.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.abilities.GetEnumerator();
+            return abilities.GetEnumerator();
         }
 
         public override string ToString()
@@ -59,6 +68,6 @@ namespace Dota2GSI.Nodes
             return json;
         }
 
-        
+
     }
 }

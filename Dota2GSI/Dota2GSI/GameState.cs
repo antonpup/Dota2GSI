@@ -3,6 +3,9 @@ using Dota2GSI.Nodes;
 
 namespace Dota2GSI
 {
+    /// <summary>
+    /// A class representing various information retaining to Game State Integration of Dota 2
+    /// </summary>
     public class GameState
     {
         private Newtonsoft.Json.Linq.JObject _ParsedData;
@@ -19,9 +22,9 @@ namespace Dota2GSI
         private GameState added;
 
         /// <summary>
-        /// Initialises a new GameState object from JSON Data
+        /// Creates a GameState instance based on the passed json data.
         /// </summary>
-        /// <param name="json_data"></param>
+        /// <param name="json_data">The passed json data</param>
         public GameState(string json_data)
         {
             if (json_data.Equals(""))
@@ -33,6 +36,9 @@ namespace Dota2GSI
             _ParsedData = Newtonsoft.Json.Linq.JObject.Parse(json_data);
         }
 
+        /// <summary>
+        /// Information about GSI authentication
+        /// </summary>
         public Auth Auth
         {
             get
@@ -44,6 +50,9 @@ namespace Dota2GSI
             }
         }
 
+        /// <summary>
+        /// Information about the provider of this GameState
+        /// </summary>
         public Provider Provider
         {
             get
@@ -55,6 +64,9 @@ namespace Dota2GSI
             }
         }
 
+        /// <summary>
+        /// Information about the current map
+        /// </summary>
         public Map Map
         {
             get
@@ -66,6 +78,9 @@ namespace Dota2GSI
             }
         }
 
+        /// <summary>
+        /// Information about the local player
+        /// </summary>
         public Player Player
         {
             get
@@ -77,6 +92,9 @@ namespace Dota2GSI
             }
         }
 
+        /// <summary>
+        /// Information about the local player's hero
+        /// </summary>
         public Hero Hero
         {
             get
@@ -88,6 +106,9 @@ namespace Dota2GSI
             }
         }
 
+        /// <summary>
+        /// Information about the local player's hero abilities
+        /// </summary>
         public Abilities Abilities
         {
             get
@@ -99,6 +120,9 @@ namespace Dota2GSI
             }
         }
 
+        /// <summary>
+        /// Information about the local player's hero items
+        /// </summary>
         public Items Items
         {
             get
@@ -110,6 +134,9 @@ namespace Dota2GSI
             }
         }
 
+        /// <summary>
+        /// A previous GameState
+        /// </summary>
         public GameState Previously
         {
             get
