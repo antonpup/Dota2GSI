@@ -12,8 +12,8 @@ using System.Threading.Tasks;
 namespace Dota2GSI
 {
     public delegate void NewGameStateHandler(GameState gamestate);
-    
-    public class GameStateListener
+
+    public class GameStateListener : IDisposable
     {
         private bool isRunning = false;
         private int connection_port;
@@ -98,6 +98,11 @@ namespace Dota2GSI
                     return false;
                 }
                 isRunning = true;
+
+                // Set this to true, so when the program wants to terminate,
+                // this thread won't stop the program from exiting.
+                ListenerThread.IsBackground = true;
+
                 ListenerThread.Start();
                 return true;
             }
@@ -126,24 +131,31 @@ namespace Dota2GSI
 
         private void ReceiveGameState(IAsyncResult result)
         {
-            HttpListenerContext context = net_Listener.EndGetContext(result);
-            HttpListenerRequest request = context.Request;
-            string JSON;
-
-            waitForConnection.Set();
-
-            using (Stream inputStream = request.InputStream)
+            try
             {
-                using (StreamReader sr = new StreamReader(inputStream))
-                    JSON = sr.ReadToEnd();
+                HttpListenerContext context = net_Listener.EndGetContext(result);
+                HttpListenerRequest request = context.Request;
+                string JSON;
+
+                waitForConnection.Set();
+
+                using (Stream inputStream = request.InputStream)
+                {
+                    using (StreamReader sr = new StreamReader(inputStream))
+                        JSON = sr.ReadToEnd();
+                }
+                using (HttpListenerResponse response = context.Response)
+                {
+                    response.StatusCode = (int)HttpStatusCode.OK;
+                    response.StatusDescription = "OK";
+                    response.Close();
+                }
+                CurrentGameState = new GameState(JSON);
             }
-            using (HttpListenerResponse response = context.Response)
+            catch (ObjectDisposedException)
             {
-                response.StatusCode = (int)HttpStatusCode.OK;
-                response.StatusDescription = "OK";
-                response.Close();
+                // Intentionally left blank, when the Listener is closed.
             }
-            CurrentGameState = new GameState(JSON);
         }
 
         private void RaiseOnNewGameState()
@@ -155,6 +167,13 @@ namespace Dota2GSI
                 else
                     d.DynamicInvoke(CurrentGameState);
             }
+        }
+
+        public void Dispose()
+        {
+            this.Stop();
+            this.waitForConnection.Dispose();
+            this.net_Listener.Close();
         }
     }
 }
