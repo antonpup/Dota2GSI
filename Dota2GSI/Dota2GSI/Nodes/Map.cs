@@ -1,4 +1,4 @@
-﻿namespace Dota2GSI.Nodes
+namespace Dota2GSI.Nodes
 {
     /// <summary>
     /// Enum list for each Game State
@@ -59,6 +59,11 @@
         /// Game is a custom game
         /// </summary>
         DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP,
+
+        /// <summary>
+        /// Waiting for the map to load
+        /// </summary>
+        DOTA_GAMERULES_STATE_WAIT_FOR_MAP_TO_LOAD
 
         /// <summary>
         /// Game is in the team showcase state
