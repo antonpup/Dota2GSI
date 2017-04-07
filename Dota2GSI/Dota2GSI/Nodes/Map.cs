@@ -58,7 +58,12 @@
         /// <summary>
         /// Game is a custom game
         /// </summary>
-        DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP
+        DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP,
+
+        /// <summary>
+        /// Waiting for the map to load
+        /// </summary>
+        DOTA_GAMERULES_STATE_WAIT_FOR_MAP_TO_LOAD
     }
 
     /// <summary>
