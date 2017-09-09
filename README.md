@@ -173,9 +173,9 @@ Video demonstration:
 
 [![Dota 2 GSI Exmaple Program Demo](http://img.youtube.com/vi/-58BSNLnXdA/0.jpg)](https://www.youtube.com/watch?v=-58BSNLnXdA)
 
-## Example implementation
+## Example implementation - for api reference only
 
-Prints "You bought an item" when you buy an item, and "It is night time" when it is night time.
+Prints "It is night time" when it is night time.
 
 ```C#
 using Dota2GSI;
@@ -204,11 +204,6 @@ namespace DOTA2GSI_sample
         {
             if(gs.Map.GameState == DOTA_GameState.DOTA_GAMERULES_STATE_GAME_IN_PROGRESS)
             {
-                if(gs.Added.Items.CountInventory > gs.Items.CountInventory)
-                {
-                    Console.WriteLine("You bought an item");
-                }
-                
                 if(!gs.Map.IsDaytime || gs.Map.IsNightstalker_Night)
                 {
                     Console.WriteLine("It is night time");
