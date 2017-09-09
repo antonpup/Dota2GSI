@@ -8,6 +8,7 @@ using System.Threading;
 namespace Dota2GSI
 {
     public delegate void NewGameStateHandler(GameState gamestate);
+    public delegate void ChangedMapState(Nodes.DOTA_GameState newGameState);
 
     public class GameStateListener : IDisposable
     {
@@ -30,6 +31,8 @@ namespace Dota2GSI
             }
         }
 
+        private Nodes.DOTA_GameState previousMapState;
+
         /// <summary>
         /// Gets the port that is being listened
         /// </summary>
@@ -44,6 +47,11 @@ namespace Dota2GSI
         ///  Event for handing a newly received game state
         /// </summary>
         public event NewGameStateHandler NewGameState = delegate { };
+
+        /// <summary>
+        ///  Event for when the map's gamestate changes
+        /// </summary>
+        public event ChangedMapState ChangedMapState = delegate { };
 
         /// <summary>
         /// A GameStateListener that listens for connections on http://localhost:port/
@@ -147,6 +155,7 @@ namespace Dota2GSI
                     response.Close();
                 }
                 CurrentGameState = new GameState(JSON);
+                previousMapState = CurrentGameState.Map.GameState;
             }
             catch (ObjectDisposedException)
             {
@@ -157,12 +166,19 @@ namespace Dota2GSI
         private void RaiseOnNewGameState()
         {
             foreach (Delegate d in NewGameState.GetInvocationList())
-            {
                 if (d.Target is ISynchronizeInvoke)
                     (d.Target as ISynchronizeInvoke).BeginInvoke(d, new object[] { CurrentGameState });
                 else
                     d.DynamicInvoke(CurrentGameState);
-            }
+
+            foreach (Delegate d in ChangedMapState.GetInvocationList())
+                if (CurrentGameState.Map.GameState != previousMapState)
+                    if (d.Target is ISynchronizeInvoke)
+                        (d.Target as ISynchronizeInvoke).BeginInvoke(d, new object[] { CurrentGameState.Map.GameState });
+                    else
+                        d.DynamicInvoke(CurrentGameState.Map.GameState);
+                    
+
         }
 
         public void Dispose()
