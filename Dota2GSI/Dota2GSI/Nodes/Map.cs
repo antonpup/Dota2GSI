@@ -58,7 +58,12 @@
         /// <summary>
         /// Game is a custom game
         /// </summary>
-        DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP
+        DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP,
+
+        /// <summary>
+        /// Game is in the team showcase state
+        /// </summary>
+        DOTA_GAMERULES_STATE_TEAM_SHOWCASE
     }
 
     /// <summary>
@@ -85,6 +90,27 @@
         /// Radiant team
         /// </summary>
         Radiant
+    }
+
+    /// <summary>
+    /// Enum list for each Roshan state
+    /// </summary>
+    public enum RoshanState
+    {
+        /// <summary>
+        /// Undefined
+        /// </summary>
+        Undefined,
+
+        /// <summary>
+        /// Waiting for respawn
+        /// </summary>
+        Respawn_Base,
+
+        /// <summary>
+        /// Alive
+        /// </summary>
+        Alive,
     }
 
     /// <summary>
@@ -142,6 +168,26 @@
         /// </summary>
         public readonly int Ward_Purchase_Cooldown;
 
+        /// <summary>
+        /// The cooldown on ward purchases for the Radiant team (SPECTATOR ONLY)
+        /// </summary>
+        public readonly int Radiant_Ward_Purchase_Cooldown;
+
+        /// <summary>
+        /// The cooldown on ward purchases for the Dire team (SPECTATOR ONLY)
+        /// </summary>
+        public readonly int Dire_Ward_Purchase_Cooldown;
+
+        /// <summary>
+        /// The state of Roshan (SPECTATOR ONLY)
+        /// </summary>
+        public readonly RoshanState RoshanState;
+
+        /// <summary>
+        /// The time in seconds until the Roshan state changes (SPECTATOR ONLY)
+        /// </summary>
+        public readonly int RoshanStateEndTime;
+
         internal Map(string json_data) : base(json_data)
         {
             Name = GetString("name");
@@ -154,6 +200,11 @@
             Win_team = GetEnum<PlayerTeam>("win_team");
             CustomGameName = GetString("customgamename");
             Ward_Purchase_Cooldown = GetInt("ward_purchase_cooldown");
+            Radiant_Ward_Purchase_Cooldown = GetInt("radiant_ward_purchase_cooldown");
+            Dire_Ward_Purchase_Cooldown = GetInt("dire_ward_purchase_cooldown");
+            System.Console.WriteLine(GetString("roshan_state"));
+            RoshanState = GetEnum<RoshanState>("roshan_state");
+            RoshanStateEndTime = GetInt("roshan_state_end_seconds");
         }
     }
 }

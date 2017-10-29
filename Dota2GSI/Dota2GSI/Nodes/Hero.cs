@@ -1,10 +1,33 @@
 ﻿namespace Dota2GSI.Nodes
 {
+    public enum TalentTreeSpec
+    {
+        /// <summary>
+        /// Nothing has been selected at this tier
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// The left side of the tree has been selected at this tier
+        /// </summary>
+        Left,
+
+        /// <summary>
+        /// The right side of the tree has been selected at this tier
+        /// </summary>
+        Right,
+    }
+
     /// <summary>
     /// Class representing hero information
     /// </summary>
     public class Hero : Node
     {
+        /// <summary>
+        /// Location of the Hero on the map
+        /// </summary>
+        public readonly (int X, int Y) Location;
+
         /// <summary>
         /// Hero ID
         /// </summary>
@@ -110,8 +133,19 @@
         /// </summary>
         public readonly bool HasDebuff;
 
+        /// <summary>
+        /// Determines if this hero is the one currently selected by the spectator (SPECTATOR ONLY)
+        /// </summary>
+        public readonly bool SelectedUnit;
+
+        /// <summary>
+        /// The chosen talents for the Hero. Starts at the bottom
+        /// </summary>
+        public readonly TalentTreeSpec[] TalentTree; 
+
         internal Hero(string json_data) : base(json_data)
         {
+            Location = (GetInt("xpos"), GetInt("ypos"));
             ID = GetInt("id");
             Name = GetString("name");
             Level = GetInt("level");
@@ -133,6 +167,24 @@
             IsMuted = GetBool("muted");
             IsBreak = GetBool("break");
             HasDebuff = GetBool("has_debuff");
+            SelectedUnit = GetBool("selected_unit");
+
+            TalentTree = new TalentTreeSpec[4];
+            for (int i = 0; i < TalentTree.Length; i++)
+                TalentTree[i] = TalentTreeSpec.None;
+
+            for (int i = 1; i <= 8; i++)
+            {
+                bool taken = GetBool("talent_" + i);
+                int index = ((i + 1) / 2) - 1;
+                if (taken)
+                {
+                    if (i % 2 != 0)
+                        TalentTree[index] = TalentTreeSpec.Right;
+                    else
+                        TalentTree[index] = TalentTreeSpec.Left;
+                }
+            }
         }
     }
 }
