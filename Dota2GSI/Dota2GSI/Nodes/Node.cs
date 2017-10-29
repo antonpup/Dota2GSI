@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Text;
 
 namespace Dota2GSI.Nodes
 {
@@ -63,6 +65,16 @@ namespace Dota2GSI.Nodes
                 return value.ToObject<bool>();
             else
                 return false;
+        }
+
+        internal IJEnumerable<JToken> GetArray(string Name)
+        {
+            Newtonsoft.Json.Linq.JToken value;
+
+            if (_ParsedData.TryGetValue(Name, out value) && value.HasValues)
+                return value.Values();
+            else
+                return new JEnumerable<JToken>();
         }
     }
 }
