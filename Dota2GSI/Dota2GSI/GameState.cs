@@ -1,5 +1,9 @@
 ﻿using System;
 using Dota2GSI.Nodes;
+using Newtonsoft.Json.Linq;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Dota2GSI
 {
@@ -14,6 +18,7 @@ namespace Dota2GSI
         private Auth auth;
         private Provider provider;
         private Map map;
+        private TeamsGroup teams;
         private Player player;
         private Hero hero;
         private Abilities abilities;
@@ -77,6 +82,31 @@ namespace Dota2GSI
                 return map;
             }
         }
+
+        /// <summary>
+        /// Information of all the players in the game (SPECTATOR ONLY)
+        /// </summary>
+        public TeamsGroup Teams {
+            get
+            {
+                if (teams == null)
+                {
+                    JToken player;
+                    Regex r = new Regex(@"team\d");
+                    if (_ParsedData.TryGetValue("player", out player) && (player.Where(s => (r.IsMatch(((JProperty)s).Name))).ToList().Count > 0))
+                    {
+                        teams = new TeamsGroup(_ParsedData);
+                    }
+                }
+
+                return teams;
+            }
+        }
+
+        /// <summary>
+        /// Determines if the a game is being spectated 
+        /// </summary>
+        public bool IsSpectator { get { return Teams != null; } }
 
         /// <summary>
         /// Information about the local player
@@ -163,7 +193,7 @@ namespace Dota2GSI
 
         private String GetNode(string name)
         {
-            Newtonsoft.Json.Linq.JToken value;
+            JToken value;
 
             if (_ParsedData.TryGetValue(name, out value))
                 return value.ToString();

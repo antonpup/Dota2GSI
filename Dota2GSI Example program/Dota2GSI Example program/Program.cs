@@ -4,6 +4,8 @@ using System.IO;
 using Dota2GSI;
 using Microsoft.Win32;
 using System.Threading;
+using System.Text;
+using Dota2GSI.Nodes;
 
 namespace Dota2GSI_Example_program
 {
@@ -49,27 +51,67 @@ namespace Dota2GSI_Example_program
         static void OnNewGameState(GameState gs)
         {
             Console.Clear();
+            
             Console.WriteLine("Press ESC to quit");
             Console.WriteLine("Current Dota version: " + gs.Provider.Version);
             Console.WriteLine("Current time as displayed by the clock (in seconds): " + gs.Map.ClockTime);
-            Console.WriteLine("Your steam name: " + gs.Player.Name);
-            Console.WriteLine("hero ID: " + gs.Hero.ID);
-            Console.WriteLine("Health: " + gs.Hero.Health);
-            for (int i = 0; i < gs.Abilities.Count; i++)
-            {
-                Console.WriteLine("Ability {0} = {1}", i, gs.Abilities[i].Name);
-            }
-            Console.WriteLine("First slot inventory: " + gs.Items.GetInventoryAt(0).Name);
-            Console.WriteLine("Second slot inventory: " + gs.Items.GetInventoryAt(1).Name);
-            Console.WriteLine("Third slot inventory: " + gs.Items.GetInventoryAt(2).Name);
-            Console.WriteLine("Fourth slot inventory: " + gs.Items.GetInventoryAt(3).Name);
-            Console.WriteLine("Fifth slot inventory: " + gs.Items.GetInventoryAt(4).Name);
-            Console.WriteLine("Sixth slot inventory: " + gs.Items.GetInventoryAt(5).Name);
 
-            if (gs.Items.InventoryContains("item_blink"))
-                Console.WriteLine("You have a blink dagger");
+            if (gs.IsSpectator)
+            {
+                foreach (var team in gs.Teams?.All)
+                {
+                    Console.WriteLine($"Team {team.Key}:");
+                    foreach (var player in team.Value)
+                    {
+                        Player plyr = player.Value.Player;
+                        Hero hero = player.Value.Hero;
+                        Abilities abilities = player.Value.Abilities;
+                        Items items = player.Value.Items;
+
+                        Console.WriteLine($"{plyr.Name}|{hero.Name}|{abilities.Count}|{items.CountInventory}");
+                        Console.WriteLine("Talent Tree:");
+                        for (int i = hero.TalentTree.Length - 1; i >= 0; i--)
+                        {
+                            var level = hero.TalentTree[i];
+                            Console.WriteLine($"{level}");
+                        }
+
+                        Console.WriteLine("Kill list:");
+                        foreach (var item in plyr.KillList)
+                        {
+                            Console.WriteLine($"{item.Key}|{item.Value}");
+                        }
+                    }
+                }
+            }
             else
-                Console.WriteLine("You DO NOT have a blink dagger");
+            {
+                Console.WriteLine("Your steam name: " + gs.Player.Name);
+                Console.WriteLine("hero ID: " + gs.Hero.ID);
+                Console.WriteLine("Health: " + gs.Hero.Health);
+                for (int i = 0; i < gs.Abilities.Count; i++)
+                {
+                    Console.WriteLine("Ability {0} = {1}", i, gs.Abilities[i].Name);
+                }
+                Console.WriteLine("First slot inventory: " + gs.Items.GetInventoryAt(0).Name);
+                Console.WriteLine("Second slot inventory: " + gs.Items.GetInventoryAt(1).Name);
+                Console.WriteLine("Third slot inventory: " + gs.Items.GetInventoryAt(2).Name);
+                Console.WriteLine("Fourth slot inventory: " + gs.Items.GetInventoryAt(3).Name);
+                Console.WriteLine("Fifth slot inventory: " + gs.Items.GetInventoryAt(4).Name);
+                Console.WriteLine("Sixth slot inventory: " + gs.Items.GetInventoryAt(5).Name);
+
+                if (gs.Items.InventoryContains("item_blink"))
+                    Console.WriteLine("You have a blink dagger");
+                else
+                    Console.WriteLine("You DO NOT have a blink dagger");
+
+                Console.WriteLine("Talent Tree:");
+                for (int i = gs.Hero.TalentTree.Length - 1; i >= 0; i--)
+                {
+                    var level = gs.Hero.TalentTree[i];
+                    Console.WriteLine($"{level}");
+                }
+            }
         }
 
         private static void CreateGsifile()

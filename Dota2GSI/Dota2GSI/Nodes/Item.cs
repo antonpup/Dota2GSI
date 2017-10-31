@@ -11,6 +11,11 @@
         public readonly string Name;
 
         /// <summary>
+        /// The ID of the player that purchased the item
+        /// </summary>
+        public readonly int Purchaser;
+
+        /// <summary>
         /// The name of the rune cotnained inside this item.
         /// <note type="note">Possible rune names: empty, arcane, bounty, double_damage, haste, illusion, invisibility, regen</note>
         /// </summary>
@@ -39,6 +44,7 @@
         internal Item(string json_data) : base(json_data)
         {
             Name = GetString("name");
+            Purchaser = GetInt("purchaser");
             ContainsRune = GetString("contains_rune");
             CanCast = GetBool("can_cast");
             Cooldown = GetInt("cooldown");

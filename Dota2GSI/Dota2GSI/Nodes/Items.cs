@@ -14,7 +14,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Number of items in the inventory
         /// </summary>
-        public int CountInventory { get { return inventory.Count; } }
+        public int CountInventory { get { return inventory.Where(s => s.Name != "empty").Count(); } }
 
         /// <summary>
         /// Gets the IEnumerable of the inventory items
@@ -31,7 +31,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Number of items in the stash
         /// </summary>
-        public int CountStash { get { return stash.Count; } }
+        public int CountStash { get { return stash.Where(s => s.Name != "empty").Count(); } }
 
         /// <summary>
         /// Gets the IEnumerable of the stash items
