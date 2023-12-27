@@ -81,6 +81,11 @@ namespace Dota2GSI.Nodes
         public readonly int KillStreak;
 
         /// <summary>
+        /// Commands issued by the player
+        /// </summary>
+        public readonly int CommandsIssued;
+
+        /// <summary>
         /// Player's list of kills. The index corresponds to the player no which can be used to find the playerdetails if in spectator mode using the Teams.AllPlayers property
         /// </summary>
         public readonly Dictionary<int, int> KillList;
@@ -167,6 +172,7 @@ namespace Dota2GSI.Nodes
             LastHits = GetInt("last_hits");
             Denies = GetInt("denies");
             KillStreak = GetInt("kill_streak");
+            CommandsIssues = GetInt("commands_issued");
 
             this.KillList = new Dictionary<int, int>();
             foreach(JValue kill in GetArray("kill_list"))
