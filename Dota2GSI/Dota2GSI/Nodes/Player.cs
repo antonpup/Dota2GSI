@@ -172,7 +172,7 @@ namespace Dota2GSI.Nodes
             LastHits = GetInt("last_hits");
             Denies = GetInt("denies");
             KillStreak = GetInt("kill_streak");
-            CommandsIssues = GetInt("commands_issued");
+            CommandsIssued = GetInt("commands_issued");
 
             this.KillList = new Dictionary<int, int>();
             foreach(JValue kill in GetArray("kill_list"))
