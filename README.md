@@ -88,6 +88,7 @@ GameState
     +-- LastHits
     +-- Denies
     +-- KillStreak
+	+-- CommandsIssued
     +-- Team
     +-- Gold
     +-- GoldReliable
