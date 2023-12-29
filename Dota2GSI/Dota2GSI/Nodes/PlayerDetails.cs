@@ -3,7 +3,7 @@
 namespace Dota2GSI.Nodes
 {
     /// <summary>
-    /// A class representing the authentication information for GSI
+    /// A class representing player details.
     /// </summary>
     public class PlayerDetails
     {
@@ -15,7 +15,7 @@ namespace Dota2GSI.Nodes
         private Items items;
 
         /// <summary>
-        /// Information about the player
+        /// Information about the player.
         /// </summary>
         public Player Player
         {
@@ -31,7 +31,7 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Information about the player's hero
+        /// Information about the player's hero.
         /// </summary>
         public Hero Hero
         {
@@ -47,7 +47,7 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Information about the player's hero abilities
+        /// Information about the player's hero abilities.
         /// </summary>
         public Abilities Abilities
         {
@@ -63,7 +63,7 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Information about the player's hero items
+        /// Information about the player's hero items.
         /// </summary>
         public Items Items
         {

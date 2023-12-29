@@ -1,162 +1,161 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Dota2GSI.Nodes
 {
     /// <summary>
-    /// Enum for various player activities
+    /// Enum for various player activities.
     /// </summary>
     public enum PlayerActivity
     {
         /// <summary>
-        /// Undefined
+        /// Undefined.
         /// </summary>
         Undefined,
 
         /// <summary>
-        /// In a menu
+        /// In a menu.
         /// </summary>
         Menu,
 
         /// <summary>
-        /// In a game
+        /// In a game.
         /// </summary>
         Playing
     }
 
     /// <summary>
-    /// Class representing player information
+    /// Class representing player information.
     /// </summary>
     public class Player : Node
     {
         /// <summary>
-        /// Player's steam ID
+        /// Player's steam ID.
         /// </summary>
         public readonly string SteamID;
 
         /// <summary>
-        /// Player's name
+        /// Player's name.
         /// </summary>
         public readonly string Name;
 
         /// <summary>
-        /// Player's pro name
+        /// Player's pro name.
         /// </summary>
         public readonly string ProName;
 
         /// <summary>
-        /// Player's current activity state
+        /// Player's current activity state.
         /// </summary>
         public readonly PlayerActivity Activity;
 
         /// <summary>
-        /// Player's amount of kills
+        /// Player's amount of kills.
         /// </summary>
         public readonly int Kills;
 
         /// <summary>
-        /// Player's amount of deaths
+        /// Player's amount of deaths.
         /// </summary>
         public readonly int Deaths;
 
         /// <summary>
-        /// Player's amount of assists
+        /// Player's amount of assists.
         /// </summary>
         public readonly int Assists;
 
         /// <summary>
-        /// Player's amount of last hits
+        /// Player's amount of last hits.
         /// </summary>
         public readonly int LastHits;
 
         /// <summary>
-        /// Player's amount of denies
+        /// Player's amount of denies.
         /// </summary>
         public readonly int Denies;
 
         /// <summary>
-        /// Player's killstreak
+        /// Player's killstreak.
         /// </summary>
         public readonly int KillStreak;
 
         /// <summary>
-        /// Commands issued by the player
+        /// Commands issued by the player.
         /// </summary>
         public readonly int CommandsIssued;
 
         /// <summary>
-        /// Player's list of kills. The index corresponds to the player no which can be used to find the playerdetails if in spectator mode using the Teams.AllPlayers property
+        /// Player's list of kills. The index corresponds to the player no which can be used to find the playerdetails if in spectator mode using the Teams.AllPlayers property.
         /// </summary>
         public readonly Dictionary<int, int> KillList;
 
         /// <summary>
-        /// Player's team
+        /// Player's team.
         /// </summary>
         public readonly PlayerTeam Team;
 
         /// <summary>
-        /// Player's amount of gold
+        /// Player's amount of gold.
         /// </summary>
         public readonly int Gold;
 
         /// <summary>
-        /// Player's amount of reliable gold
+        /// Player's amount of reliable gold.
         /// </summary>
         public readonly int GoldReliable;
 
         /// <summary>
-        /// Player's amount of unreliable gold
+        /// Player's amount of unreliable gold.
         /// </summary>
         public readonly int GoldUnreliable;
 
         /// <summary>
-        /// PLayer's gold per minute
+        /// PLayer's gold per minute.
         /// </summary>
         public readonly int GoldPerMinute;
 
         /// <summary>
-        /// Player's experience per minute
+        /// Player's experience per minute.
         /// </summary>
         public readonly int ExperiencePerMinute;
 
         /// <summary>
-        /// Player's net worth (SPECTATOR ONLY)
+        /// Player's net worth. (SPECTATOR ONLY)
         /// </summary>
         public readonly int NetWorth;
 
         /// <summary>
-        /// Player's hero damage (SPECTATOR ONLY)
+        /// Player's hero damage. (SPECTATOR ONLY)
         /// </summary>
         public readonly int HeroDamage;
 
         /// <summary>
-        /// Player's gold spent on support items (SPECTATOR ONLY)
+        /// Player's gold spent on support items. (SPECTATOR ONLY)
         /// </summary>
         public readonly int SupportGoldSpent;
 
         /// <summary>
-        /// The amount of wards the player has purchased (SPECTATOR ONLY)
+        /// The amount of wards the player has purchased. (SPECTATOR ONLY)
         /// </summary>
         public readonly int WardsPurchased;
 
         /// <summary>
-        /// The amount of wards placed by the player (SPECTATOR ONLY)
+        /// The amount of wards placed by the player. (SPECTATOR ONLY)
         /// </summary>
         public readonly int WardsPlaced;
 
         /// <summary>
-        /// The amount of wards destroyed by the player (SPECTATOR ONLY)
+        /// The amount of wards destroyed by the player. (SPECTATOR ONLY)
         /// </summary>
         public readonly int WardsDestroyed;
 
         /// <summary>
-        /// The amount of runes activated by the player (SPECTATOR ONLY)
+        /// The amount of runes activated by the player. (SPECTATOR ONLY)
         /// </summary>
         public readonly int RunesActivated;
 
         /// <summary>
-        /// The amount of camps stacked by the player (SPECTATOR ONLY)
+        /// The amount of camps stacked by the player. (SPECTATOR ONLY)
         /// </summary>
         public readonly int CampsStacked;
 

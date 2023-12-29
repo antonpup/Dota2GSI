@@ -1,12 +1,12 @@
 ﻿namespace Dota2GSI.Nodes
 {
     /// <summary>
-    /// Class representing ability attributes
+    /// Class representing ability attributes.
     /// </summary>
     public class Attributes : Node
     {
         /// <summary>
-        /// Amount of levels to spend
+        /// Amount of levels available to spend.
         /// </summary>
         public readonly int Level;
 

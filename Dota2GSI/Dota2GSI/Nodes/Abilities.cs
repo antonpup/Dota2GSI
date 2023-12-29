@@ -5,19 +5,19 @@ using System.Linq;
 namespace Dota2GSI.Nodes
 {
     /// <summary>
-    /// Class representing hero abilities
+    /// Class representing hero abilities.
     /// </summary>
     public class Abilities : Node, IEnumerable<Ability>
     {
         private List<Ability> abilities = new List<Ability>();
 
         /// <summary>
-        /// The attributes a hero has to spend on abilities
+        /// The attributes a hero has to spend on abilities.
         /// </summary>
         public readonly Attributes Attributes;
 
         /// <summary>
-        /// The number of abilities
+        /// The number of abilities.
         /// </summary>
         public int Count { get { return abilities.Count; } }
 
@@ -40,10 +40,10 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Gets the ability at a specified index
+        /// Gets the ability at a specified index.
         /// </summary>
         /// <param name="index">The index</param>
-        /// <returns></returns>
+        /// <returns>The ability object</returns>
         public Ability this[int index]
         {
             get
@@ -58,7 +58,7 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Gets the IEnumerable of Abilities
+        /// Gets the IEnumerable of abilities.
         /// </summary>
         public IEnumerator<Ability> GetEnumerator()
         {

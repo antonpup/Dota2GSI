@@ -7,9 +7,21 @@ using System.Threading;
 
 namespace Dota2GSI
 {
+    /// <summary>
+    /// Delegate for handing new game state changes.
+    /// </summary>
+    /// <param name="gamestate">The new game state.</param>
     public delegate void NewGameStateHandler(GameState gamestate);
+
+    /// <summary>
+    /// Delegate for handing map game state changes.
+    /// </summary>
+    /// <param name="newGameState">The new map game state.</param>
     public delegate void ChangedMapState(Nodes.DOTA_GameState newGameState);
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class GameStateListener : IDisposable
     {
         private bool isRunning = false;
@@ -19,6 +31,9 @@ namespace Dota2GSI
         private GameState previousGameState = new GameState();
         private GameState currentGameState = new GameState();
 
+        /// <summary>
+        /// The previous game state.
+        /// </summary>
         public GameState PreviousGameState
         {
             get
@@ -27,6 +42,9 @@ namespace Dota2GSI
             }
         }
 
+        /// <summary>
+        /// The current game state.
+        /// </summary>
         public GameState CurrentGameState
         {
             get
@@ -42,29 +60,29 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Gets the port that is being listened
+        /// Gets the port that is being listened.
         /// </summary>
         public int Port { get { return connection_port; } }
 
         /// <summary>
-        /// Returns whether or not the listener is running
+        /// Returns whether or not the listener is running.
         /// </summary>
         public bool Running { get { return isRunning; } }
 
         /// <summary>
-        ///  Event for handing a newly received game state
+        /// Event for handing a newly received game state.
         /// </summary>
         public event NewGameStateHandler NewGameState = delegate { };
 
         /// <summary>
-        ///  Event for when the map's gamestate changes
+        /// Event for when the map's gamestate changes.
         /// </summary>
         public event ChangedMapState ChangedMapState = delegate { };
 
         /// <summary>
-        /// A GameStateListener that listens for connections on http://localhost:port/
+        /// A GameStateListener that listens for connections on http://localhost:port/.
         /// </summary>
-        /// <param name="Port"></param>
+        /// <param name="Port">The port to listen on.</param>
         public GameStateListener(int Port)
         {
             connection_port = Port;
@@ -73,9 +91,9 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// A GameStateListener that listens for connections to the specified URI
+        /// A GameStateListener that listens for connections to the specified URI.
         /// </summary>
-        /// <param name="URI">The URI to listen to</param>
+        /// <param name="URI">The URI to listen to.</param>
         public GameStateListener(string URI)
         {
             if (!URI.EndsWith("/"))
@@ -98,7 +116,7 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Starts listening for GameState requests
+        /// Starts listening for GameState requests.
         /// </summary>
         public bool Start()
         {
@@ -127,7 +145,7 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Stops listening for GameState requests
+        /// Stops listening for GameState requests.
         /// </summary>
         public void Stop()
         {
@@ -207,6 +225,9 @@ namespace Dota2GSI
             }
         }
 
+        /// <summary>
+        /// Stops the listener and frees up resources.
+        /// </summary>
         public void Dispose()
         {
             this.Stop();

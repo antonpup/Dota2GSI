@@ -1,12 +1,12 @@
 ﻿namespace Dota2GSI.Nodes
 {
     /// <summary>
-    /// A class representing the authentication information for GSI
+    /// A class representing the authentication information for GSI.
     /// </summary>
     public class Auth : Node
     {
         /// <summary>
-        /// The auth token sent by this GSI
+        /// The auth token sent by this GSI.
         /// </summary>
         public readonly string Token;
 

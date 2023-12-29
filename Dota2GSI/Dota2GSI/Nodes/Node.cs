@@ -1,12 +1,21 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Text;
 
 namespace Dota2GSI.Nodes
 {
+    /// <summary>
+    /// The base Node for GSI states.
+    /// </summary>
     public class Node
     {
+        /// <summary>
+        /// The json data for this Node.
+        /// </summary>
         protected Newtonsoft.Json.Linq.JObject _ParsedData;
+
+        internal Node() : this("{}")
+        {
+        }
 
         internal Node(string json_data)
         {
@@ -18,11 +27,24 @@ namespace Dota2GSI.Nodes
             _ParsedData = Newtonsoft.Json.Linq.JObject.Parse(json_data);
         }
 
-        internal string GetString(string Name)
+        internal Newtonsoft.Json.Linq.JToken GetJToken(string name)
         {
             Newtonsoft.Json.Linq.JToken value;
 
-            if (_ParsedData.TryGetValue(Name, out value))
+            if (_ParsedData.TryGetValue(name, out value))
+            {
+                return value;
+            }
+
+            return null;
+        }
+
+
+        internal string GetString(string Name)
+        {
+            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
+
+            if (value != null)
             {
                 return value.ToString();
             }
@@ -32,9 +54,9 @@ namespace Dota2GSI.Nodes
 
         internal int GetInt(string Name)
         {
-            Newtonsoft.Json.Linq.JToken value;
+            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
 
-            if (_ParsedData.TryGetValue(Name, out value))
+            if (value != null)
             {
                 return Convert.ToInt32(value.ToString());
             }
@@ -44,9 +66,9 @@ namespace Dota2GSI.Nodes
 
         internal long GetLong(string Name)
         {
-            Newtonsoft.Json.Linq.JToken value;
+            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
 
-            if (_ParsedData.TryGetValue(Name, out value))
+            if (value != null)
             {
                 return Convert.ToInt64(value.ToString());
             }
@@ -56,9 +78,9 @@ namespace Dota2GSI.Nodes
 
         internal T GetEnum<T>(string Name)
         {
-            Newtonsoft.Json.Linq.JToken value;
+            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
 
-            if (_ParsedData.TryGetValue(Name, out value) && !string.IsNullOrWhiteSpace(value.ToString()))
+            if (value != null && !string.IsNullOrWhiteSpace(value.ToString()))
             {
                 try
                 {
@@ -74,9 +96,9 @@ namespace Dota2GSI.Nodes
 
         internal bool GetBool(string Name)
         {
-            Newtonsoft.Json.Linq.JToken value;
+            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
 
-            if (_ParsedData.TryGetValue(Name, out value))
+            if (value != null)
             {
                 return value.ToObject<bool>();
             }
@@ -86,9 +108,9 @@ namespace Dota2GSI.Nodes
 
         internal IJEnumerable<JToken> GetArray(string Name)
         {
-            Newtonsoft.Json.Linq.JToken value;
+            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
 
-            if (_ParsedData.TryGetValue(Name, out value) && value.HasValues)
+            if (value != null && value.HasValues)
             {
                 return value.Values();
             }
@@ -96,6 +118,7 @@ namespace Dota2GSI.Nodes
             return new JEnumerable<JToken>();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return _ParsedData.ToString();

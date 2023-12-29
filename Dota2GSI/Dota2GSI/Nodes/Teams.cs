@@ -5,29 +5,29 @@ using System.Collections.Generic;
 namespace Dota2GSI.Nodes
 {
     /// <summary>
-    /// A class representing the authentication information for GSI
+    /// A class representing the team information.
     /// </summary>
     public class TeamsGroup
     {
         /// <summary>
-        /// Returns the Dictionary containing all the Teams
+        /// Returns the Dictionary containing all the Teams.
         /// </summary>
         public readonly Dictionary<int, Dictionary<int, PlayerDetails>> All = new Dictionary<int, Dictionary<int, PlayerDetails>>();
 
         /// <summary>
-        /// Returns the group of only Radiant players
+        /// Returns the group of only Radiant players.
         /// </summary>
         public Dictionary<int, PlayerDetails> Radiant { get { return All.ContainsKey((int)PlayerTeam.Radiant) ? All[(int)PlayerTeam.Radiant] : null; } }
 
         /// <summary>
-        /// Returns the group of only Dire players
+        /// Returns the group of only Dire players.
         /// </summary>
         public Dictionary<int, PlayerDetails> Dire { get { return All.ContainsKey((int)PlayerTeam.Dire) ? All[(int)PlayerTeam.Dire] : null; } }
 
         private Dictionary<int, PlayerDetails> allPlayers = null;
 
         /// <summary>
-        /// Returns the Dictionary with all the players in the game
+        /// Returns the Dictionary with all the players in the game.
         /// </summary>
         public Dictionary<int, PlayerDetails> AllPlayers {
             get

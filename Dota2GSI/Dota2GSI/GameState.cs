@@ -2,18 +2,15 @@
 using Dota2GSI.Nodes;
 using Newtonsoft.Json.Linq;
 using System.Linq;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI
 {
     /// <summary>
-    /// A class representing various information retaining to Game State Integration of Dota 2
+    /// A class representing various information pertaining to Game State Integration of Dota 2.
     /// </summary>
-    public class GameState
+    public class GameState : Node
     {
-        private Newtonsoft.Json.Linq.JObject _ParsedData;
-
         private Auth auth;
         private Provider provider;
         private Map map;
@@ -35,19 +32,13 @@ namespace Dota2GSI
         /// <summary>
         /// Creates a GameState instance based on the passed json data.
         /// </summary>
-        /// <param name="json_data">The passed json data</param>
-        public GameState(string json_data)
+        /// <param name="json_data">The passed json data.</param>
+        public GameState(string json_data) : base(json_data)
         {
-            if (json_data.Equals(""))
-            {
-                json_data = "{}";
-            }
-
-            _ParsedData = Newtonsoft.Json.Linq.JObject.Parse(json_data);
         }
 
         /// <summary>
-        /// Information about GSI authentication
+        /// Information about GSI authentication.
         /// </summary>
         public Auth Auth
         {
@@ -55,7 +46,7 @@ namespace Dota2GSI
             {
                 if (auth == null)
                 {
-                    auth = new Auth(GetNode("auth"));
+                    auth = new Auth(GetString("auth"));
                 }
 
                 return auth;
@@ -63,7 +54,7 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the provider of this GameState
+        /// Information about the provider of this GameState.
         /// </summary>
         public Provider Provider
         {
@@ -71,7 +62,7 @@ namespace Dota2GSI
             {
                 if (provider == null)
                 {
-                    provider = new Provider(GetNode("provider"));
+                    provider = new Provider(GetString("provider"));
                 }
 
                 return provider;
@@ -79,7 +70,7 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the current map
+        /// Information about the current map.
         /// </summary>
         public Map Map
         {
@@ -87,7 +78,7 @@ namespace Dota2GSI
             {
                 if (map == null)
                 {
-                    map = new Map(GetNode("map"));
+                    map = new Map(GetString("map"));
                 }
 
                 return map;
@@ -95,7 +86,7 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information of all the players in the game (SPECTATOR ONLY)
+        /// Information of all the players in the game. (SPECTATOR ONLY)
         /// </summary>
         public TeamsGroup Teams
         {
@@ -116,12 +107,12 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Determines if the a game is being spectated 
+        /// Determines if the a game is being spectated.
         /// </summary>
         public bool IsSpectator { get { return Teams != null; } }
 
         /// <summary>
-        /// Information about the local player
+        /// Information about the local player.
         /// </summary>
         public Player Player
         {
@@ -129,7 +120,7 @@ namespace Dota2GSI
             {
                 if (player == null)
                 {
-                    player = new Player(GetNode("player"));
+                    player = new Player(GetString("player"));
                 }
 
                 return player;
@@ -137,7 +128,7 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the local player's hero
+        /// Information about the local player's hero.
         /// </summary>
         public Hero Hero
         {
@@ -145,7 +136,7 @@ namespace Dota2GSI
             {
                 if (hero == null)
                 {
-                    hero = new Hero(GetNode("hero"));
+                    hero = new Hero(GetString("hero"));
                 }
 
                 return hero;
@@ -153,7 +144,7 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the local player's hero abilities
+        /// Information about the local player's hero abilities.
         /// </summary>
         public Abilities Abilities
         {
@@ -161,7 +152,7 @@ namespace Dota2GSI
             {
                 if (abilities == null)
                 {
-                    abilities = new Abilities(GetNode("abilities"));
+                    abilities = new Abilities(GetString("abilities"));
                 }
 
                 return abilities;
@@ -169,7 +160,7 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the local player's hero items
+        /// Information about the local player's hero items.
         /// </summary>
         public Items Items
         {
@@ -177,7 +168,7 @@ namespace Dota2GSI
             {
                 if (items == null)
                 {
-                    items = new Items(GetNode("items"));
+                    items = new Items(GetString("items"));
                 }
 
                 return items;
@@ -185,7 +176,7 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// A previous GameState
+        /// A previous GameState.
         /// </summary>
         public GameState Previously
         {
@@ -193,36 +184,27 @@ namespace Dota2GSI
             {
                 if (previously == null)
                 {
-                    previously = new GameState(GetNode("previously"));
+                    previously = new GameState(GetString("previously"));
                 }
 
                 return previously;
             }
         }
 
-        /*
+        /// <summary>
+        /// Changes from previous GameState.
+        /// </summary>
         public GameState Added
         {
             get
             {
                 if (added == null)
-                    added = new GameState(GetNode("added"));
+                {
+                    added = new GameState(GetString("added"));
+                }
 
                 return added;
             }
-        }
-        */
-
-        private String GetNode(string name)
-        {
-            JToken value;
-
-            if (_ParsedData.TryGetValue(name, out value))
-            {
-                return value.ToString();
-            }
-
-            return "";
         }
 
         /// <summary>

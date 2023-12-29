@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace Dota2GSI.Nodes
 {
     /// <summary>
-    /// Class representing item information
+    /// Class representing item information.
     /// </summary>
     public class Items : Node
     {
@@ -13,35 +12,35 @@ namespace Dota2GSI.Nodes
         private List<Item> stash = new List<Item>();
 
         /// <summary>
-        /// Number of items in the inventory
+        /// Number of items in the inventory.
         /// </summary>
         public int CountInventory { get { return inventory.Where(s => s.Name != "empty").Count(); } }
 
         /// <summary>
-        /// Gets the IEnumerable of the inventory items
+        /// Gets the IEnumerable of the inventory items.
         /// </summary>
         public IEnumerable<Item> Inventory
         {
             get
             {
-                // Use ToList to make a copy, so original list is safe even when casted
+                // Use ToList to make a copy, so original list is safe even when casted.
                 return this.inventory.ToList();
             }
         }
 
         /// <summary>
-        /// Number of items in the stash
+        /// Number of items in the stash.
         /// </summary>
         public int CountStash { get { return stash.Where(s => s.Name != "empty").Count(); } }
 
         /// <summary>
-        /// Gets the IEnumerable of the stash items
+        /// Gets the IEnumerable of the stash items.
         /// </summary>
         public IEnumerable<Item> Stash
         {
             get
             {
-                // Use ToList to make a copy, so original list is safe even when casted
+                // Use ToList to make a copy, so original list is safe even when casted.
                 return this.stash.ToList();
             }
         }
@@ -65,10 +64,10 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Gets the inventory item at the specified index
+        /// Gets the inventory item at the specified index.
         /// </summary>
-        /// <param name="index">The index</param>
-        /// <returns></returns>
+        /// <param name="index">The index.</param>
+        /// <returns>The inventory item.</returns>
         public Item GetInventoryAt(int index)
         {
             if (index < 0 || index > inventory.Count - 1)
@@ -80,10 +79,10 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Gets the stash item at the specified index
+        /// Gets the stash item at the specified index.
         /// </summary>
-        /// <param name="index">The index</param>
-        /// <returns></returns>
+        /// <param name="index">The index.</param>
+        /// <returns>The stash item.</returns>
         public Item GetStashAt(int index)
         {
             if (index < 0 || index > stash.Count - 1)
@@ -95,10 +94,10 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Checks if item exists in the inventory
+        /// Checks if item exists in the inventory.
         /// </summary>
-        /// <param name="itemname">The item name</param>
-        /// <returns>A boolean if item is in the inventory</returns>
+        /// <param name="itemname">The item name.</param>
+        /// <returns>True if item is in the inventory, false otherwise.</returns>
         public bool InventoryContains(string itemname)
         {
             var found_index = InventoryIndexOf(itemname);
@@ -111,10 +110,10 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Checks if item exists in the stash
+        /// Checks if item exists in the stash.
         /// </summary>
-        /// <param name="itemname">The item name</param>
-        /// <returns>A boolean if item is in the stash</returns>
+        /// <param name="itemname">The item name.</param>
+        /// <returns>True if item is in the stash, false otherwise.</returns>
         public bool StashContains(string itemname)
         {
             var found_index = StashIndexOf(itemname);
@@ -127,9 +126,9 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Gets index of the first occurence of the item in the inventory
+        /// Gets index of the first occurence of the item in the inventory.
         /// </summary>
-        /// <param name="itemname">The item name</param>
+        /// <param name="itemname">The item name.</param>
         /// <returns>The first index at which item is found, -1 if not found.</returns>
         public int InventoryIndexOf(string itemname)
         {
@@ -147,9 +146,9 @@ namespace Dota2GSI.Nodes
         }
 
         /// <summary>
-        /// Gets index of the first occurence of the item in the stash
+        /// Gets index of the first occurence of the item in the stash.
         /// </summary>
-        /// <param name="itemname">The item name</param>
+        /// <param name="itemname">The item name.</param>
         /// <returns>The first index at which item is found, -1 if not found.</returns>
         public int StashIndexOf(string itemname)
         {
