@@ -13,7 +13,6 @@ namespace Dota2GSI
     public class GameState
     {
         private Newtonsoft.Json.Linq.JObject _ParsedData;
-        private string json;
 
         private Auth auth;
         private Provider provider;
@@ -27,6 +26,13 @@ namespace Dota2GSI
         private GameState added;
 
         /// <summary>
+        /// Creates a default GameState instance.
+        /// </summary>
+        public GameState() : this("{}")
+        {
+        }
+
+        /// <summary>
         /// Creates a GameState instance based on the passed json data.
         /// </summary>
         /// <param name="json_data">The passed json data</param>
@@ -37,7 +43,6 @@ namespace Dota2GSI
                 json_data = "{}";
             }
 
-            json = json_data;
             _ParsedData = Newtonsoft.Json.Linq.JObject.Parse(json_data);
         }
 
@@ -49,7 +54,9 @@ namespace Dota2GSI
             get
             {
                 if (auth == null)
+                {
                     auth = new Auth(GetNode("auth"));
+                }
 
                 return auth;
             }
@@ -63,7 +70,9 @@ namespace Dota2GSI
             get
             {
                 if (provider == null)
+                {
                     provider = new Provider(GetNode("provider"));
+                }
 
                 return provider;
             }
@@ -77,7 +86,9 @@ namespace Dota2GSI
             get
             {
                 if (map == null)
+                {
                     map = new Map(GetNode("map"));
+                }
 
                 return map;
             }
@@ -86,7 +97,8 @@ namespace Dota2GSI
         /// <summary>
         /// Information of all the players in the game (SPECTATOR ONLY)
         /// </summary>
-        public TeamsGroup Teams {
+        public TeamsGroup Teams
+        {
             get
             {
                 if (teams == null)
@@ -116,7 +128,9 @@ namespace Dota2GSI
             get
             {
                 if (player == null)
+                {
                     player = new Player(GetNode("player"));
+                }
 
                 return player;
             }
@@ -130,7 +144,9 @@ namespace Dota2GSI
             get
             {
                 if (hero == null)
+                {
                     hero = new Hero(GetNode("hero"));
+                }
 
                 return hero;
             }
@@ -144,7 +160,9 @@ namespace Dota2GSI
             get
             {
                 if (abilities == null)
+                {
                     abilities = new Abilities(GetNode("abilities"));
+                }
 
                 return abilities;
             }
@@ -158,7 +176,9 @@ namespace Dota2GSI
             get
             {
                 if (items == null)
+                {
                     items = new Items(GetNode("items"));
+                }
 
                 return items;
             }
@@ -172,7 +192,9 @@ namespace Dota2GSI
             get
             {
                 if (previously == null)
+                {
                     previously = new GameState(GetNode("previously"));
+                }
 
                 return previously;
             }
@@ -196,9 +218,11 @@ namespace Dota2GSI
             JToken value;
 
             if (_ParsedData.TryGetValue(name, out value))
+            {
                 return value.ToString();
-            else
-                return "";
+            }
+
+            return "";
         }
 
         /// <summary>
@@ -207,7 +231,7 @@ namespace Dota2GSI
         /// <returns>Json string</returns>
         public override string ToString()
         {
-            return json;
+            return _ParsedData.ToString();
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Waiting for the map to load
         /// </summary>
-        DOTA_GAMERULES_STATE_WAIT_FOR_MAP_TO_LOAD
+        DOTA_GAMERULES_STATE_WAIT_FOR_MAP_TO_LOAD,
 
         /// <summary>
         /// Game is in the team showcase state
@@ -79,22 +79,22 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Undefined
         /// </summary>
-        Undefined,
+        Undefined = -1,
 
         /// <summary>
         /// No team
         /// </summary>
-        None,
-
-        /// <summary>
-        /// Dire team
-        /// </summary>
-        Dire,
+        None = 0,
 
         /// <summary>
         /// Radiant team
         /// </summary>
-        Radiant
+        Radiant = 2,
+
+        /// <summary>
+        /// Dire team
+        /// </summary>
+        Dire = 3
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Undefined
         /// </summary>
-        Undefined,
+        Undefined = -1,
 
         /// <summary>
         /// Waiting for respawn
@@ -207,7 +207,6 @@ namespace Dota2GSI.Nodes
             Ward_Purchase_Cooldown = GetInt("ward_purchase_cooldown");
             Radiant_Ward_Purchase_Cooldown = GetInt("radiant_ward_purchase_cooldown");
             Dire_Ward_Purchase_Cooldown = GetInt("dire_ward_purchase_cooldown");
-            System.Console.WriteLine(GetString("roshan_state"));
             RoshanState = GetEnum<RoshanState>("roshan_state");
             RoshanStateEndTime = GetInt("roshan_state_end_seconds");
         }

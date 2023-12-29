@@ -26,7 +26,7 @@
         /// <summary>
         /// Location of the Hero on the map
         /// </summary>
-        public readonly (int X, int Y) Location;
+        public readonly Vector2D Location;
 
         /// <summary>
         /// Hero ID
@@ -141,11 +141,11 @@
         /// <summary>
         /// The chosen talents for the Hero. Starts at the bottom
         /// </summary>
-        public readonly TalentTreeSpec[] TalentTree; 
+        public readonly TalentTreeSpec[] TalentTree;
 
         internal Hero(string json_data) : base(json_data)
         {
-            Location = (GetInt("xpos"), GetInt("ypos"));
+            Location = new Vector2D(GetInt("xpos"), GetInt("ypos"));
             ID = GetInt("id");
             Name = GetString("name");
             Level = GetInt("level");
@@ -171,7 +171,9 @@
 
             TalentTree = new TalentTreeSpec[4];
             for (int i = 0; i < TalentTree.Length; i++)
+            {
                 TalentTree[i] = TalentTreeSpec.None;
+            }
 
             for (int i = 1; i <= 8; i++)
             {
@@ -180,11 +182,42 @@
                 if (taken)
                 {
                     if (i % 2 != 0)
+                    {
                         TalentTree[index] = TalentTreeSpec.Right;
+                    }
                     else
+                    {
                         TalentTree[index] = TalentTreeSpec.Left;
+                    }
                 }
             }
+        }
+    }
+
+    public struct Vector2D
+    {
+        public int X;
+        public int Y;
+
+        public Vector2D(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Vector2D other &&
+                   X == other.X &&
+                   Y == other.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = 1861411795;
+            hashCode = hashCode * -1521134295 + X.GetHashCode();
+            hashCode = hashCode * -1521134295 + Y.GetHashCode();
+            return hashCode;
         }
     }
 }

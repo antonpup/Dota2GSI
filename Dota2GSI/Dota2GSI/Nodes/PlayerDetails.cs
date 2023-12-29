@@ -8,7 +8,6 @@ namespace Dota2GSI.Nodes
     public class PlayerDetails
     {
         private JObject token;
-        //e.g. team2/player3
         private string name;
         private Player player;
         private Hero hero;
@@ -23,7 +22,9 @@ namespace Dota2GSI.Nodes
             get
             {
                 if (player == null)
+                {
                     player = new Player(GetNode("player." + name));
+                }
 
                 return player;
             }
@@ -37,7 +38,9 @@ namespace Dota2GSI.Nodes
             get
             {
                 if (hero == null)
+                {
                     hero = new Hero(GetNode("hero." + name));
+                }
 
                 return hero;
             }
@@ -51,7 +54,9 @@ namespace Dota2GSI.Nodes
             get
             {
                 if (abilities == null)
+                {
                     abilities = new Abilities(GetNode("abilities." + name));
+                }
 
                 return abilities;
             }
@@ -65,7 +70,9 @@ namespace Dota2GSI.Nodes
             get
             {
                 if (items == null)
+                {
                     items = new Items(GetNode("items." + name));
+                }
 
                 return items;
             }
@@ -82,9 +89,11 @@ namespace Dota2GSI.Nodes
             JToken value;
 
             if ((value = token.SelectToken(name)) != null)
+            {
                 return value.ToString();
-            else
-                return "";
+            }
+
+            return "";
         }
     }
 }

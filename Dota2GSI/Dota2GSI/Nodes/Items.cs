@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Dota2GSI.Nodes
 {
@@ -50,10 +51,16 @@ namespace Dota2GSI.Nodes
             List<string> slots = _ParsedData.Properties().Select(p => p.Name).ToList();
             foreach (string item_slot in slots)
             {
+                Item item = new Item(_ParsedData[item_slot].ToString());
+
                 if (item_slot.StartsWith("slot"))
-                    this.inventory.Add(new Item(_ParsedData[item_slot].ToString()));
+                {
+                    this.inventory.Add(item);
+                }
                 else
-                    this.stash.Add(new Item(_ParsedData[item_slot].ToString()));
+                {
+                    this.stash.Add(item);
+                }
             }
         }
 
@@ -64,8 +71,10 @@ namespace Dota2GSI.Nodes
         /// <returns></returns>
         public Item GetInventoryAt(int index)
         {
-            if (index > inventory.Count - 1)
+            if (index < 0 || index > inventory.Count - 1)
+            {
                 return new Item("");
+            }
 
             return inventory[index];
         }
@@ -77,8 +86,10 @@ namespace Dota2GSI.Nodes
         /// <returns></returns>
         public Item GetStashAt(int index)
         {
-            if (index > stash.Count - 1)
+            if (index < 0 || index > stash.Count - 1)
+            {
                 return new Item("");
+            }
 
             return stash[index];
         }
@@ -90,10 +101,10 @@ namespace Dota2GSI.Nodes
         /// <returns>A boolean if item is in the inventory</returns>
         public bool InventoryContains(string itemname)
         {
-            foreach (Item inventory_item in this.inventory)
+            var found_index = InventoryIndexOf(itemname);
+            if (found_index > -1)
             {
-                if (inventory_item.Name == itemname)
-                    return true;
+                return true;
             }
 
             return false;
@@ -106,10 +117,10 @@ namespace Dota2GSI.Nodes
         /// <returns>A boolean if item is in the stash</returns>
         public bool StashContains(string itemname)
         {
-            foreach (Item stash_item in this.stash)
+            var found_index = StashIndexOf(itemname);
+            if (found_index > -1)
             {
-                if (stash_item.Name == itemname)
-                    return true;
+                return true;
             }
 
             return false;
@@ -126,7 +137,10 @@ namespace Dota2GSI.Nodes
             for (int x = 0; x < this.inventory.Count; x++)
             {
                 if (this.inventory[x].Name == itemname)
-                    return x;
+                {
+                    index = x;
+                    break;
+                }
             }
 
             return index;
@@ -143,7 +157,10 @@ namespace Dota2GSI.Nodes
             for (int x = 0; x < this.stash.Count; x++)
             {
                 if (this.stash[x].Name == itemname)
-                    return x;
+                {
+                    index = x;
+                    break;
+                }
             }
 
             return index;

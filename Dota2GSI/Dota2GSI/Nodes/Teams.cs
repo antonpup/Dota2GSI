@@ -1,8 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
 {
@@ -19,12 +17,12 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Returns the group of only Radiant players
         /// </summary>
-        public Dictionary<int, PlayerDetails> Radiant { get { return All.ContainsKey(2) ? All[2] : null; } }
+        public Dictionary<int, PlayerDetails> Radiant { get { return All.ContainsKey((int)PlayerTeam.Radiant) ? All[(int)PlayerTeam.Radiant] : null; } }
 
         /// <summary>
         /// Returns the group of only Dire players
         /// </summary>
-        public Dictionary<int, PlayerDetails> Dire { get { return All.ContainsKey(3) ? All[3] : null; } }
+        public Dictionary<int, PlayerDetails> Dire { get { return All.ContainsKey((int)PlayerTeam.Dire) ? All[(int)PlayerTeam.Dire] : null; } }
 
         private Dictionary<int, PlayerDetails> allPlayers = null;
 

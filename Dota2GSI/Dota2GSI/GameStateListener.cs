@@ -16,7 +16,16 @@ namespace Dota2GSI
         private int connection_port;
         private HttpListener net_Listener;
         private AutoResetEvent waitForConnection = new AutoResetEvent(false);
-        private GameState currentGameState;
+        private GameState previousGameState = new GameState();
+        private GameState currentGameState = new GameState();
+
+        public GameState PreviousGameState
+        {
+            get
+            {
+                return previousGameState;
+            }
+        }
 
         public GameState CurrentGameState
         {
@@ -26,12 +35,11 @@ namespace Dota2GSI
             }
             private set
             {
+                previousGameState = currentGameState;
                 currentGameState = value;
                 RaiseOnNewGameState();
             }
         }
-
-        private Nodes.DOTA_GameState previousMapState;
 
         /// <summary>
         /// Gets the port that is being listened
@@ -71,13 +79,17 @@ namespace Dota2GSI
         public GameStateListener(string URI)
         {
             if (!URI.EndsWith("/"))
+            {
                 URI += "/";
+            }
 
             Regex URIPattern = new Regex("^https?:\\/\\/.+:([0-9]*)\\/$", RegexOptions.IgnoreCase);
             Match PortMatch = URIPattern.Match(URI);
 
             if (!PortMatch.Success)
+            {
                 throw new ArgumentException("Not a valid URI: " + URI);
+            }
 
             connection_port = Convert.ToInt32(PortMatch.Groups[1].Value);
 
@@ -146,7 +158,9 @@ namespace Dota2GSI
                 using (Stream inputStream = request.InputStream)
                 {
                     using (StreamReader sr = new StreamReader(inputStream))
+                    {
                         JSON = sr.ReadToEnd();
+                    }
                 }
                 using (HttpListenerResponse response = context.Response)
                 {
@@ -154,8 +168,8 @@ namespace Dota2GSI
                     response.StatusDescription = "OK";
                     response.Close();
                 }
+
                 CurrentGameState = new GameState(JSON);
-                previousMapState = CurrentGameState.Map.GameState;
             }
             catch (ObjectDisposedException)
             {
@@ -166,19 +180,31 @@ namespace Dota2GSI
         private void RaiseOnNewGameState()
         {
             foreach (Delegate d in NewGameState.GetInvocationList())
+            {
                 if (d.Target is ISynchronizeInvoke)
+                {
                     (d.Target as ISynchronizeInvoke).BeginInvoke(d, new object[] { CurrentGameState });
+                }
                 else
+                {
                     d.DynamicInvoke(CurrentGameState);
+                }
+            }
 
-            foreach (Delegate d in ChangedMapState.GetInvocationList())
-                if (CurrentGameState.Map.GameState != previousMapState)
+            if (CurrentGameState.Map.GameState != PreviousGameState.Map.GameState)
+            {
+                foreach (Delegate d in ChangedMapState.GetInvocationList())
+                {
                     if (d.Target is ISynchronizeInvoke)
+                    {
                         (d.Target as ISynchronizeInvoke).BeginInvoke(d, new object[] { CurrentGameState.Map.GameState });
+                    }
                     else
+                    {
                         d.DynamicInvoke(CurrentGameState.Map.GameState);
-                    
-
+                    }
+                }
+            }
         }
 
         public void Dispose()

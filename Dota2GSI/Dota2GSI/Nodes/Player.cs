@@ -203,7 +203,6 @@ namespace Dota2GSI.Nodes
             WardsDestroyed = GetInt("wards_destroyed");
             RunesActivated = GetInt("runes_activated");
             CampsStacked = GetInt("camps_stacked");
-
         }
     }
 }

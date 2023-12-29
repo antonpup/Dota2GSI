@@ -16,8 +16,6 @@ namespace Dota2GSI.Nodes
         /// </summary>
         public readonly Attributes Attributes;
 
-        private string json;
-
         /// <summary>
         /// The number of abilities
         /// </summary>
@@ -25,15 +23,19 @@ namespace Dota2GSI.Nodes
 
         internal Abilities(string json_data) : base(json_data)
         {
-            json = json_data;
-
             List<string> abilities = _ParsedData.Properties().Select(p => p.Name).ToList();
             foreach (string ability_slot in abilities)
             {
+                string ability_json = _ParsedData[ability_slot].ToString();
+
                 if (ability_slot.Equals("attributes"))
-                    Attributes = new Attributes(_ParsedData[ability_slot].ToString());
+                {
+                    Attributes = new Attributes(ability_json);
+                }
                 else
-                    this.abilities.Add(new Ability(_ParsedData[ability_slot].ToString()));
+                {
+                    this.abilities.Add(new Ability(ability_json));
+                }
             }
         }
 
@@ -46,8 +48,10 @@ namespace Dota2GSI.Nodes
         {
             get
             {
-                if (index > abilities.Count - 1)
+                if (index < 0 || index > abilities.Count - 1)
+                {
                     return new Ability("");
+                }
 
                 return abilities[index];
             }
@@ -64,15 +68,6 @@ namespace Dota2GSI.Nodes
         IEnumerator IEnumerable.GetEnumerator()
         {
             return abilities.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Returns the json string that generated this Abilities instance
-        /// </summary>
-        /// <returns>Json string</returns>
-        public override string ToString()
-        {
-            return json;
         }
     }
 }
