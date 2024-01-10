@@ -1,5 +1,4 @@
-﻿using System;
-using Dota2GSI.Nodes;
+﻿using Dota2GSI.Nodes;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Text.RegularExpressions;

@@ -87,6 +87,11 @@ namespace Dota2GSI.Nodes
         None = 0,
 
         /// <summary>
+        /// Spectator.
+        /// </summary>
+        Spectator = 1,
+
+        /// <summary>
         /// Radiant team.
         /// </summary>
         Radiant = 2,
@@ -108,14 +113,19 @@ namespace Dota2GSI.Nodes
         Undefined = -1,
 
         /// <summary>
-        /// Waiting for respawn.
+        /// Alive.
+        /// </summary>
+        Alive,
+
+        /// <summary>
+        /// Waiting for respawn at base respawn rate.
         /// </summary>
         Respawn_Base,
 
         /// <summary>
-        /// Alive.
+        /// Waiting for respawn at varied respawn rate.
         /// </summary>
-        Alive,
+        Respawn_Variable
     }
 
     /// <summary>
@@ -154,14 +164,29 @@ namespace Dota2GSI.Nodes
         public readonly bool IsNightstalker_Night;
 
         /// <summary>
+        /// Current Radiant team score.
+        /// </summary>
+        public readonly int RadiantScore;
+
+        /// <summary>
+        /// Current Dire team score.
+        /// </summary>
+        public readonly int DireScore;
+
+        /// <summary>
         /// Current game state.
         /// </summary>
         public readonly DOTA_GameState GameState;
 
         /// <summary>
+        /// A boolean representing whether the game is currently paused.
+        /// </summary>
+        public readonly bool IsPaused;
+
+        /// <summary>
         /// The winning team.
         /// </summary>
-        public readonly PlayerTeam Win_team;
+        public readonly PlayerTeam WinningTeam;
 
         /// <summary>
         /// The name of the custom game.
@@ -171,17 +196,17 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// The cooldown on ward purchases.
         /// </summary>
-        public readonly int Ward_Purchase_Cooldown;
+        public readonly int WardPurchaseCooldown;
 
         /// <summary>
         /// The cooldown on ward purchases for the Radiant team. (SPECTATOR ONLY)
         /// </summary>
-        public readonly int Radiant_Ward_Purchase_Cooldown;
+        public readonly int RadiantWardPurchaseCooldown;
 
         /// <summary>
         /// The cooldown on ward purchases for the Dire team. (SPECTATOR ONLY)
         /// </summary>
-        public readonly int Dire_Ward_Purchase_Cooldown;
+        public readonly int DireWardPurchaseCooldown;
 
         /// <summary>
         /// The state of Roshan. (SPECTATOR ONLY)
@@ -201,14 +226,19 @@ namespace Dota2GSI.Nodes
             ClockTime = GetInt("clock_time");
             IsDaytime = GetBool("daytime");
             IsNightstalker_Night = GetBool("nightstalker_night");
+            RadiantScore = GetInt("radiant_score");
+            DireScore = GetInt("dire_score");
             GameState = GetEnum<DOTA_GameState>("game_state");
-            Win_team = GetEnum<PlayerTeam>("win_team");
+            IsPaused = GetBool("paused");
+            WinningTeam = GetEnum<PlayerTeam>("win_team");
             CustomGameName = GetString("customgamename");
-            Ward_Purchase_Cooldown = GetInt("ward_purchase_cooldown");
-            Radiant_Ward_Purchase_Cooldown = GetInt("radiant_ward_purchase_cooldown");
-            Dire_Ward_Purchase_Cooldown = GetInt("dire_ward_purchase_cooldown");
+            RadiantWardPurchaseCooldown = GetInt("radiant_ward_purchase_cooldown");
+            DireWardPurchaseCooldown = GetInt("dire_ward_purchase_cooldown");
+            // There is mentions of "radiant_win_chance" in game code, but no mention of "dire_win_chance".
+            // Omitting "radiant_win_chance" since there is no dire counterpart.
             RoshanState = GetEnum<RoshanState>("roshan_state");
             RoshanStateEndTime = GetInt("roshan_state_end_seconds");
+            WardPurchaseCooldown = GetInt("ward_purchase_cooldown");
         }
     }
 }

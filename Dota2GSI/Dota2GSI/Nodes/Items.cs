@@ -10,6 +10,8 @@ namespace Dota2GSI.Nodes
     {
         private List<Item> inventory = new List<Item>();
         private List<Item> stash = new List<Item>();
+        private Item teleport = new Item();
+        private Item neutral = new Item();
 
         /// <summary>
         /// Number of items in the inventory.
@@ -24,7 +26,7 @@ namespace Dota2GSI.Nodes
             get
             {
                 // Use ToList to make a copy, so original list is safe even when casted.
-                return this.inventory.ToList();
+                return inventory.ToList();
             }
         }
 
@@ -41,7 +43,31 @@ namespace Dota2GSI.Nodes
             get
             {
                 // Use ToList to make a copy, so original list is safe even when casted.
-                return this.stash.ToList();
+                return stash.ToList();
+            }
+        }
+
+        /// <summary>
+        /// Gets the teleport item.
+        /// </summary>
+        public Item Teleport
+        {
+            get
+            {
+                // Use ToList to make a copy, so original list is safe even when casted.
+                return teleport;
+            }
+        }
+
+        /// <summary>
+        /// Gets the neutral item.
+        /// </summary>
+        public Item Neutral
+        {
+            get
+            {
+                // Use ToList to make a copy, so original list is safe even when casted.
+                return neutral;
             }
         }
 
@@ -54,11 +80,19 @@ namespace Dota2GSI.Nodes
 
                 if (item_slot.StartsWith("slot"))
                 {
-                    this.inventory.Add(item);
+                    inventory.Add(item);
                 }
-                else
+                else if (item_slot.StartsWith("stash"))
                 {
-                    this.stash.Add(item);
+                    stash.Add(item);
+                }
+                else if (item_slot.Equals("teleport0"))
+                {
+                    teleport = item;
+                }
+                else if (item_slot.Equals("neutral0"))
+                {
+                    neutral = item;
                 }
             }
         }
@@ -72,10 +106,28 @@ namespace Dota2GSI.Nodes
         {
             if (index < 0 || index > inventory.Count - 1)
             {
-                return new Item("");
+                return new Item();
             }
 
             return inventory[index];
+        }
+
+        /// <summary>
+        /// Gets the inventory item by item name.
+        /// </summary>
+        /// <param name="item_name">The item name to look for.</param>
+        /// <returns>The inventory item.</returns>
+        public Item GetInventoryItem(string item_name)
+        {
+            foreach(var item in inventory)
+            {
+                if (item.Name.Equals(item_name))
+                {
+                    return item;
+                }
+            }
+
+            return new Item();
         }
 
         /// <summary>
@@ -87,10 +139,28 @@ namespace Dota2GSI.Nodes
         {
             if (index < 0 || index > stash.Count - 1)
             {
-                return new Item("");
+                return new Item();
             }
 
             return stash[index];
+        }
+
+        /// <summary>
+        /// Gets the stash item by item name.
+        /// </summary>
+        /// <param name="item_name">The item name to look for.</param>
+        /// <returns>The inventory item.</returns>
+        public Item GetStashItem(string item_name)
+        {
+            foreach (var item in stash)
+            {
+                if (item.Name.Equals(item_name))
+                {
+                    return item;
+                }
+            }
+
+            return new Item();
         }
 
         /// <summary>

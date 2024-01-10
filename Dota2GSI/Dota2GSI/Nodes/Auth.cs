@@ -1,4 +1,4 @@
-﻿namespace Dota2GSI.Nodes
+namespace Dota2GSI.Nodes
 {
     /// <summary>
     /// A class representing the authentication information for GSI.

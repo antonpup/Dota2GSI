@@ -1,4 +1,4 @@
-﻿namespace Dota2GSI.Nodes
+namespace Dota2GSI.Nodes
 {
     /// <summary>
     /// Class representing ability information.
@@ -40,6 +40,21 @@
         /// </summary>
         public readonly bool IsUltimate;
 
+        /// <summary>
+        /// Ability charges.
+        /// </summary>
+        public readonly int Charges;
+
+        /// <summary>
+        /// Ability max charges.
+        /// </summary>
+        public readonly int MaxCharges;
+
+        /// <summary>
+        /// Ability charge cooldown.
+        /// </summary>
+        public readonly int ChargeCooldown;
+
         internal Ability(string json_data) : base(json_data)
         {
             Name = GetString("name");
@@ -49,6 +64,9 @@
             IsActive = GetBool("ability_active");
             Cooldown = GetInt("cooldown");
             IsUltimate = GetBool("ultimate");
+            Charges = GetInt("charges");
+            MaxCharges = GetInt("max_charges");
+            ChargeCooldown = GetInt("charge_cooldown");
         }
     }
 }

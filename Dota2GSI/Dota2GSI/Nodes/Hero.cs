@@ -47,6 +47,11 @@
         public readonly int Level;
 
         /// <summary>
+        /// Hero experience.
+        /// </summary>
+        public readonly int Experience;
+
+        /// <summary>
         /// A boolean representing whether the hero is alive.
         /// </summary>
         public readonly bool IsAlive;
@@ -132,6 +137,21 @@
         public readonly bool IsBreak;
 
         /// <summary>
+        /// A boolean representing whether the hero has the aghanims scepter upgrade.
+        /// </summary>
+        public readonly bool HasAghanimsScepterUpgrade;
+
+        /// <summary>
+        /// A boolean representing whether the hero has the aghanims shard upgrade.
+        /// </summary>
+        public readonly bool HasAghanimsShardUpgrade;
+
+        /// <summary>
+        /// A boolean representing whether the hero is smoked.
+        /// </summary>
+        public readonly bool IsSmoked;
+
+        /// <summary>
         /// A boolean representing whether the hero is debuffed.
         /// </summary>
         public readonly bool HasDebuff;
@@ -146,12 +166,18 @@
         /// </summary>
         public readonly TalentTreeSpec[] TalentTree;
 
+        /// <summary>
+        /// Hero attributes level.
+        /// </summary>
+        public readonly int AttributesLevel;
+
         internal Hero(string json_data) : base(json_data)
         {
             Location = new Vector2D(GetInt("xpos"), GetInt("ypos"));
             ID = GetInt("id");
             Name = GetString("name");
             Level = GetInt("level");
+            Experience = GetInt("xp");
             IsAlive = GetBool("alive");
             SecondsToRespawn = GetInt("respawn_seconds");
             BuybackCost = GetInt("buyback_cost");
@@ -169,6 +195,9 @@
             IsHexed = GetBool("hexed");
             IsMuted = GetBool("muted");
             IsBreak = GetBool("break");
+            HasAghanimsScepterUpgrade = GetBool("aghanims_scepter");
+            HasAghanimsShardUpgrade = GetBool("aghanims_shard");
+            IsSmoked = GetBool("smoked");
             HasDebuff = GetBool("has_debuff");
             SelectedUnit = GetBool("selected_unit");
 
@@ -194,6 +223,8 @@
                     }
                 }
             }
+
+            AttributesLevel = GetInt("attributes_level");
         }
     }
 

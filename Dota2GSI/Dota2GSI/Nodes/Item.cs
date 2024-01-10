@@ -1,6 +1,72 @@
 ﻿namespace Dota2GSI.Nodes
 {
     /// <summary>
+    /// Enum for runes.
+    /// </summary>
+    public enum Rune
+    {
+        /// <summary>
+        /// Undefined.
+        /// </summary>
+        Undefined,
+
+        /// <summary>
+        /// No rune.
+        /// </summary>
+        Empty,
+
+        /// <summary>
+        /// Double Damage rune.
+        /// </summary>
+        Double_damage,
+
+        /// <summary>
+        /// Haste rune.
+        /// </summary>
+        Haste,
+
+        /// <summary>
+        /// Illusion rune.
+        /// </summary>
+        Illusion,
+
+        /// <summary>
+        /// Invisibility rune.
+        /// </summary>
+        Invis,
+
+        /// <summary>
+        /// Regeneration rune.
+        /// </summary>
+        Regen,
+
+        /// <summary>
+        /// Arcane rune.
+        /// </summary>
+        Arcane,
+
+        /// <summary>
+        /// Water.
+        /// </summary>
+        Water,
+
+        /// <summary>
+        /// Bounty rune.
+        /// </summary>
+        Bounty,
+
+        /// <summary>
+        /// Shield rune.
+        /// </summary>
+        Shield,
+
+        /// <summary>
+        /// Experience rune.
+        /// </summary>
+        XP
+    }
+
+    /// <summary>
     /// Class representing item information.
     /// </summary>
     public class Item : Node
@@ -16,10 +82,14 @@
         public readonly int Purchaser;
 
         /// <summary>
-        /// The name of the rune cotnained inside this item.
-        /// <note type="note">Possible rune names: empty, arcane, bounty, double_damage, haste, illusion, invisibility, regen</note>
+        /// Item level.
         /// </summary>
-        public readonly string ContainsRune;
+        public readonly int ItemLevel;
+
+        /// <summary>
+        /// The rune contained inside this item.
+        /// </summary>
+        public readonly Rune ContainsRune;
 
         /// <summary>
         /// A boolean representing whether this item can be casted.
@@ -37,18 +107,44 @@
         public readonly bool IsPassive;
 
         /// <summary>
+        /// Item charges.
+        /// <note type="note">Seems to be idential to Charges</note>
+        /// </summary>
+        public readonly int ItemCharges;
+
+        /// <summary>
+        /// The amount of ability charges on this item.
+        /// </summary>
+        public readonly int AbilityCharges;
+
+        /// <summary>
+        /// The amount of maximum charges on this item.
+        /// </summary>
+        public readonly int MaxCharges;
+
+        /// <summary>
+        /// This item's charge cooldown.
+        /// </summary>
+        public readonly int ChargeCooldown;
+
+        /// <summary>
         /// The amount of charges on this item.
         /// </summary>
         public readonly int Charges;
 
-        internal Item(string json_data) : base(json_data)
+        internal Item(string json_data = "") : base(json_data)
         {
             Name = GetString("name");
             Purchaser = GetInt("purchaser");
-            ContainsRune = GetString("contains_rune");
+            ItemLevel = GetInt("item_level");
+            ContainsRune = GetEnum<Rune>("contains_rune");
             CanCast = GetBool("can_cast");
             Cooldown = GetInt("cooldown");
             IsPassive = GetBool("passive");
+            ItemCharges = GetInt("item_charges");
+            AbilityCharges = GetInt("ability_charges");
+            MaxCharges = GetInt("max_charges");
+            ChargeCooldown = GetInt("charge_cooldown");
             Charges = GetInt("charges");
         }
     }

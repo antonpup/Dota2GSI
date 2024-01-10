@@ -35,14 +35,14 @@ namespace Dota2GSI.Nodes
         public readonly string SteamID;
 
         /// <summary>
+        /// Player's account ID.
+        /// </summary>
+        public readonly string AccountID;
+
+        /// <summary>
         /// Player's name.
         /// </summary>
         public readonly string Name;
-
-        /// <summary>
-        /// Player's pro name.
-        /// </summary>
-        public readonly string ProName;
 
         /// <summary>
         /// Player's current activity state.
@@ -95,6 +95,16 @@ namespace Dota2GSI.Nodes
         public readonly PlayerTeam Team;
 
         /// <summary>
+        /// Player's slot.
+        /// </summary>
+        public readonly int PlayerSlot;
+
+        /// <summary>
+        /// Player's team slot.
+        /// </summary>
+        public readonly int PlayerTeamSlot;
+
+        /// <summary>
         /// Player's amount of gold.
         /// </summary>
         public readonly int Gold;
@@ -110,6 +120,26 @@ namespace Dota2GSI.Nodes
         public readonly int GoldUnreliable;
 
         /// <summary>
+        /// Player's amount of gold earned from hero kills.
+        /// </summary>
+        public readonly int GoldFromHeroKills;
+
+        /// <summary>
+        /// Player's amount of gold earned from creep kills.
+        /// </summary>
+        public readonly int GoldFromCreepKills;
+
+        /// <summary>
+        /// Player's amount of gold earned from passive income.
+        /// </summary>
+        public readonly int GoldFromIncome;
+
+        /// <summary>
+        /// Player's amount of gold earned from shared.
+        /// </summary>
+        public readonly int GoldFromShared;
+
+        /// <summary>
         /// PLayer's gold per minute.
         /// </summary>
         public readonly int GoldPerMinute;
@@ -118,6 +148,11 @@ namespace Dota2GSI.Nodes
         /// Player's experience per minute.
         /// </summary>
         public readonly int ExperiencePerMinute;
+
+        /// <summary>
+        /// Player's onstage seat.
+        /// </summary>
+        public readonly int OnstageSeat;
 
         /// <summary>
         /// Player's net worth. (SPECTATOR ONLY)
@@ -130,9 +165,39 @@ namespace Dota2GSI.Nodes
         public readonly int HeroDamage;
 
         /// <summary>
+        /// Player's hero healing. (SPECTATOR ONLY)
+        /// </summary>
+        public readonly int HeroHealing;
+
+        /// <summary>
+        /// Player's tower damage. (SPECTATOR ONLY)
+        /// </summary>
+        public readonly int TowerDamage;
+
+        /// <summary>
         /// Player's gold spent on support items. (SPECTATOR ONLY)
         /// </summary>
         public readonly int SupportGoldSpent;
+
+        /// <summary>
+        /// Player's gold spent on consumable items. (SPECTATOR ONLY)
+        /// </summary>
+        public readonly int ConsumableGoldSpent;
+
+        /// <summary>
+        /// Player's gold spent on items. (SPECTATOR ONLY)
+        /// </summary>
+        public readonly int ItemGoldSpent;
+
+        /// <summary>
+        /// Player's gold lost to deaths. (SPECTATOR ONLY)
+        /// </summary>
+        public readonly int GoldLostToDeath;
+
+        /// <summary>
+        /// Player's gold spent on buybacks. (SPECTATOR ONLY)
+        /// </summary>
+        public readonly int GoldSpentOnBuybacks;
 
         /// <summary>
         /// The amount of wards the player has purchased. (SPECTATOR ONLY)
@@ -162,8 +227,8 @@ namespace Dota2GSI.Nodes
         internal Player(string json_data) : base(json_data)
         {
             SteamID = GetString("steamid");
+            AccountID = GetString("accountid");
             Name = GetString("name");
-            ProName = GetString("pro_name");
             Activity = GetEnum<PlayerActivity>("activity");
             Kills = GetInt("kills");
             Deaths = GetInt("deaths");
@@ -173,7 +238,7 @@ namespace Dota2GSI.Nodes
             KillStreak = GetInt("kill_streak");
             CommandsIssued = GetInt("commands_issued");
 
-            this.KillList = new Dictionary<int, int>();
+            KillList = new Dictionary<int, int>();
             foreach(JValue kill in GetArray("kill_list"))
             {
                 int id;
@@ -188,20 +253,32 @@ namespace Dota2GSI.Nodes
             }
 
             Team = GetEnum<PlayerTeam>("team_name");
+            PlayerSlot = GetInt("player_slot");
+            PlayerTeamSlot = GetInt("team_slot");
             Gold = GetInt("gold");
             GoldReliable = GetInt("gold_reliable");
             GoldUnreliable = GetInt("gold_unreliable");
+            GoldFromHeroKills = GetInt("gold_from_hero_kills");
+            GoldFromCreepKills = GetInt("gold_from_creep_kills");
+            GoldFromIncome = GetInt("gold_from_income");
+            GoldFromShared = GetInt("gold_from_shared");
             GoldPerMinute = GetInt("gpm");
             ExperiencePerMinute = GetInt("xpm");
-
+            OnstageSeat = GetInt("onstage_seat");
             NetWorth = GetInt("net_worth");
             HeroDamage = GetInt("hero_damage");
-            SupportGoldSpent = GetInt("support_gold_spent");
+            HeroHealing = GetInt("hero_healing");
+            TowerDamage = GetInt("tower_damage");
             WardsPurchased = GetInt("wards_purchased");
             WardsPlaced = GetInt("wards_placed");
             WardsDestroyed = GetInt("wards_destroyed");
             RunesActivated = GetInt("runes_activated");
             CampsStacked = GetInt("camps_stacked");
+            SupportGoldSpent = GetInt("support_gold_spent");
+            ConsumableGoldSpent = GetInt("consumable_gold_spent");
+            ItemGoldSpent = GetInt("item_gold_spent");
+            GoldLostToDeath = GetInt("gold_lost_to_death");
+            GoldSpentOnBuybacks = GetInt("gold_spent_on_buybacks");
         }
     }
 }
