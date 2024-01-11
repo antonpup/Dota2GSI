@@ -20,9 +20,9 @@ namespace Dota2GSI.Nodes
         public int CountInventory { get { return inventory.Where(s => s.Name != "empty").Count(); } }
 
         /// <summary>
-        /// Gets the IEnumerable of the inventory items.
+        /// Gets the list of the inventory items.
         /// </summary>
-        public IEnumerable<Item> Inventory
+        public List<Item> Inventory
         {
             get
             {
@@ -37,9 +37,9 @@ namespace Dota2GSI.Nodes
         public int CountStash { get { return stash.Where(s => s.Name != "empty").Count(); } }
 
         /// <summary>
-        /// Gets the IEnumerable of the stash items.
+        /// Gets the list of the stash items.
         /// </summary>
-        public IEnumerable<Item> Stash
+        public List<Item> Stash
         {
             get
             {
@@ -55,7 +55,6 @@ namespace Dota2GSI.Nodes
         {
             get
             {
-                // Use ToList to make a copy, so original list is safe even when casted.
                 return teleport;
             }
         }
@@ -67,7 +66,6 @@ namespace Dota2GSI.Nodes
         {
             get
             {
-                // Use ToList to make a copy, so original list is safe even when casted.
                 return neutral;
             }
         }

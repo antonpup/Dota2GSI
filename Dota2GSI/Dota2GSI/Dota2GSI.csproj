@@ -45,6 +45,20 @@
   <ItemGroup>
     <Compile Include="GameState.cs" />
     <Compile Include="GameStateListener.cs" />
+    <Compile Include="Nodes\Couriers.cs" />
+    <Compile Include="Nodes\Events.cs" />
+    <Compile Include="Nodes\Event.cs" />
+    <Compile Include="Nodes\Roshan.cs" />
+    <Compile Include="Nodes\Minimap.cs" />
+    <Compile Include="Nodes\NeutralItems.cs" />
+    <Compile Include="Nodes\Wearables.cs" />
+    <Compile Include="Nodes\Draft.cs" />
+    <Compile Include="Nodes\PlayerWearables.cs" />
+    <Compile Include="Nodes\Stream.cs" />
+    <Compile Include="Nodes\LeagueTeam.cs" />
+    <Compile Include="Nodes\League.cs" />
+    <Compile Include="Nodes\Building.cs" />
+    <Compile Include="Nodes\Buildings.cs" />
     <Compile Include="Nodes\Abilities.cs" />
     <Compile Include="Nodes\Ability.cs" />
     <Compile Include="Nodes\Attributes.cs" />

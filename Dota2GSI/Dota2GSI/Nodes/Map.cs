@@ -79,6 +79,11 @@ namespace Dota2GSI.Nodes
     public enum PlayerTeam
     {
         /// <summary>
+        /// Unknown team.
+        /// </summary>
+        Unknown = -2,
+
+        /// <summary>
         /// Undefined.
         /// </summary>
         Undefined = -1,
@@ -101,7 +106,12 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Dire team.
         /// </summary>
-        Dire = 3
+        Dire = 3,
+
+        /// <summary>
+        /// Neutral team.
+        /// </summary>
+        Neutrals = 4
     }
 
     /// <summary>

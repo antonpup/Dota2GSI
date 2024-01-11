@@ -18,6 +18,15 @@ namespace Dota2GSI
         private Hero hero;
         private Abilities abilities;
         private Items items;
+        private Events events;
+        private Buildings buildings;
+        private League league;
+        private Draft draft;
+        private Wearables wearables;
+        private Minimap minimap;
+        private Roshan roshan;
+        private Couriers couriers;
+        private NeutralItems neutral_items;
         private GameState previously;
         // private GameState added; // Added is removed due to only returning bool values instead of proper values.
 
@@ -167,6 +176,150 @@ namespace Dota2GSI
             }
         }
 
+        /// <summary>
+        /// Information about game events.
+        /// </summary>
+        public Events Events
+        {
+            get
+            {
+                if (events == null)
+                {
+                    events = new Events(GetJObject("events"));
+                }
+
+                return events;
+            }
+        }
+
+        /// <summary>
+        /// Information about the buildings on the map.
+        /// </summary>
+        public Buildings Buildings
+        {
+            get
+            {
+                if (buildings == null)
+                {
+                    buildings = new Buildings(GetJObject("buildings"));
+                }
+
+                return buildings;
+            }
+        }
+
+        /// <summary>
+        /// Information about the current league.
+        /// </summary>
+        public League League
+        {
+            get
+            {
+                if (league == null)
+                {
+                    league = new League(GetJObject("league"));
+                }
+
+                return league;
+            }
+        }
+
+        /// <summary>
+        /// Information about the draft.
+        /// </summary>
+        public Draft Draft
+        {
+            get
+            {
+                if (draft == null)
+                {
+                    draft = new Draft(GetJObject("draft"));
+                }
+
+                return draft;
+            }
+        }
+
+        /// <summary>
+        /// Information about the local player's wearable items or team players wearable items when spectating.
+        /// </summary>
+        public Wearables Wearables
+        {
+            get
+            {
+                if (wearables == null)
+                {
+                    wearables = new Wearables(GetJObject("wearables"));
+                }
+
+                return wearables;
+            }
+        }
+
+        /// <summary>
+        /// Information about the minimap.
+        /// </summary>
+        public Minimap Minimap
+        {
+            get
+            {
+                if (minimap == null)
+                {
+                    minimap = new Minimap(GetJObject("minimap"));
+                }
+
+                return minimap;
+            }
+        }
+
+        /// <summary>
+        /// Information about Roshan. (SPECTATOR ONLY)
+        /// </summary>
+        public Roshan Roshan
+        {
+            get
+            {
+                if (roshan == null)
+                {
+                    roshan = new Roshan(GetJObject("roshan"));
+                }
+
+                return roshan;
+            }
+        }
+
+        /// <summary>
+        /// Information about couriers. (SPECTATOR ONLY)
+        /// </summary>
+        public Couriers Couriers
+        {
+            get
+            {
+                if (couriers == null)
+                {
+                    couriers = new Couriers(GetJObject("couriers"));
+                }
+
+                return couriers;
+            }
+        }
+
+        /// <summary>
+        /// Information about neutral items. (SPECTATOR ONLY)
+        /// </summary>
+        public NeutralItems NeutralItems
+        {
+            get
+            {
+                if (neutral_items == null)
+                {
+                    neutral_items = new NeutralItems(GetJObject("neutralitems"));
+                }
+
+                return neutral_items;
+            }
+        }
+        
         /// <summary>
         /// A previous GameState.
         /// </summary>
