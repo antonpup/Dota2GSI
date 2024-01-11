@@ -1,4 +1,6 @@
-﻿namespace Dota2GSI.Nodes
+﻿using Newtonsoft.Json.Linq;
+
+namespace Dota2GSI.Nodes
 {
     /// <summary>
     /// The talent tree selection.
@@ -171,7 +173,7 @@
         /// </summary>
         public readonly int AttributesLevel;
 
-        internal Hero(string json_data) : base(json_data)
+        internal Hero(JObject parsed_data = null) : base(parsed_data)
         {
             Location = new Vector2D(GetInt("xpos"), GetInt("ypos"));
             ID = GetInt("id");

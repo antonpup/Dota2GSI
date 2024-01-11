@@ -57,30 +57,33 @@ namespace Dota2GSI.Nodes
         internal TeamsGroup(JObject json)
         {
             JToken player = json.SelectToken("player");
-            
-            //do try catch
-            foreach (JToken arr in player)
+
+            if (player != null)
             {
-                int team;
-                if (int.TryParse(((JProperty)arr).Name.Replace("team", ""), out team))
+                //do try catch
+                foreach (JToken arr in player)
                 {
-                    All.Add(team, new Dictionary<int, PlayerDetails>());
-                    foreach (JToken token in arr.Values())
+                    int team;
+                    if (int.TryParse(((JProperty)arr).Name.Replace("team", ""), out team))
                     {
-                        int index;
-                        if (int.TryParse(((JProperty)token).Name.Replace("player", ""), out index))
+                        All.Add(team, new Dictionary<int, PlayerDetails>());
+                        foreach (JToken token in arr.Values())
                         {
-                            All[team].Add(index, new PlayerDetails(json, $"team{team}.player{index}"));
-                        }
-                        else
-                        {
-                            Console.WriteLine("[DOTA2GSI] Warning, could not get team ID! ID: " + ((JProperty)token).Name);
+                            int index;
+                            if (int.TryParse(((JProperty)token).Name.Replace("player", ""), out index))
+                            {
+                                All[team].Add(index, new PlayerDetails(json, $"team{team}.player{index}"));
+                            }
+                            else
+                            {
+                                Console.WriteLine("[DOTA2GSI] Warning, could not get team ID! ID: " + ((JProperty)token).Name);
+                            }
                         }
                     }
-                }
-                else
-                {
-                    Console.WriteLine("[DOTA2GSI] Warning, could not get team ID! ID: " + ((JProperty)arr).Name);
+                    else
+                    {
+                        Console.WriteLine("[DOTA2GSI] Warning, could not get team ID! ID: " + ((JProperty)arr).Name);
+                    }
                 }
             }
         }

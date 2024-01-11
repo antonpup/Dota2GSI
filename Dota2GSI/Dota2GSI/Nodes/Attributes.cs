@@ -1,4 +1,6 @@
-﻿namespace Dota2GSI.Nodes
+﻿using Newtonsoft.Json.Linq;
+
+namespace Dota2GSI.Nodes
 {
     /// <summary>
     /// Class representing ability attributes.
@@ -10,7 +12,7 @@
         /// </summary>
         public readonly int Level;
 
-        internal Attributes(string json_data) : base(json_data)
+        internal Attributes(JObject parsed_data = null) : base(parsed_data)
         {
             Level = GetInt("level");
         }

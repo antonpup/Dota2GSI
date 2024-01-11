@@ -11,38 +11,44 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// The json data for this Node.
         /// </summary>
-        protected Newtonsoft.Json.Linq.JObject _ParsedData;
+        protected JObject _ParsedData;
 
-        internal Node() : this("{}")
+        internal Node(JObject parsed_data)
         {
+            _ParsedData = parsed_data;
         }
 
-        internal Node(string json_data)
+        internal JToken GetJToken(string property_name)
         {
-            if (json_data.Equals(""))
+            if (_ParsedData != null)
             {
-                json_data = "{}";
+                JToken value;
+
+                if (_ParsedData.TryGetValue(property_name, out value))
+                {
+                    return value;
+                }
             }
 
-            _ParsedData = Newtonsoft.Json.Linq.JObject.Parse(json_data);
+            return null;
         }
 
-        internal Newtonsoft.Json.Linq.JToken GetJToken(string name)
+        internal JObject GetJObject(string property_name)
         {
-            Newtonsoft.Json.Linq.JToken value;
+            var jtoken = GetJToken(property_name);
 
-            if (_ParsedData.TryGetValue(name, out value))
+            if (jtoken != null)
             {
-                return value;
+                return jtoken as JObject;
             }
 
             return null;
         }
 
 
-        internal string GetString(string Name)
+        internal string GetString(string property_name)
         {
-            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
+            var value = GetJToken(property_name);
 
             if (value != null)
             {
@@ -52,9 +58,9 @@ namespace Dota2GSI.Nodes
             return "";
         }
 
-        internal int GetInt(string Name)
+        internal int GetInt(string property_name)
         {
-            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
+            var value = GetJToken(property_name);
 
             if (value != null)
             {
@@ -64,9 +70,9 @@ namespace Dota2GSI.Nodes
             return -1;
         }
 
-        internal long GetLong(string Name)
+        internal long GetLong(string property_name)
         {
-            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
+            var value = GetJToken(property_name);
 
             if (value != null)
             {
@@ -76,15 +82,15 @@ namespace Dota2GSI.Nodes
             return -1;
         }
 
-        internal T GetEnum<T>(string Name)
+        internal T GetEnum<T>(string property_name)
         {
-            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
+            var string_value = GetString(property_name);
 
-            if (value != null && !string.IsNullOrWhiteSpace(value.ToString()))
+            if (!string.IsNullOrWhiteSpace(string_value))
             {
                 try
                 {
-                    return (T)Enum.Parse(typeof(T), value.ToString(), true);
+                    return (T)Enum.Parse(typeof(T), string_value, true);
                 }
                 catch
                 {
@@ -96,7 +102,7 @@ namespace Dota2GSI.Nodes
 
         internal bool GetBool(string Name)
         {
-            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
+            var value = GetJToken(Name);
 
             if (value != null)
             {
@@ -108,7 +114,7 @@ namespace Dota2GSI.Nodes
 
         internal IJEnumerable<JToken> GetArray(string Name)
         {
-            Newtonsoft.Json.Linq.JToken value = GetJToken(Name);
+            JToken value = GetJToken(Name);
 
             if (value != null && value.HasValues)
             {

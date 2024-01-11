@@ -84,16 +84,16 @@ namespace Dota2GSI.Nodes
             this.name = name;
         }
 
-        private string GetNode(string name)
+        private JObject GetNode(string name)
         {
             JToken value;
 
             if ((value = token.SelectToken(name)) != null)
             {
-                return value.ToString();
+                return value as JObject;
             }
 
-            return "";
+            return null;
         }
     }
 }

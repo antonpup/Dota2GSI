@@ -1,3 +1,5 @@
+using Newtonsoft.Json.Linq;
+
 namespace Dota2GSI.Nodes
 {
     /// <summary>
@@ -10,7 +12,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         public readonly string Token;
 
-        internal Auth(string json_data) : base(json_data)
+        internal Auth(JObject parsed_data = null) : base(parsed_data)
         {
             Token = GetString("token");
         }

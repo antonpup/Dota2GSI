@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,27 +15,30 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// The attributes a hero has to spend on abilities.
         /// </summary>
-        public readonly Attributes Attributes;
+        public readonly Attributes Attributes = new Attributes();
 
         /// <summary>
         /// The number of abilities.
         /// </summary>
         public int Count { get { return abilities.Count; } }
 
-        internal Abilities(string json_data) : base(json_data)
+        internal Abilities(JObject parsed_data = null) : base(parsed_data)
         {
-            List<string> abilities = _ParsedData.Properties().Select(p => p.Name).ToList();
-            foreach (string ability_slot in abilities)
+            if (_ParsedData != null)
             {
-                string ability_json = _ParsedData[ability_slot].ToString();
+                List<string> abilities = _ParsedData.Properties().Select(p => p.Name).ToList();
+                foreach (string ability_slot in abilities)
+                {
+                    var ability = _ParsedData[ability_slot] as JObject;
 
-                if (ability_slot.Equals("attributes"))
-                {
-                    Attributes = new Attributes(ability_json);
-                }
-                else
-                {
-                    this.abilities.Add(new Ability(ability_json));
+                    if (ability_slot.Equals("attributes"))
+                    {
+                        Attributes = new Attributes(ability);
+                    }
+                    else
+                    {
+                        this.abilities.Add(new Ability(ability));
+                    }
                 }
             }
         }
@@ -50,7 +54,7 @@ namespace Dota2GSI.Nodes
             {
                 if (index < 0 || index > abilities.Count - 1)
                 {
-                    return new Ability("");
+                    return new Ability();
                 }
 
                 return abilities[index];

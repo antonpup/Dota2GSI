@@ -1,4 +1,6 @@
-﻿namespace Dota2GSI.Nodes
+﻿using Newtonsoft.Json.Linq;
+
+namespace Dota2GSI.Nodes
 {
     /// <summary>
     /// Enum for runes.
@@ -132,7 +134,7 @@
         /// </summary>
         public readonly int Charges;
 
-        internal Item(string json_data = "") : base(json_data)
+        internal Item(JObject parsed_data = null) : base(parsed_data)
         {
             Name = GetString("name");
             Purchaser = GetInt("purchaser");

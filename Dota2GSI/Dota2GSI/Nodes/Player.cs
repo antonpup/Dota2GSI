@@ -224,7 +224,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         public readonly int CampsStacked;
 
-        internal Player(string json_data) : base(json_data)
+        internal Player(JObject parsed_data = null) : base(parsed_data)
         {
             SteamID = GetString("steamid");
             AccountID = GetString("accountid");

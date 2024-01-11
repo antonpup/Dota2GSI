@@ -1,4 +1,6 @@
-﻿namespace Dota2GSI.Nodes
+﻿using Newtonsoft.Json.Linq;
+
+namespace Dota2GSI.Nodes
 {
     /// <summary>
     /// Information about the provider of this GameState.
@@ -25,7 +27,7 @@
         /// </summary>
         public readonly string TimeStamp;
 
-        internal Provider(string json_data) : base(json_data)
+        internal Provider(JObject parsed_data = null) : base(parsed_data)
         {
             Name = GetString("name");
             AppID = GetInt("appid");

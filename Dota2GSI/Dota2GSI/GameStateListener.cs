@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
@@ -169,7 +170,7 @@ namespace Dota2GSI
             {
                 HttpListenerContext context = net_Listener.EndGetContext(result);
                 HttpListenerRequest request = context.Request;
-                string JSON;
+                string json_data;
 
                 waitForConnection.Set();
 
@@ -177,7 +178,7 @@ namespace Dota2GSI
                 {
                     using (StreamReader sr = new StreamReader(inputStream))
                     {
-                        JSON = sr.ReadToEnd();
+                        json_data = sr.ReadToEnd();
                     }
                 }
                 using (HttpListenerResponse response = context.Response)
@@ -187,7 +188,7 @@ namespace Dota2GSI
                     response.Close();
                 }
 
-                CurrentGameState = new GameState(JSON);
+                CurrentGameState = new GameState(JObject.Parse(json_data));
             }
             catch (ObjectDisposedException)
             {

@@ -1,3 +1,5 @@
+using Newtonsoft.Json.Linq;
+
 namespace Dota2GSI.Nodes
 {
     /// <summary>
@@ -55,7 +57,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         public readonly int ChargeCooldown;
 
-        internal Ability(string json_data) : base(json_data)
+        internal Ability(JObject parsed_data = null) : base(parsed_data)
         {
             Name = GetString("name");
             Level = GetInt("level");

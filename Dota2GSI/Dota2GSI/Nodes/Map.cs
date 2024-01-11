@@ -1,3 +1,5 @@
+using Newtonsoft.Json.Linq;
+
 namespace Dota2GSI.Nodes
 {
     /// <summary>
@@ -218,7 +220,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         public readonly int RoshanStateEndTime;
 
-        internal Map(string json_data) : base(json_data)
+        internal Map(JObject parsed_data = null) : base(parsed_data)
         {
             Name = GetString("name");
             MatchID = GetLong("matchid");

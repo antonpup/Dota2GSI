@@ -19,20 +19,13 @@ namespace Dota2GSI
         private Abilities abilities;
         private Items items;
         private GameState previously;
-        private GameState added;
+        // private GameState added; // Added is removed due to only returning bool values instead of proper values.
 
         /// <summary>
-        /// Creates a default GameState instance.
+        /// Creates a GameState instance based on the given json data.
         /// </summary>
-        public GameState() : this("{}")
-        {
-        }
-
-        /// <summary>
-        /// Creates a GameState instance based on the passed json data.
-        /// </summary>
-        /// <param name="json_data">The passed json data.</param>
-        public GameState(string json_data) : base(json_data)
+        /// <param name="parsed_data">The parsed json data.</param>
+        public GameState(JObject parsed_data = null) : base(parsed_data)
         {
         }
 
@@ -45,7 +38,7 @@ namespace Dota2GSI
             {
                 if (auth == null)
                 {
-                    auth = new Auth(GetString("auth"));
+                    auth = new Auth(GetJObject("auth"));
                 }
 
                 return auth;
@@ -61,7 +54,7 @@ namespace Dota2GSI
             {
                 if (provider == null)
                 {
-                    provider = new Provider(GetString("provider"));
+                    provider = new Provider(GetJObject("provider"));
                 }
 
                 return provider;
@@ -77,7 +70,7 @@ namespace Dota2GSI
             {
                 if (map == null)
                 {
-                    map = new Map(GetString("map"));
+                    map = new Map(GetJObject("map"));
                 }
 
                 return map;
@@ -93,9 +86,9 @@ namespace Dota2GSI
             {
                 if (teams == null)
                 {
-                    JToken player;
+                    JToken player = GetJToken("player");
                     Regex r = new Regex(@"team\d");
-                    if (_ParsedData.TryGetValue("player", out player) && (player.Where(s => (r.IsMatch(((JProperty)s).Name))).ToList().Count > 0))
+                    if (player != null && (player.Where(s => (r.IsMatch(((JProperty)s).Name))).ToList().Count > 0))
                     {
                         teams = new TeamsGroup(_ParsedData);
                     }
@@ -119,7 +112,7 @@ namespace Dota2GSI
             {
                 if (player == null)
                 {
-                    player = new Player(GetString("player"));
+                    player = new Player(GetJObject("player"));
                 }
 
                 return player;
@@ -135,7 +128,7 @@ namespace Dota2GSI
             {
                 if (hero == null)
                 {
-                    hero = new Hero(GetString("hero"));
+                    hero = new Hero(GetJObject("hero"));
                 }
 
                 return hero;
@@ -151,7 +144,7 @@ namespace Dota2GSI
             {
                 if (abilities == null)
                 {
-                    abilities = new Abilities(GetString("abilities"));
+                    abilities = new Abilities(GetJObject("abilities"));
                 }
 
                 return abilities;
@@ -167,7 +160,7 @@ namespace Dota2GSI
             {
                 if (items == null)
                 {
-                    items = new Items(GetString("items"));
+                    items = new Items(GetJObject("items"));
                 }
 
                 return items;
@@ -183,26 +176,10 @@ namespace Dota2GSI
             {
                 if (previously == null)
                 {
-                    previously = new GameState(GetString("previously"));
+                    previously = new GameState(GetJObject("previously"));
                 }
 
                 return previously;
-            }
-        }
-
-        /// <summary>
-        /// Changes from previous GameState.
-        /// </summary>
-        public GameState Added
-        {
-            get
-            {
-                if (added == null)
-                {
-                    added = new GameState(GetString("added"));
-                }
-
-                return added;
             }
         }
 

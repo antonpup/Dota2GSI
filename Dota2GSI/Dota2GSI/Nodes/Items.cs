@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Dota2GSI.Nodes
@@ -71,28 +72,31 @@ namespace Dota2GSI.Nodes
             }
         }
 
-        internal Items(string json_data) : base(json_data)
+        internal Items(JObject parsed_data = null) : base(parsed_data)
         {
-            List<string> slots = _ParsedData.Properties().Select(p => p.Name).ToList();
-            foreach (string item_slot in slots)
+            if (_ParsedData != null)
             {
-                Item item = new Item(_ParsedData[item_slot].ToString());
+                List<string> slots = _ParsedData.Properties().Select(p => p.Name).ToList();
+                foreach (string item_slot in slots)
+                {
+                    Item item = new Item(_ParsedData[item_slot] as JObject);
 
-                if (item_slot.StartsWith("slot"))
-                {
-                    inventory.Add(item);
-                }
-                else if (item_slot.StartsWith("stash"))
-                {
-                    stash.Add(item);
-                }
-                else if (item_slot.Equals("teleport0"))
-                {
-                    teleport = item;
-                }
-                else if (item_slot.Equals("neutral0"))
-                {
-                    neutral = item;
+                    if (item_slot.StartsWith("slot"))
+                    {
+                        inventory.Add(item);
+                    }
+                    else if (item_slot.StartsWith("stash"))
+                    {
+                        stash.Add(item);
+                    }
+                    else if (item_slot.Equals("teleport0"))
+                    {
+                        teleport = item;
+                    }
+                    else if (item_slot.Equals("neutral0"))
+                    {
+                        neutral = item;
+                    }
                 }
             }
         }
