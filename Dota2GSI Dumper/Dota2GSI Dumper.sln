@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dota2GSI Dumper", "Dota2GSI Dumper\Dota2GSI Dumper.csproj", "{D9510AC1-5952-42B9-A841-768643E798B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dota2GSI", "..\Dota2GSI\Dota2GSI\Dota2GSI.csproj", "{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D9510AC1-5952-42B9-A841-768643E798B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9510AC1-5952-42B9-A841-768643E798B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9510AC1-5952-42B9-A841-768643E798B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9510AC1-5952-42B9-A841-768643E798B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5EDE2CD8-ED17-4F94-BC20-0012406D4FCA}
+	EndGlobalSection
+EndGlobal
