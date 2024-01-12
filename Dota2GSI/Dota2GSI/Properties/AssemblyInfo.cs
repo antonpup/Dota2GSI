@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Dota2GSI")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A C# library to intrerface the Game State Integration found in Dota 2.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Dota2GSI")]
