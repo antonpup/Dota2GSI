@@ -2,20 +2,22 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
     <AssemblyTitle>Dota2GSI</AssemblyTitle>
     <Description>A C# library to intrerface the Game State Integration found in Dota 2.</Description>
     <Product>Dota2GSI</Product>
     <Copyright>Copyright ©  2024</Copyright>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0</FileVersion>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>$(AssemblyName)</Title>
     <PackageProjectUrl>https://github.com/antonpup/Dota2GSI</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/antonpup/Dota2GSI</RepositoryUrl>
-    <Version>$(AssemblyVersion)</Version>
+    <Version>2.0.0$(VersionSuffix)</Version>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <FileVersion>$(Version)</FileVersion>
+    <SignAssembly>False</SignAssembly>
+    <Authors>Antonpup</Authors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DocumentationFile>bin\Release\Dota2GSI.XML</DocumentationFile>
