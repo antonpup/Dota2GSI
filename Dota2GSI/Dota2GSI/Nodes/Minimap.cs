@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using static System.Net.Mime.MediaTypeNames;
+using System.Xml.Linq;
 
 namespace Dota2GSI.Nodes
 {
@@ -67,6 +69,21 @@ namespace Dota2GSI.Nodes
             UnitName = GetString("unitname");
             VisionRange = GetInt("visionrange");
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Location: {Location}, " +
+                $"RemainingTime: {RemainingTime}, " +
+                $"EventDuration: {EventDuration}, " +
+                $"Image: {Image}, " +
+                $"Team: {Team}, " +
+                $"Name: {Name}, " +
+                $"Rotation: {Rotation}, " +
+                $"UnitName: {UnitName}, " +
+                $"VisionRange: {VisionRange}" +
+                $"]";
+        }
     }
 
     /// <summary>
@@ -75,7 +92,9 @@ namespace Dota2GSI.Nodes
     public class Minimap : Node
     {
         /// <summary>
-        /// The minimap elements
+        /// The minimap elements.<br/>
+        /// Key is element ID.<br/>
+        /// Value is minimap element.
         /// </summary>
         public readonly Dictionary<int, MinimapElement> Elements = new Dictionary<int, MinimapElement>();
 
@@ -88,6 +107,60 @@ namespace Dota2GSI.Nodes
 
                 Elements.Add(object_index, new MinimapElement(obj));
             });
+        }
+
+        /// <summary>
+        /// Gets minimap elements for a specific team.<br/>
+        /// Key is element ID.<br/>
+        /// Value is minimap element.
+        /// </summary>
+        /// <param name="team">The team.</param>
+        /// <returns>The minimap elements.</returns>
+        public Dictionary<int, MinimapElement> GetForTeam(PlayerTeam team)
+        {
+            Dictionary<int, MinimapElement> found_elements = new Dictionary<int, MinimapElement>();
+
+            foreach (var element_kvp in Elements)
+            {
+                if (element_kvp.Value.Team == team)
+                {
+                    found_elements.Add(element_kvp.Key, element_kvp.Value);
+                }
+            }
+
+            return found_elements;
+        }
+
+        /// <summary>
+        /// Gets minimap elements for a specific unit name.<br/>
+        /// Key is element ID.<br/>
+        /// Value is minimap element.
+        /// </summary>
+        /// <param name="unit_name">The unit name.</param>
+        /// <returns>The minimap elements.</returns>
+        public Dictionary<int, MinimapElement> GetByUnitName(string unit_name)
+        {
+            Dictionary<int, MinimapElement> found_elements = new Dictionary<int, MinimapElement>();
+
+            if (!string.IsNullOrEmpty(unit_name))
+            {
+                foreach (var element_kvp in Elements)
+                {
+                    if (element_kvp.Value.UnitName.Equals(unit_name))
+                    {
+                        found_elements.Add(element_kvp.Key, element_kvp.Value);
+                    }
+                }
+            }
+
+            return found_elements;
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Elements: {Elements}" +
+                $"]";
         }
     }
 }

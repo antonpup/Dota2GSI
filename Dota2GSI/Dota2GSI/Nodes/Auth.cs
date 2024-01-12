@@ -16,5 +16,12 @@ namespace Dota2GSI.Nodes
         {
             Token = GetString("token");
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Token: {Token}" +
+                $"]";
+        }
     }
 }

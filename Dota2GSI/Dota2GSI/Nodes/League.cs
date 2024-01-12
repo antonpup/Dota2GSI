@@ -140,6 +140,18 @@ namespace Dota2GSI.Nodes
             NonPriorityTeamChoice = GetEnum<TeamChoiceMethod>("non_priority_team_choice");
             UsedCoinToss = GetBool("used_coin_toss");
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Rules: {Rules}, " +
+                $"PreviousPriorityTeamID: {PreviousPriorityTeamID}, " +
+                $"CurrentPriorityTeamID: {CurrentPriorityTeamID}, " +
+                $"PriorityTeamChoice: {PriorityTeamChoice}, " +
+                $"NonPriorityTeamChoice: {NonPriorityTeamChoice}, " +
+                $"UsedCoinToss: {UsedCoinToss}" +
+                $"]";
+        }
     }
 
     /// <summary>
@@ -322,6 +334,39 @@ namespace Dota2GSI.Nodes
                     }
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"SeriesType: {SeriesType}, " +
+                $"SelectionPriority: {SelectionPriority}, " +
+                $"LeagueID: {LeagueID}, " +
+                $"MatchID: {MatchID}, " +
+                $"Name: {Name}, " +
+                $"Tier: {Tier}, " +
+                $"Region: {Region}, " +
+                $"Url: {Url}, " +
+                $"Description: {Description}, " +
+                $"Notes: {Notes}, " +
+                $"StartTimestamp: {StartTimestamp}, " +
+                $"EndTimestamp: {EndTimestamp}, " +
+                $"ProCircuitPoints: {ProCircuitPoints}, " +
+                $"ImageBits: {ImageBits}, " +
+                $"Status: {Status}, " +
+                $"MostRecentActivity: {MostRecentActivity}, " +
+                $"RegistrationPeriod: {RegistrationPeriod}, " +
+                $"BasePrizePool: {BasePrizePool}, " +
+                $"TotalPrizePool: {TotalPrizePool}, " +
+                $"LeagueNoteID: {LeagueNoteID}, " +
+                $"RadiantTeam: {RadiantTeam}, " +
+                $"DireTeam: {DireTeam}, " +
+                $"SeriesID: {SeriesID}, " +
+                $"StartTime: {StartTime}, " +
+                $"FirstTeamID: {FirstTeamID}, " +
+                $"SecondTeamID: {SecondTeamID}, " +
+                $"Streams: {Streams}" +
+                $"]";
         }
     }
 }

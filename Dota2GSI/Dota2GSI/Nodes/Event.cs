@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
 
 namespace Dota2GSI.Nodes
 {
@@ -135,6 +134,22 @@ namespace Dota2GSI.Nodes
                 default:
                     break;
             }
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"GameTime: {GameTime}, " +
+                $"EventType: {EventType}, " +
+                $"Team: {Team}, " +
+                $"KillerPlayerID: {KillerPlayerID}, " +
+                $"PlayerID: {PlayerID}, " +
+                $"WasSnatched: {WasSnatched}, " +
+                $"TipReceiverPlayerID: {TipReceiverPlayerID}, " +
+                $"TipAmount: {TipAmount}, " +
+                $"BountyValue: {BountyValue}, " +
+                $"TeamGold: {TeamGold}" +
+                $"]";
         }
     }
 }

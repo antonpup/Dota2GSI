@@ -1,7 +1,11 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Dota2GSI.Nodes
 {
@@ -23,7 +27,12 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// The right side of the tree has been selected at this tier.
         /// </summary>
-        Right
+        Right,
+
+        /// <summary>
+        /// Both sides of the tree have been selected at this tier.
+        /// </summary>
+        Both
     }
 
     /// <summary>
@@ -212,24 +221,64 @@ namespace Dota2GSI.Nodes
                 TalentTree[i] = TalentTreeSpec.None;
             }
 
-            for (int i = 1; i <= 8; i++)
+            for (int i = 1; i <= 4; i++)
             {
-                bool taken = GetBool("talent_" + i);
-                int index = ((i + 1) / 2) - 1;
-                if (taken)
+                int left_index = (i * 2);
+                int right_index = (i * 2) - 1;
+
+                bool left_taken = GetBool("talent_" + left_index);
+                bool right_taken = GetBool("talent_" + right_index);
+
+                if (left_taken && !right_taken)
                 {
-                    if (i % 2 != 0)
-                    {
-                        TalentTree[index] = TalentTreeSpec.Right;
-                    }
-                    else
-                    {
-                        TalentTree[index] = TalentTreeSpec.Left;
-                    }
+                    TalentTree[i - 1] = TalentTreeSpec.Left;
+                }
+                else if (!left_taken && right_taken)
+                {
+                    TalentTree[i - 1] = TalentTreeSpec.Right;
+                }
+                else if (left_taken && right_taken)
+                {
+                    TalentTree[i - 1] = TalentTreeSpec.Both;
                 }
             }
 
             AttributesLevel = GetInt("attributes_level");
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Location: {Location}, " +
+                $"ID: {ID}, " +
+                $"Name: {Name}, " +
+                $"Level: {Level}, " +
+                $"Experience: {Experience}, " +
+                $"IsAlive: {IsAlive}, " +
+                $"SecondsToRespawn: {SecondsToRespawn}, " +
+                $"BuybackCost: {BuybackCost}, " +
+                $"BuybackCooldown: {BuybackCooldown}, " +
+                $"Health: {Health}, " +
+                $"MaxHealth: {MaxHealth}, " +
+                $"HealthPercent: {HealthPercent}, " +
+                $"Mana: {Mana}, " +
+                $"MaxMana: {MaxMana}, " +
+                $"ManaPercent: {ManaPercent}, " +
+                $"IsSilenced: {IsSilenced}, " +
+                $"IsStunned: {IsStunned}, " +
+                $"IsDisarmed: {IsDisarmed}, " +
+                $"IsMagicImmune: {IsMagicImmune}, " +
+                $"IsHexed: {IsHexed}, " +
+                $"IsMuted: {IsMuted}, " +
+                $"IsBreak: {IsBreak}, " +
+                $"HasAghanimsScepterUpgrade: {HasAghanimsScepterUpgrade}, " +
+                $"HasAghanimsShardUpgrade: {HasAghanimsShardUpgrade}, " +
+                $"IsSmoked: {IsSmoked}, " +
+                $"HasDebuff: {HasDebuff}, " +
+                $"SelectedUnit: {SelectedUnit}, " +
+                $"TalentTree: {TalentTree}, " +
+                $"AttributesLevel: {AttributesLevel}" +
+                $"]";
         }
     }
 
@@ -288,7 +337,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="team_id">The team.</param>
         /// <returns>A dictionary of player id mapped to their hero details.</returns>
-        public Dictionary<int, HeroDetails> GetTeam(PlayerTeam team)
+        public Dictionary<int, HeroDetails> GetForTeam(PlayerTeam team)
         {
             if (Teams.ContainsKey(team))
             {
@@ -303,7 +352,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="player_id">The player id.</param>
         /// <returns>The hero details.</returns>
-        public HeroDetails GetPlayer(int player_id)
+        public HeroDetails GetForPlayer(int player_id)
         {
             foreach (var team in Teams)
             {
@@ -317,6 +366,19 @@ namespace Dota2GSI.Nodes
             }
 
             return new HeroDetails();
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"LocalPlayer: {LocalPlayer}, " +
+                $"Teams: {Teams}" +
+                $"]";
+        }
+
+        public override bool IsValid()
+        {
+            return LocalPlayer.IsValid() || base.IsValid();
         }
     }
 }

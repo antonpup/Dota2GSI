@@ -34,5 +34,15 @@ namespace Dota2GSI.Nodes
             Version = GetInt("version");
             TimeStamp = GetString("timestamp");
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Name: {Name}, " +
+                $"AppID: {AppID}, " +
+                $"Version: {Version}, " +
+                $"TimeStamp: {TimeStamp}" +
+                $"]";
+        }
     }
 }

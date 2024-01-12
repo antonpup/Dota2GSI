@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Dota2GSI.Nodes
 {
@@ -24,6 +25,14 @@ namespace Dota2GSI.Nodes
         {
             OwnerID = GetInt("owner");
             Name = GetString("name");
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Name: {Name}, " +
+                $"OwnerID: {OwnerID}" +
+                $"]";
         }
     }
 
@@ -110,6 +119,23 @@ namespace Dota2GSI.Nodes
                 Items.Add(item_index, item);
             });
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Health: {Health}, " +
+                $"MaxHealth: {MaxHealth}, " +
+                $"IsAlive: {IsAlive}, " +
+                $"RemainingRespawnTime: {RemainingRespawnTime}, " +
+                $"Location: {Location}, " +
+                $"Rotation: {Rotation}, " +
+                $"OwnerID: {OwnerID}, " +
+                $"HasFlyingUpgrade: {HasFlyingUpgrade}, " +
+                $"IsShielded: {IsShielded}, " +
+                $"IsBoosted: {IsBoosted}, " +
+                $"Items: {Items}" +
+                $"]";
+        }
     }
 
     /// <summary>
@@ -126,22 +152,38 @@ namespace Dota2GSI.Nodes
 
         internal Couriers(JObject parsed_data = null) : base(parsed_data)
         {
-            if (parsed_data != null)
+            GetMatchingObjects(parsed_data, _courier_regex, (Match match, JObject obj) =>
             {
-                foreach (var property in parsed_data.Properties())
+                var item_index = Convert.ToInt32(match.Groups[1].Value);
+                var courier = new Courier(obj);
+
+                CouriersMap.Add(item_index, courier);
+            });
+        }
+
+        /// <summary>
+        /// Gets the courier for a specific player.
+        /// </summary>
+        /// <param name="player_id">The player id.</param>
+        /// <returns>The courier.</returns>
+        public Courier GetForPlayer(int player_id)
+        {
+            foreach (var courier in CouriersMap)
+            {
+                if (courier.Value.OwnerID == player_id)
                 {
-                    string property_name = property.Name;
-
-                    if (_courier_regex.IsMatch(property_name) && property.Value.Type == JTokenType.Object)
-                    {
-                        var match = _courier_regex.Match(property_name);
-                        var item_index = Convert.ToInt32(match.Groups[1].Value);
-                        var courier = new Courier(property.Value as JObject);
-
-                        CouriersMap.Add(item_index, courier);
-                    }
+                    return courier.Value;
                 }
             }
+
+            return new Courier();
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"CouriersMap: {CouriersMap}" +
+                $"]";
         }
     }
 }

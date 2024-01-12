@@ -61,7 +61,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="team_id">The team.</param>
         /// <returns>A dictionary of player id mapped to their wearables.</returns>
-        public Dictionary<int, PlayerWearables> GetTeam(PlayerTeam team)
+        public Dictionary<int, PlayerWearables> GetForTeam(PlayerTeam team)
         {
             if (Teams.ContainsKey(team))
             {
@@ -76,7 +76,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="player_id">The player id.</param>
         /// <returns>The player wearables.</returns>
-        public PlayerWearables GetPlayer(int player_id)
+        public PlayerWearables GetForPlayer(int player_id)
         {
             foreach (var team in Teams)
             {
@@ -90,6 +90,19 @@ namespace Dota2GSI.Nodes
             }
 
             return new PlayerWearables();
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"LocalPlayer: {LocalPlayer}, " +
+                $"Teams: {Teams}" +
+                $"]";
+        }
+
+        public override bool IsValid()
+        {
+            return LocalPlayer.IsValid() || base.IsValid();
         }
     }
 }

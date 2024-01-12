@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
@@ -24,6 +25,14 @@ namespace Dota2GSI.Nodes
         {
             ID = id;
             Style = style;
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"ID: {ID}, " +
+                $"Style: {Style}" +
+                $"]";
         }
     }
 
@@ -71,6 +80,13 @@ namespace Dota2GSI.Nodes
                     Wearables[wearable_index] = new WearableItem(existing_wearable.ID, value);
                 }
             });
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Wearables: {Wearables}" +
+                $"]";
         }
     }
 }

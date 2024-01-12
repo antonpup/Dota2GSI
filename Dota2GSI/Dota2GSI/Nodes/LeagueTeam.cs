@@ -1,4 +1,8 @@
 using Newtonsoft.Json.Linq;
+using System.Net.NetworkInformation;
+using System.Security.Policy;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Dota2GSI.Nodes
 {
@@ -33,6 +37,16 @@ namespace Dota2GSI.Nodes
             TeamTag = GetString("team_tag");
             TeamName = GetString("name");
             SeriesWins = GetInt("series_wins");
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"TeamID: {TeamID}, " +
+                $"TeamTag: {TeamTag}, " +
+                $"TeamName: {TeamName}, " +
+                $"SeriesWins: {SeriesWins}" +
+                $"]";
         }
     }
 }

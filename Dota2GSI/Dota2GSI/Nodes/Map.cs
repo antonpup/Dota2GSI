@@ -252,5 +252,28 @@ namespace Dota2GSI.Nodes
             RoshanStateEndTime = GetInt("roshan_state_end_seconds");
             WardPurchaseCooldown = GetInt("ward_purchase_cooldown");
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Name: {Name}, " +
+                $"MatchID: {MatchID}, " +
+                $"GameTime: {GameTime}, " +
+                $"ClockTime: {ClockTime}, " +
+                $"IsDaytime: {IsDaytime}, " +
+                $"IsNightstalkerNight: {IsNightstalkerNight}, " +
+                $"RadiantScore: {RadiantScore}, " +
+                $"DireScore: {DireScore}, " +
+                $"GameState: {GameState}, " +
+                $"IsPaused: {IsPaused}, " +
+                $"WinningTeam: {WinningTeam}, " +
+                $"CustomGameName: {CustomGameName}, " +
+                $"WardPurchaseCooldown: {WardPurchaseCooldown}, " +
+                $"RadiantWardPurchaseCooldown: {RadiantWardPurchaseCooldown}, " +
+                $"DireWardPurchaseCooldown: {DireWardPurchaseCooldown}, " +
+                $"RoshanState: {RoshanState}, " +
+                $"RoshanStateEndTime: {RoshanStateEndTime}" +
+                $"]";
+        }
     }
 }

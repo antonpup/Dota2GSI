@@ -46,6 +46,15 @@ namespace Dota2GSI.Nodes
                 PickHeroIDs.Add(pick_index, value);
             });
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"IsHomeTeam: {IsHomeTeam}, " +
+                $"PickIDs: {PickIDs}, " +
+                $"PickHeroIDs: {PickHeroIDs}" +
+                $"]";
+        }
     }
 
     /// <summary>
@@ -106,7 +115,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="team_id">The team.</param>
         /// <returns>The draft details.</returns>
-        public DraftDetails GetTeam(PlayerTeam team)
+        public DraftDetails GetForTeam(PlayerTeam team)
         {
             if (Teams.ContainsKey(team))
             {
@@ -114,6 +123,18 @@ namespace Dota2GSI.Nodes
             }
 
             return new DraftDetails();
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"ActiveTeam: {ActiveTeam}, " +
+                $"Pick: {Pick}, " +
+                $"ActiveTeamRemainingTime: {ActiveTeamRemainingTime}, " +
+                $"RadiantBonusTime: {RadiantBonusTime}, " +
+                $"DireBonusTime: {DireBonusTime}, " +
+                $"Teams: {Teams}" +
+                $"]";
         }
     }
 }

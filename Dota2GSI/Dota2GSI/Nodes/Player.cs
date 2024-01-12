@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Dota2GSI.Nodes
 {
@@ -277,6 +278,51 @@ namespace Dota2GSI.Nodes
             GoldLostToDeath = GetInt("gold_lost_to_death");
             GoldSpentOnBuybacks = GetInt("gold_spent_on_buybacks");
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"SteamID: {SteamID}, " +
+                $"AccountID: {AccountID}, " +
+                $"Name: {Name}, " +
+                $"Activity: {Activity}, " +
+                $"Kills: {Kills}, " +
+                $"Deaths: {Deaths}, " +
+                $"Assists: {Assists}, " +
+                $"LastHits: {LastHits}, " +
+                $"Denies: {Denies}, " +
+                $"KillStreak: {KillStreak}, " +
+                $"CommandsIssued: {CommandsIssued}, " +
+                $"KillList: {KillList}, " +
+                $"Team: {Team}, " +
+                $"PlayerSlot: {PlayerSlot}, " +
+                $"PlayerTeamSlot: {PlayerTeamSlot}, " +
+                $"Gold: {Gold}, " +
+                $"GoldReliable: {GoldReliable}, " +
+                $"GoldUnreliable: {GoldUnreliable}, " +
+                $"GoldFromHeroKills: {GoldFromHeroKills}, " +
+                $"GoldFromCreepKills: {GoldFromCreepKills}, " +
+                $"GoldFromIncome: {GoldFromIncome}, " +
+                $"GoldFromShared: {GoldFromShared}, " +
+                $"GoldPerMinute: {GoldPerMinute}, " +
+                $"ExperiencePerMinute: {ExperiencePerMinute}, " +
+                $"OnstageSeat: {OnstageSeat}, " +
+                $"NetWorth: {NetWorth}, " +
+                $"HeroDamage: {HeroDamage}, " +
+                $"HeroHealing: {HeroHealing}, " +
+                $"TowerDamage: {TowerDamage}, " +
+                $"SupportGoldSpent: {SupportGoldSpent}, " +
+                $"ConsumableGoldSpent: {ConsumableGoldSpent}, " +
+                $"ItemGoldSpent: {ItemGoldSpent}, " +
+                $"GoldLostToDeath: {GoldLostToDeath}, " +
+                $"GoldSpentOnBuybacks: {GoldSpentOnBuybacks}, " +
+                $"WardsPurchased: {WardsPurchased}, " +
+                $"WardsPlaced: {WardsPlaced}, " +
+                $"WardsDestroyed: {WardsDestroyed}, " +
+                $"RunesActivated: {RunesActivated}, " +
+                $"CampsStacked: {CampsStacked}" +
+                $"]";
+        }
     }
 
     /// <summary>
@@ -334,7 +380,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="team_id">The team.</param>
         /// <returns>A dictionary of player id mapped to their player details.</returns>
-        public Dictionary<int, PlayerDetails> GetTeam(PlayerTeam team)
+        public Dictionary<int, PlayerDetails> GetForTeam(PlayerTeam team)
         {
             if (Teams.ContainsKey(team))
             {
@@ -349,7 +395,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="player_id">The player id.</param>
         /// <returns>The player details.</returns>
-        public PlayerDetails GetPlayer(int player_id)
+        public PlayerDetails GetForPlayer(int player_id)
         {
             foreach (var team in Teams)
             {
@@ -363,6 +409,19 @@ namespace Dota2GSI.Nodes
             }
 
             return new PlayerDetails();
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"LocalPlayer: {LocalPlayer}, " +
+                $"Teams: {Teams}" +
+                $"]";
+        }
+
+        public override bool IsValid()
+        {
+            return LocalPlayer.IsValid() || base.IsValid();
         }
     }
 }

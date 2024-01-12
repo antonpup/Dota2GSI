@@ -231,9 +231,9 @@ namespace Dota2GSI
         /// </summary>
         public void Dispose()
         {
-            this.Stop();
-            this.waitForConnection.Dispose();
-            this.net_Listener.Close();
+            Stop();
+            waitForConnection.Dispose();
+            net_Listener.Close();
         }
     }
 }

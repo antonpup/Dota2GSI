@@ -1,5 +1,4 @@
 using Newtonsoft.Json.Linq;
-using System.IO;
 
 namespace Dota2GSI.Nodes
 {
@@ -46,6 +45,18 @@ namespace Dota2GSI.Nodes
             BroadcastProvider = GetInt("broadcast_provider");
             StreamURL = GetString("stream_url");
             VodURL = GetString("vod_url");
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"StreamID: {StreamID}, " +
+                $"Language: {Language}, " +
+                $"Name: {Name}, " +
+                $"BroadcastProvider: {BroadcastProvider}, " +
+                $"StreamURL: {StreamURL}, " +
+                $"VodURL: {VodURL}" +
+                $"]";
         }
     }
 }

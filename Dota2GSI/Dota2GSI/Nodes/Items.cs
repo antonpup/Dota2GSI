@@ -34,40 +34,43 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Gets the teleport item.
         /// </summary>
-        public readonly Item Teleport;
+        public Item Teleport = new Item();
 
         /// <summary>
         /// Gets the neutral item.
         /// </summary>
-        public readonly Item Neutral;
+        public Item Neutral = new Item();
+
+        private Regex _slot_regex = new Regex(@"slot(\d+)");
+        private Regex _stash_regex = new Regex(@"stash(\d+)");
+        private Regex _teleport_regex = new Regex(@"teleport(\d+)");
+        private Regex _neutral_regex = new Regex(@"neutral(\d+)");
 
         internal ItemDetails(JObject parsed_data = null) : base(parsed_data)
         {
-            if (_ParsedData != null)
+            GetMatchingObjects(parsed_data, _slot_regex, (Match match, JObject obj) =>
             {
-                List<string> slots = _ParsedData.Properties().Select(p => p.Name).ToList();
-                foreach (string item_slot in slots)
-                {
-                    Item item = new Item(_ParsedData[item_slot] as JObject);
+                Item item = new Item(obj);
+                Inventory.Add(item);
+            });
 
-                    if (item_slot.StartsWith("slot"))
-                    {
-                        Inventory.Add(item);
-                    }
-                    else if (item_slot.StartsWith("stash"))
-                    {
-                        Stash.Add(item);
-                    }
-                    else if (item_slot.Equals("teleport0"))
-                    {
-                        Teleport = item;
-                    }
-                    else if (item_slot.Equals("neutral0"))
-                    {
-                        Neutral = item;
-                    }
-                }
-            }
+            GetMatchingObjects(parsed_data, _stash_regex, (Match match, JObject obj) =>
+            {
+                Item item = new Item(obj);
+                Stash.Add(item);
+            });
+
+            GetMatchingObjects(parsed_data, _teleport_regex, (Match match, JObject obj) =>
+            {
+                Item item = new Item(obj);
+                Teleport = item;
+            });
+
+            GetMatchingObjects(parsed_data, _neutral_regex, (Match match, JObject obj) =>
+            {
+                Item item = new Item(obj);
+                Neutral = item;
+            });
         }
 
         /// <summary>
@@ -203,6 +206,16 @@ namespace Dota2GSI.Nodes
 
             return -1;
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Inventory: {Inventory}, " +
+                $"Stash: {Stash}, " +
+                $"Teleport: {Teleport}, " +
+                $"Neutral: {Neutral}, " +
+                $"]";
+        }
     }
 
     /// <summary>
@@ -260,7 +273,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="team_id">The team.</param>
         /// <returns>A dictionary of player id mapped to their item details.</returns>
-        public Dictionary<int, ItemDetails> GetTeam(PlayerTeam team)
+        public Dictionary<int, ItemDetails> GetForTeam(PlayerTeam team)
         {
             if (Teams.ContainsKey(team))
             {
@@ -275,9 +288,9 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="player_id">The player id.</param>
         /// <returns>The player item details.</returns>
-        public ItemDetails GetPlayer(int player_id)
+        public ItemDetails GetForPlayer(int player_id)
         {
-            foreach(var team in Teams)
+            foreach (var team in Teams)
             {
                 foreach (var player in team.Value)
                 {
@@ -289,6 +302,19 @@ namespace Dota2GSI.Nodes
             }
 
             return new ItemDetails();
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"LocalPlayer: {LocalPlayer}, " +
+                $"Teams: {Teams}, " +
+                $"]";
+        }
+
+        public override bool IsValid()
+        {
+            return LocalPlayer.IsValid() || base.IsValid();
         }
     }
 }

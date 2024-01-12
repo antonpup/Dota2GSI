@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Dota2GSI.Nodes
 {
@@ -78,6 +79,15 @@ namespace Dota2GSI.Nodes
             MaxCount = GetInt("max_count");
             DropAfterTime = GetInt("drop_after_time");
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Tier: {Tier}, " +
+                $"MaxCount: {MaxCount}, " +
+                $"DropAfterTime: {DropAfterTime}" +
+                $"]";
+        }
     }
 
     /// <summary>
@@ -117,6 +127,17 @@ namespace Dota2GSI.Nodes
             Charges = GetInt("charges");
             State = GetEnum<NeutralItemState>("state");
             PlayerID = GetInt("player_id");
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Name: {Name}, " +
+                $"Tier: {Tier}, " +
+                $"Charges: {Charges}, " +
+                $"State: {State}, " +
+                $"PlayerID: {PlayerID}" +
+                $"]";
         }
     }
 
@@ -166,6 +187,14 @@ namespace Dota2GSI.Nodes
                     }
                 });
             });
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"ItemsFound: {ItemsFound}, " +
+                $"TeamItems: {TeamItems}" +
+                $"]";
         }
     }
 
@@ -226,7 +255,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="team_id">The team.</param>
         /// <returns>The neutral items details.</returns>
-        public TeamNeutralItems GetTeam(PlayerTeam team)
+        public TeamNeutralItems GetForTeam(PlayerTeam team)
         {
             if (TeamItems.ContainsKey(team))
             {
@@ -234,6 +263,14 @@ namespace Dota2GSI.Nodes
             }
 
             return new TeamNeutralItems();
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"TierInfos: {TierInfos}, " +
+                $"TeamItems: {TeamItems}" +
+                $"]";
         }
     }
 }

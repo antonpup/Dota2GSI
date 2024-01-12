@@ -27,6 +27,14 @@ namespace Dota2GSI
         private GameState previously;
         // private GameState added; // Added is removed due to only returning bool values instead of proper values.
 
+        // Helpers
+
+        private FullPlayerDetails local_player_details;
+        private FullTeamDetails radiant_team_details;
+        private FullTeamDetails dire_team_details;
+        private FullTeamDetails neutral_team_details;
+
+
         /// <summary>
         /// Creates a GameState instance based on the given json data.
         /// </summary>
@@ -324,12 +332,97 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Returns the json string that generated this GameState instance.
+        /// Helper variable,<br/>
+        /// Local player details derived from this game state.
         /// </summary>
-        /// <returns>Json string</returns>
-        public override string ToString()
+        public FullPlayerDetails LocalPlayer
         {
-            return _ParsedData.ToString();
+            get
+            {
+                if (local_player_details == null)
+                {
+                    local_player_details = new FullPlayerDetails(this);
+                }
+
+                return local_player_details;
+            }
+        }
+
+        /// <summary>
+        /// Helper variable,<br/>
+        /// Radiant team details derived from this game state.
+        /// </summary>
+        public FullTeamDetails RadiantTeamDetails
+        {
+            get
+            {
+                if (radiant_team_details == null)
+                {
+                    radiant_team_details = new FullTeamDetails(PlayerTeam.Radiant, this);
+                }
+
+                return radiant_team_details;
+            }
+        }
+
+        /// <summary>
+        /// Helper variable,<br/>
+        /// Dire team details derived from this game state.
+        /// </summary>
+        public FullTeamDetails DireTeamDetails
+        {
+            get
+            {
+                if (dire_team_details == null)
+                {
+                    dire_team_details = new FullTeamDetails(PlayerTeam.Dire, this);
+                }
+
+                return dire_team_details;
+            }
+        }
+
+        /// <summary>
+        /// Helper variable,<br/>
+        /// Neutral team details derived from this game state.
+        /// </summary>
+        public FullTeamDetails NeutralTeamDetails
+        {
+            get
+            {
+                if (neutral_team_details == null)
+                {
+                    neutral_team_details = new FullTeamDetails(PlayerTeam.Neutrals, this);
+                }
+
+                return neutral_team_details;
+            }
+        }
+
+        /// <summary>
+        /// Helper variable,<br/>
+        /// Is the game client spectating a game?
+        /// True if spectating, false otherwise.
+        /// </summary>
+        public bool IsSpectating
+        {
+            get
+            {
+                return Player.IsValid() && !Player.LocalPlayer.IsValid() && (Player.Teams.Count > 0);
+            }
+        }
+
+        /// <summary>
+        /// Helper variable,<br/>
+        /// Is the game client playing a game?
+        /// True if local player is playing a game, false otherwise.
+        /// </summary>
+        public bool IsLocalPlayer
+        {
+            get
+            {
+                return Player.IsValid() && Player.LocalPlayer.IsValid() && (Player.Teams.Count == 0);
+            }
         }
     }
 }

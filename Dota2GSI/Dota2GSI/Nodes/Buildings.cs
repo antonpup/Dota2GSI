@@ -147,6 +147,20 @@ namespace Dota2GSI.Nodes
                 }
             }
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"TopTowers: {TopTowers}, " +
+                $"MiddleTowers: {MiddleTowers}, " +
+                $"BottomTowers: {BottomTowers}, " +
+                $"TopRacks: {TopRacks}, " +
+                $"MiddleRacks: {MiddleRacks}, " +
+                $"BottomRacks: {BottomRacks}, " +
+                $"Ancient: {Ancient}, " +
+                $"OtherBuildings: {OtherBuildings}" +
+                $"]";
+        }
     }
 
     /// <summary>
@@ -185,6 +199,33 @@ namespace Dota2GSI.Nodes
         {
             AllBuildings.Add(PlayerTeam.Radiant, new BuildingLayout(GetJObject("radiant")));
             AllBuildings.Add(PlayerTeam.Dire, new BuildingLayout(GetJObject("dire")));
+        }
+
+        /// <summary>
+        /// Gets building layout for a specific team.<br/>
+        /// </summary>
+        /// <param name="team">The team.</param>
+        /// <returns>The building layout.</returns>
+        public BuildingLayout GetForTeam(PlayerTeam team)
+        {
+            switch (team)
+            {
+                case PlayerTeam.Radiant:
+                    return RadiantBuildings;
+                case PlayerTeam.Dire:
+                    return DireBuildings;
+                default:
+                    break;
+            }
+
+            return new BuildingLayout();
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"AllBuildings: {AllBuildings}" +
+                $"]";
         }
     }
 }

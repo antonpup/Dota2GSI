@@ -48,6 +48,8 @@
     <Compile Include="Nodes\Couriers.cs" />
     <Compile Include="Nodes\Events.cs" />
     <Compile Include="Nodes\Event.cs" />
+    <Compile Include="Nodes\FullTeamDetails.cs" />
+    <Compile Include="Nodes\FullPlayerDetails.cs" />
     <Compile Include="Nodes\Roshan.cs" />
     <Compile Include="Nodes\Minimap.cs" />
     <Compile Include="Nodes\NeutralItems.cs" />
@@ -61,7 +63,6 @@
     <Compile Include="Nodes\Buildings.cs" />
     <Compile Include="Nodes\Abilities.cs" />
     <Compile Include="Nodes\Ability.cs" />
-    <Compile Include="Nodes\Attributes.cs" />
     <Compile Include="Nodes\Auth.cs" />
     <Compile Include="Nodes\Hero.cs" />
     <Compile Include="Nodes\Item.cs" />

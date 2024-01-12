@@ -70,5 +70,21 @@ namespace Dota2GSI.Nodes
             MaxCharges = GetInt("max_charges");
             ChargeCooldown = GetInt("charge_cooldown");
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Name: {Name}, " +
+                $"Level: {Level}, " +
+                $"CanCast: {CanCast}, " +
+                $"IsPassive: {IsPassive}, " +
+                $"IsActive: {IsActive}, " +
+                $"Cooldown: {Cooldown}, " +
+                $"IsUltimate: {IsUltimate}, " +
+                $"Charges: {Charges}, " +
+                $"MaxCharges: {MaxCharges}, " +
+                $"ChargeCooldown: {ChargeCooldown}" +
+                $"]";
+        }
     }
 }

@@ -149,5 +149,23 @@ namespace Dota2GSI.Nodes
             ChargeCooldown = GetInt("charge_cooldown");
             Charges = GetInt("charges");
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Name: {Name}, " +
+                $"Purchaser: {Purchaser}, " +
+                $"ItemLevel: {ItemLevel}, " +
+                $"ContainsRune: {ContainsRune}, " +
+                $"CanCast: {CanCast}, " +
+                $"Cooldown: {Cooldown}, " +
+                $"IsPassive: {IsPassive}, " +
+                $"ItemCharges: {ItemCharges}, " +
+                $"AbilityCharges: {AbilityCharges}, " +
+                $"MaxCharges: {MaxCharges}, " +
+                $"ChargeCooldown: {ChargeCooldown}, " +
+                $"Charges: {Charges}" +
+                $"]";
+        }
     }
 }

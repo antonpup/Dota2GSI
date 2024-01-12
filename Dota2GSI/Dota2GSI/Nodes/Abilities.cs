@@ -15,34 +15,18 @@ namespace Dota2GSI.Nodes
         private List<Ability> _abilities = new List<Ability>();
 
         /// <summary>
-        /// The attributes a hero has to spend on abilities.
-        /// </summary>
-        public readonly Attributes Attributes = new Attributes();
-
-        /// <summary>
         /// The number of abilities.
         /// </summary>
         public int Count { get { return _abilities.Count; } }
 
+        private Regex _ability_regex = new Regex(@"ability(\d+)");
+
         internal AbilityDetails(JObject parsed_data = null) : base(parsed_data)
         {
-            if (_ParsedData != null)
+            GetMatchingObjects(parsed_data, _ability_regex, (Match match, JObject obj) =>
             {
-                List<string> abilities = _ParsedData.Properties().Select(p => p.Name).ToList();
-                foreach (string ability_slot in abilities)
-                {
-                    var ability = _ParsedData[ability_slot] as JObject;
-
-                    if (ability_slot.Equals("attributes"))
-                    {
-                        Attributes = new Attributes(ability);
-                    }
-                    else
-                    {
-                        _abilities.Add(new Ability(ability));
-                    }
-                }
-            }
+                _abilities.Add(new Ability(obj));
+            });
         }
 
         /// <summary>
@@ -74,6 +58,13 @@ namespace Dota2GSI.Nodes
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _abilities.GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Abilities: {_abilities}" +
+                $"]";
         }
     }
 
@@ -132,7 +123,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="team_id">The team.</param>
         /// <returns>A dictionary of player id mapped to their ability details.</returns>
-        public Dictionary<int, AbilityDetails> GetTeam(PlayerTeam team)
+        public Dictionary<int, AbilityDetails> GetForTeam(PlayerTeam team)
         {
             if (Teams.ContainsKey(team))
             {
@@ -147,7 +138,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="player_id">The player id.</param>
         /// <returns>The ability details.</returns>
-        public AbilityDetails GetPlayer(int player_id)
+        public AbilityDetails GetForPlayer(int player_id)
         {
             foreach (var team in Teams)
             {
@@ -161,6 +152,19 @@ namespace Dota2GSI.Nodes
             }
 
             return new AbilityDetails();
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"LocalPlayer: {LocalPlayer}, " +
+                $"Teams: {Teams}" +
+                $"]";
+        }
+
+        public override bool IsValid()
+        {
+            return LocalPlayer.IsValid() || base.IsValid();
         }
     }
 }

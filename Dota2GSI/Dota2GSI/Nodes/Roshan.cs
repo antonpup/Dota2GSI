@@ -25,6 +25,13 @@ namespace Dota2GSI.Nodes
                 Items.Add(item_index, value);
             });
         }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Items: {Items}" +
+                $"]";
+        }
     }
 
     /// <summary>
@@ -72,7 +79,6 @@ namespace Dota2GSI.Nodes
         /// </summary>
         public readonly ItemsDrop Drops;
 
-
         public Roshan(JObject parsed_data = null) : base(parsed_data)
         {
             Location = new Vector2D(GetInt("xpos"), GetInt("ypos"));
@@ -83,6 +89,20 @@ namespace Dota2GSI.Nodes
             PhaseTimeRemaining = GetFloat("phase_time_remaining");
             Rotation = GetInt("yaw");
             Drops = new ItemsDrop(GetJObject("items_drop"));
+        }
+
+        public override string ToString()
+        {
+            return $"[" +
+                $"Health: {Health}, " +
+                $"MaxHealth: {MaxHealth}, " +
+                $"IsAlive: {IsAlive}, " +
+                $"SpawnPhase: {SpawnPhase}, " +
+                $"PhaseTimeRemaining: {PhaseTimeRemaining}, " +
+                $"Location: {Location}, " +
+                $"Rotation: {Rotation}, " +
+                $"Drops: {Drops}" +
+                $"]";
         }
     }
 }

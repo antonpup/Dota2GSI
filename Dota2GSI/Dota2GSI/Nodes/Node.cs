@@ -14,6 +14,11 @@ namespace Dota2GSI.Nodes
         /// </summary>
         protected JObject _ParsedData;
 
+        /// <summary>
+        /// Has this node been used to successfully read a value from json.
+        /// </summary>
+        private bool _successfully_retrieved_any_value = false;
+
         internal Node(JObject parsed_data)
         {
             _ParsedData = parsed_data;
@@ -27,6 +32,8 @@ namespace Dota2GSI.Nodes
 
                 if (_ParsedData.TryGetValue(property_name, out value))
                 {
+                    // Successfully retrieved a property, this must be a valid node.
+                    _successfully_retrieved_any_value = true;
                     return value;
                 }
             }
@@ -56,7 +63,7 @@ namespace Dota2GSI.Nodes
                 return value.ToString();
             }
 
-            return "";
+            return string.Empty;
         }
 
         internal int GetInt(string property_name)
@@ -150,6 +157,7 @@ namespace Dota2GSI.Nodes
 
                 if (regex.IsMatch(property_name) && property.Value.Type == type)
                 {
+                    _successfully_retrieved_any_value = true;
                     var match = regex.Match(property_name);
                     var matched_token = property.Value;
 
@@ -186,6 +194,15 @@ namespace Dota2GSI.Nodes
         public override string ToString()
         {
             return _ParsedData.ToString();
+        }
+
+        /// <summary>
+        /// Returns validity of this node.
+        /// </summary>
+        /// <returns>True if the node is valid, false otherwise.</returns>
+        public virtual bool IsValid()
+        {
+            return _successfully_retrieved_any_value;
         }
     }
 
@@ -237,6 +254,11 @@ namespace Dota2GSI.Nodes
             hashCode = hashCode * -1521134295 + X.GetHashCode();
             hashCode = hashCode * -1521134295 + Y.GetHashCode();
             return hashCode;
+        }
+
+        public override string ToString()
+        {
+            return $"[X: {X}, Y: {Y}]";
         }
     }
 }
