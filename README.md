@@ -128,8 +128,8 @@ GameState
 |   |   +-- GoldSpentOnBuybacks
 |   +-- Teams
 |   |   ...
-|   +-- GetTeam( team )
-|   +-- GetPlayer( player_id )
+|   +-- GetForTeam( team )
+|   +-- GetForPlayer( player_id )
 +-- Hero
 |   +-- LocalPlayer
 |   |   +-- Location
@@ -163,12 +163,11 @@ GameState
 |   |   +-- AttributesLevel
 |   +-- Teams
 |   |   ...
-|   +-- GetTeam( team )
-|   +-- GetPlayer( player_id )
+|   +-- GetForTeam( team )
+|   +-- GetForPlayer( player_id )
 +-- Abilities
 |   +-- LocalPlayer
 |   |   +-- Count
-|   |   +-- Attributes
 |   |   +-- Ability[]
 |   |   |   +-- Name
 |   |   |   +-- Level
@@ -182,8 +181,8 @@ GameState
 |   |   |   +-- ChargeCooldown
 |   +-- Teams
 |   |   ...
-|   +-- GetTeam( team )
-|   +-- GetPlayer( player_id )
+|   +-- GetForTeam( team )
+|   +-- GetForPlayer( player_id )
 +-- Items
 |   +-- LocalPlayer
 |   |   +-- Inventory
@@ -202,19 +201,22 @@ GameState
 |   |   +-- StashIndexOf( item_name )
 |   +-- Teams
 |   |   ...
-|   +-- GetTeam( team )
-|   +-- GetPlayer( player_id )
+|   +-- GetForTeam( team )
+|   +-- GetForPlayer( player_id )
 +-- Events[]
-|   +-- GameTime
-|   +-- EventType
-|   +-- Team
-|   +-- KillerPlayerID
-|   +-- PlayerID
-|   +-- WasSnatched
-|   +-- TipReceiverPlayerID
-|   +-- TipAmount
-|   +-- BountyValue
-|   +-- TeamGold
+|   |   \
+|   |   +-- GameTime
+|   |   +-- EventType
+|   |   +-- Team
+|   |   +-- KillerPlayerID
+|   |   +-- PlayerID
+|   |   +-- WasSnatched
+|   |   +-- TipReceiverPlayerID
+|   |   +-- TipAmount
+|   |   +-- BountyValue
+|   |   +-- TeamGold
+|   +-- GetForTeam( team )
+|   +-- GetForPlayer( player_id )
 +-- Buildings
 |   +-- RadiantBuildings
 |   |   +-- TopTowers
@@ -229,6 +231,7 @@ GameState
 |   |   ...
 |   +-- AllBuildings
 |   |   ...
+|   +-- GetForTeam( team )
 +-- League
 |   +-- SeriesType
 |   +-- SelectionPriority
@@ -278,7 +281,7 @@ GameState
 |   |   +-- IsHomeTeam
 |   |   +-- PickIDs
 |   |   +-- PickHeroIDs
-|   +-- GetTeam( team )
+|   +-- GetForTeam( team )
 +-- Wearables
 |   +-- LocalPlayer
 |   |   +-- Wearables
@@ -286,8 +289,8 @@ GameState
 |   |   |   +-- Style
 |   +-- Teams
 |   |   ...
-|   +-- GetTeam( team )
-|   +-- GetPlayer( player_id )
+|   +-- GetForTeam( team )
+|   +-- GetForPlayer( player_id )
 +-- Minimap
 |   +-- Elements
 |   |   +-- Location
@@ -299,6 +302,8 @@ GameState
 |   |   +-- Rotation
 |   |   +-- UnitName
 |   |   +-- VisionRange
+|   +-- GetForTeam( team )
+|   +-- GetForPlayer( player_id )
 +-- Roshan
 |   +-- Location
 |   +-- Health
@@ -324,6 +329,7 @@ GameState
 |   |   +-- Items
 |   |   |   +-- OwnerID
 |   |   |   +-- Name
+|   +-- GetForPlayer( player_id )
 +-- NeutralItems
 |   +-- TierInfos
 |   |   +-- Tier
@@ -337,8 +343,31 @@ GameState
 |   |   |   +-- Charges
 |   |   |   +-- State
 |   |   |   +-- PlayerID
-|   +-- GetTeam( team )
+|   +-- GetForTeam( team )
 +-- Previously (Previous information from Game State)
++-- LocalPlayer
+|   +-- Details
+|   +-- Hero
+|   +-- Abilities
+|   +-- Items
+|   +-- Wearables
+|   +-- Courier
+|   +-- MinimapElements
++-- RadiantTeamDetails
+|   +-- Team
+|   +-- Players
+|   +-- Draft
+|   +-- NeutralItems
+|   +-- Buildings
+|   +-- MinimapElements
+|   +-- Events
+|   +-- IsWinner
++-- DireTeamDetails
+|   ...
++-- NeutralTeamDetails
+|   ...
++-- IsSpectating
++-- IsLocalPlayer
 ```
 
 ### Item, and Hero names
@@ -440,15 +469,15 @@ You will also need to create a custom `gamestate_integration_*.cfg` in `game/dot
         "hero"          "1"
         "abilities"     "1"
         "items"         "1"
-		"events"       	"1"
-		"buildings"     "1"
-		"league"        "1"
-		"draft"         "1"
-		"wearables"     "1"
-		"minimap"       "1"
-		"roshan"       	"1"
-		"couriers"      "1"
-		"neutralitems"  "1"
+        "events"        "1"
+        "buildings"     "1"
+        "league"        "1"
+        "draft"         "1"
+        "wearables"     "1"
+        "minimap"       "1"
+        "roshan"        "1"
+        "couriers"      "1"
+        "neutralitems"  "1"
     }
 }
 
