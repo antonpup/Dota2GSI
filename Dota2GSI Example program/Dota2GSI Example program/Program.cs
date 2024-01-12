@@ -95,12 +95,12 @@ namespace Dota2GSI_Example_program
 
             foreach(var game_event in gs.Events)
             {
-                if (game_event.EventType == Dota2GSI.Nodes.EventType.Bounty_rune_pickup)
+                if (game_event.EventType == Dota2GSI.Nodes.EventsProvider.EventType.Bounty_rune_pickup)
                 {
                     Console.WriteLine("Bounty rune was picked up!");
                     break;
                 }
-                else if (game_event.EventType == Dota2GSI.Nodes.EventType.Roshan_killed)
+                else if (game_event.EventType == Dota2GSI.Nodes.EventsProvider.EventType.Roshan_killed)
                 {
                     Console.WriteLine("Roshan was brutally killed!");
                     break;

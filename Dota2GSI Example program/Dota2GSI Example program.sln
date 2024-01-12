@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 14 for Windows Desktop
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dota2GSI Example program", "Dota2GSI Example program\Dota2GSI Example program.csproj", "{4DA21306-D491-4196-9125-C281B05180BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dota2GSI Example program", "Dota2GSI Example program\Dota2GSI Example program.csproj", "{4DA21306-D491-4196-9125-C281B05180BF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F} = {ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}
 	EndProjectSection
