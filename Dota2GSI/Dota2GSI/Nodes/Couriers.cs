@@ -102,23 +102,13 @@ namespace Dota2GSI.Nodes
             IsShielded = GetBool("shield");
             IsBoosted = GetBool("boost");
 
-            var items = GetJObject("items");
-            if (items != null)
+            GetMatchingObjects(GetJObject("items"), _item_regex, (Match match, JObject obj) =>
             {
-                foreach (var property in items.Properties())
-                {
-                    string property_name = property.Name;
+                var item_index = Convert.ToInt32(match.Groups[1].Value);
+                var item = new CourierItem(obj);
 
-                    if (_item_regex.IsMatch(property_name))
-                    {
-                        var match = _item_regex.Match(property_name);
-                        var item_index = Convert.ToInt32(match.Groups[1].Value);
-                        var item = new CourierItem(property.Value as JObject);
-
-                        Items.Add(item_index, item);
-                    }
-                }
-            }
+                Items.Add(item_index, item);
+            });
         }
     }
 

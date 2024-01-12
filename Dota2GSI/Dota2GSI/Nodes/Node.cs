@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
 {
@@ -134,6 +135,51 @@ namespace Dota2GSI.Nodes
             }
 
             return new JEnumerable<JToken>();
+        }
+
+        internal void GetMatchingTokens(JObject data, Regex regex, JTokenType type, Action<Match, JToken> match_callback)
+        {
+            if (data == null)
+            {
+                return;
+            }
+
+            foreach (var property in data.Properties())
+            {
+                string property_name = property.Name;
+
+                if (regex.IsMatch(property_name) && property.Value.Type == type)
+                {
+                    var match = regex.Match(property_name);
+                    var matched_token = property.Value;
+
+                    match_callback(match, matched_token);
+                }
+            }
+        }
+
+        internal void GetMatchingObjects(JObject data, Regex regex, Action<Match, JObject> match_callback)
+        {
+            GetMatchingTokens(data, regex, JTokenType.Object, (Match match, JToken token) =>
+            {
+                match_callback(match, token as JObject);
+            });
+        }
+
+        internal void GetMatchingIntegers(JObject data, Regex regex, Action<Match, int> match_callback)
+        {
+            GetMatchingTokens(data, regex, JTokenType.Integer, (Match match, JToken token) =>
+            {
+                match_callback(match, Convert.ToInt32(token.ToString()));
+            });
+        }
+
+        internal void GetMatchingStrings(JObject data, Regex regex, Action<Match, string> match_callback)
+        {
+            GetMatchingTokens(data, regex, JTokenType.String, (Match match, JToken token) =>
+            {
+                match_callback(match, token.ToString());
+            });
         }
 
         /// <inheritdoc/>

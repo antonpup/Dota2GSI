@@ -13,26 +13,17 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Items that can drop.
         /// </summary>
-        public readonly Dictionary<int, string> Items;
+        public readonly Dictionary<int, string> Items = new Dictionary<int, string>();
 
         private Regex _item_regex = new Regex(@"item(\d+)");
         public ItemsDrop(JObject parsed_data = null) : base(parsed_data)
         {
-            if (parsed_data != null)
+            GetMatchingStrings(parsed_data, _item_regex, (Match match, string value) =>
             {
-                foreach (var property in parsed_data.Properties())
-                {
-                    string property_name = property.Name;
+                var item_index = Convert.ToInt32(match.Groups[1].Value);
 
-                    if (_item_regex.IsMatch(property_name) && property.Value.Type == JTokenType.Object)
-                    {
-                        var match = _item_regex.Match(property_name);
-                        var item_index = Convert.ToInt32(match.Groups[1].Value);
-
-                        Items.Add(item_index, property.Value.ToString());
-                    }
-                }
-            }
+                Items.Add(item_index, value);
+            });
         }
     }
 

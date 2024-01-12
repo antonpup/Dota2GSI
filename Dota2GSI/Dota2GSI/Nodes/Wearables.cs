@@ -13,12 +13,12 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// The local player's wearables.
         /// </summary>
-        public readonly PlayerWearables PlayerWearables;
+        public readonly PlayerWearables LocalPlayer;
 
         /// <summary>
         /// The team players wearables. (SPECTATOR ONLY)
         /// </summary>
-        public readonly Dictionary<int, Dictionary<int, PlayerWearables>> TeamWearables = new Dictionary<int, Dictionary<int, PlayerWearables>>();
+        public readonly Dictionary<PlayerTeam, Dictionary<int, PlayerWearables>> Teams = new Dictionary<PlayerTeam, Dictionary<int, PlayerWearables>>();
 
         private Regex _team_id_regex = new Regex(@"team(\d+)");
         private Regex _player_id_regex = new Regex(@"player(\d+)");
@@ -26,49 +26,70 @@ namespace Dota2GSI.Nodes
         internal Wearables(JObject parsed_data = null) : base(parsed_data)
         {
             // Attempt to parse the local player wearables
-            PlayerWearables = new PlayerWearables(parsed_data);
+            LocalPlayer = new PlayerWearables(parsed_data);
 
             // Attempt to parse team player wearables
-            if (parsed_data != null)
+            GetMatchingObjects(parsed_data, _team_id_regex, (Match match, JObject obj) =>
             {
-                foreach (var property in parsed_data.Properties())
+                var team_id = (PlayerTeam)Convert.ToInt32(match.Groups[1].Value);
+
+                if (!Teams.ContainsKey(team_id))
                 {
-                    string property_name = property.Name;
+                    Teams.Add(team_id, new Dictionary<int, PlayerWearables>());
+                }
 
-                    if (_team_id_regex.IsMatch(property_name) && property.Value.Type == JTokenType.Object)
+                GetMatchingObjects(parsed_data, _player_id_regex, (Match sub_match, JObject sub_obj) =>
+                {
+                    var player_index = Convert.ToInt32(sub_match.Groups[1].Value);
+                    var player_wearables = new PlayerWearables(sub_obj);
+
+                    if (!Teams[team_id].ContainsKey(player_index))
                     {
-                        var match = _team_id_regex.Match(property_name);
-                        var team_index = Convert.ToInt32(match.Groups[1].Value);
+                        Teams[team_id].Add(player_index, player_wearables);
+                    }
+                    else
+                    {
+                        Teams[team_id][player_index] = player_wearables;
+                    }
 
-                        if (!TeamWearables.ContainsKey(team_index))
-                        {
-                            TeamWearables.Add(team_index, new Dictionary<int, PlayerWearables>());
-                        }
+                });
+            });
+        }
 
-                        foreach (var sub_property in (property.Value as JObject).Properties())
-                        {
-                            string sub_property_name = property.Name;
+        /// <summary>
+        /// Gets the wearables for a specific team.
+        /// </summary>
+        /// <param name="team_id">The team.</param>
+        /// <returns>A dictionary of player id mapped to their wearables.</returns>
+        public Dictionary<int, PlayerWearables> GetTeam(PlayerTeam team)
+        {
+            if (Teams.ContainsKey(team))
+            {
+                return Teams[team];
+            }
 
-                            if (_player_id_regex.IsMatch(sub_property_name) && sub_property.Value.Type == JTokenType.Object)
-                            {
-                                var sub_match = _player_id_regex.Match(sub_property_name);
-                                var player_index = Convert.ToInt32(sub_match.Groups[1].Value);
+            return new Dictionary<int, PlayerWearables>();
+        }
 
-                                var player_wearables = new PlayerWearables(sub_property.Value as JObject);
-
-                                if (!TeamWearables[team_index].ContainsKey(player_index))
-                                {
-                                    TeamWearables[team_index].Add(player_index, player_wearables);
-                                }
-                                else
-                                {
-                                    TeamWearables[team_index][player_index] = player_wearables;
-                                }
-                            }
-                        }
+        /// <summary>
+        /// Gets the wearables for a specific player.
+        /// </summary>
+        /// <param name="player_id">The player id.</param>
+        /// <returns>The player wearables.</returns>
+        public PlayerWearables GetPlayer(int player_id)
+        {
+            foreach (var team in Teams)
+            {
+                foreach (var player in team.Value)
+                {
+                    if (player.Key == player_id)
+                    {
+                        return player.Value;
                     }
                 }
             }
+
+            return new PlayerWearables();
         }
     }
 }

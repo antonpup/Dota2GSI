@@ -49,17 +49,17 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Top racks.
         /// </summary>
-        public readonly Dictionary<RacksType, Building> TopRax = new Dictionary<RacksType, Building>();
+        public readonly Dictionary<RacksType, Building> TopRacks = new Dictionary<RacksType, Building>();
 
         /// <summary>
         /// Middle racks.
         /// </summary>
-        public readonly Dictionary<RacksType, Building> MiddleRax = new Dictionary<RacksType, Building>();
+        public readonly Dictionary<RacksType, Building> MiddleRacks = new Dictionary<RacksType, Building>();
 
         /// <summary>
         /// Bottom racks.
         /// </summary>
-        public readonly Dictionary<RacksType, Building> BottomRax = new Dictionary<RacksType, Building>();
+        public readonly Dictionary<RacksType, Building> BottomRacks = new Dictionary<RacksType, Building>();
 
         /// <summary>
         /// Ancient.
@@ -124,15 +124,15 @@ namespace Dota2GSI.Nodes
                         {
                             if (rax_lane.Equals("top"))
                             {
-                                TopRax.Add(rax_type, building);
+                                TopRacks.Add(rax_type, building);
                             }
                             else if (rax_lane.Equals("mid"))
                             {
-                                MiddleRax.Add(rax_type, building);
+                                MiddleRacks.Add(rax_type, building);
                             }
                             else if (rax_lane.Equals("bot"))
                             {
-                                BottomRax.Add(rax_type, building);
+                                BottomRacks.Add(rax_type, building);
                             }
                         }
                     }
@@ -154,18 +154,10 @@ namespace Dota2GSI.Nodes
     /// </summary>
     public class Buildings : Node
     {
-        private Dictionary<PlayerTeam, BuildingLayout> _buildings = new Dictionary<PlayerTeam, BuildingLayout>();
-
         /// <summary>
-        /// Gets all buildings layouts
+        /// Gets all buildings layouts.
         /// </summary>
-        public Dictionary<PlayerTeam, BuildingLayout> AllBuildings
-        {
-            get
-            {
-                return _buildings;
-            }
-        }
+        public readonly Dictionary<PlayerTeam, BuildingLayout> AllBuildings = new Dictionary<PlayerTeam, BuildingLayout>();
 
         /// <summary>
         /// Gets Radiant buildings layout.
@@ -174,7 +166,7 @@ namespace Dota2GSI.Nodes
         {
             get
             {
-                return _buildings[PlayerTeam.Radiant];
+                return AllBuildings[PlayerTeam.Radiant];
             }
         }
 
@@ -185,14 +177,14 @@ namespace Dota2GSI.Nodes
         {
             get
             {
-                return _buildings[PlayerTeam.Dire];
+                return AllBuildings[PlayerTeam.Dire];
             }
         }
 
         internal Buildings(JObject parsed_data = null) : base(parsed_data)
         {
-            _buildings.Add(PlayerTeam.Radiant, new BuildingLayout(GetJObject("radiant")));
-            _buildings.Add(PlayerTeam.Dire, new BuildingLayout(GetJObject("dire")));
+            AllBuildings.Add(PlayerTeam.Radiant, new BuildingLayout(GetJObject("radiant")));
+            AllBuildings.Add(PlayerTeam.Dire, new BuildingLayout(GetJObject("dire")));
         }
     }
 }

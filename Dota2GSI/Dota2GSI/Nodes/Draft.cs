@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 namespace Dota2GSI.Nodes
 {
     /// <summary>
-    /// A class representing team draft information.
+    /// A class representing draft details information.
     /// </summary>
-    public class DraftTeam : Node
+    public class DraftDetails : Node
     {
         /// <summary>
         /// Is home team.
@@ -18,46 +18,33 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Pick IDs.
         /// </summary>
-        public readonly Dictionary<int, int> PickIDs;
+        public readonly Dictionary<int, int> PickIDs = new Dictionary<int, int>();
 
         /// <summary>
         /// Pick Hero IDs.
         /// </summary>
-        public readonly Dictionary<int, string> PickHeroIDs;
+        public readonly Dictionary<int, string> PickHeroIDs = new Dictionary<int, string>();
 
         private Regex _pick_id_regex = new Regex(@"pick(\d+)_id");
         private Regex _pick_class_regex = new Regex(@"pick(\d+)_class");
 
-        internal DraftTeam(JObject parsed_data = null) : base(parsed_data)
+        internal DraftDetails(JObject parsed_data = null) : base(parsed_data)
         {
             IsHomeTeam = GetBool("home_team");
 
-            if (parsed_data != null)
+            GetMatchingIntegers(parsed_data, _pick_id_regex, (Match match, int value) =>
             {
-                foreach (var property in parsed_data.Properties())
-                {
-                    string property_name = property.Name;
+                var pick_index = Convert.ToInt32(match.Groups[1].Value);
 
-                    if (_pick_id_regex.IsMatch(property_name))
-                    {
-                        var match = _pick_id_regex.Match(property_name);
+                PickIDs.Add(pick_index, value);
+            });
 
-                        var pick_index = Convert.ToInt32(match.Groups[1].Value);
-                        var pick = Convert.ToInt32(property.Value);
+            GetMatchingStrings(parsed_data, _pick_class_regex, (Match match, string value) =>
+            {
+                var pick_index = Convert.ToInt32(match.Groups[1].Value);
 
-                        PickIDs.Add(pick_index, pick);
-                    }
-                    else if (_pick_class_regex.IsMatch(property_name))
-                    {
-                        var match = _pick_class_regex.Match(property_name);
-
-                        var pick_index = Convert.ToInt32(match.Groups[1].Value);
-                        var pick = property.Value.ToString();
-
-                        PickHeroIDs.Add(pick_index, pick);
-                    }
-                }
-            }
+                PickHeroIDs.Add(pick_index, value);
+            });
         }
     }
 
@@ -72,29 +59,29 @@ namespace Dota2GSI.Nodes
         public readonly int ActiveTeam;
 
         /// <summary>
-        /// The pick?
+        /// Is hero picking state. Ban state if false.
         /// </summary>
         public readonly bool Pick;
 
         /// <summary>
-        /// The active team remaining time.
+        /// The active team remaining time in seconds.
         /// </summary>
         public readonly int ActiveTeamRemainingTime;
 
         /// <summary>
-        /// The radiant team bonus time.
+        /// The radiant team bonus time in seconds.
         /// </summary>
         public readonly int RadiantBonusTime;
 
         /// <summary>
-        /// The dire team bonus time.
+        /// The dire team bonus time in seconds.
         /// </summary>
         public readonly int DireBonusTime;
 
         /// <summary>
         /// The team draft information.
         /// </summary>
-        public readonly Dictionary<int, DraftTeam> Teams = new Dictionary<int, DraftTeam>();
+        public readonly Dictionary<PlayerTeam, DraftDetails> Teams = new Dictionary<PlayerTeam, DraftDetails>();
 
         private Regex _team_id_regex = new Regex(@"team(\d+)");
 
@@ -106,21 +93,27 @@ namespace Dota2GSI.Nodes
             RadiantBonusTime = GetInt("radiant_bonus_time");
             DireBonusTime = GetInt("dire_bonus_time");
 
-            if (parsed_data != null)
+            GetMatchingObjects(parsed_data, _team_id_regex, (Match match, JObject obj) =>
             {
-                foreach (var property in parsed_data.Properties())
-                {
-                    string property_name = property.Name;
+                var team_id = (PlayerTeam)Convert.ToInt32(match.Groups[1].Value);
 
-                    if (_team_id_regex.IsMatch(property_name) && property.Value.Type == JTokenType.Object)
-                    {
-                        var match = _team_id_regex.Match(property_name);
-                        var team_index = Convert.ToInt32(match.Groups[1].Value);
+                Teams.Add(team_id, new DraftDetails(obj));
+            });
+        }
 
-                        Teams.Add(team_index, new DraftTeam(property.Value as JObject));
-                    }
-                }
+        /// <summary>
+        /// Gets the draft for a specific team.
+        /// </summary>
+        /// <param name="team_id">The team.</param>
+        /// <returns>The draft details.</returns>
+        public DraftDetails GetTeam(PlayerTeam team)
+        {
+            if (Teams.ContainsKey(team))
+            {
+                return Teams[team];
             }
+
+            return new DraftDetails();
         }
     }
 }

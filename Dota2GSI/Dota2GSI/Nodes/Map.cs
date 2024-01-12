@@ -173,7 +173,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// A boolean representing whether Nightstalker forced night time.
         /// </summary>
-        public readonly bool IsNightstalker_Night;
+        public readonly bool IsNightstalkerNight;
 
         /// <summary>
         /// Current Radiant team score.
@@ -237,7 +237,7 @@ namespace Dota2GSI.Nodes
             GameTime = GetInt("game_time");
             ClockTime = GetInt("clock_time");
             IsDaytime = GetBool("daytime");
-            IsNightstalker_Night = GetBool("nightstalker_night");
+            IsNightstalkerNight = GetBool("nightstalker_night");
             RadiantScore = GetInt("radiant_score");
             DireScore = GetInt("dire_score");
             GameState = GetEnum<DOTA_GameState>("game_state");

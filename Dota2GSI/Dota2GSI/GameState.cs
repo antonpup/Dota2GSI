@@ -1,7 +1,5 @@
 ﻿using Dota2GSI.Nodes;
 using Newtonsoft.Json.Linq;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Dota2GSI
 {
@@ -13,7 +11,6 @@ namespace Dota2GSI
         private Auth auth;
         private Provider provider;
         private Map map;
-        private TeamsGroup teams;
         private Player player;
         private Hero hero;
         private Abilities abilities;
@@ -39,7 +36,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about GSI authentication.
+        /// Information about GSI authentication.<br/>
+        /// Enabled by including <code>"auth" "1"</code> in the game state cfg file.
         /// </summary>
         public Auth Auth
         {
@@ -55,7 +53,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the provider of this GameState.
+        /// Information about the provider of this GameState.<br/>
+        /// Enabled by including <code>"provider" "1"</code> in the game state cfg file.
         /// </summary>
         public Provider Provider
         {
@@ -71,7 +70,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the current map.
+        /// Information about the current map.<br/>
+        /// Enabled by including <code>"map" "1"</code> in the game state cfg file.
         /// </summary>
         public Map Map
         {
@@ -87,33 +87,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information of all the players in the game. (SPECTATOR ONLY)
-        /// </summary>
-        public TeamsGroup Teams
-        {
-            get
-            {
-                if (teams == null)
-                {
-                    JToken player = GetJToken("player");
-                    Regex r = new Regex(@"team\d");
-                    if (player != null && (player.Where(s => (r.IsMatch(((JProperty)s).Name))).ToList().Count > 0))
-                    {
-                        teams = new TeamsGroup(_ParsedData);
-                    }
-                }
-
-                return teams;
-            }
-        }
-
-        /// <summary>
-        /// Determines if the a game is being spectated.
-        /// </summary>
-        public bool IsSpectator { get { return Teams != null; } }
-
-        /// <summary>
-        /// Information about the local player.
+        /// Information about the local player or team players when spectating.<br/>
+        /// Enabled by including <code>"player" "1"</code> in the game state cfg file.
         /// </summary>
         public Player Player
         {
@@ -129,7 +104,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the local player's hero.
+        /// Information about the local player's hero or team players heroes when spectating.<br/>
+        /// Enabled by including <code>"hero" "1"</code> in the game state cfg file.
         /// </summary>
         public Hero Hero
         {
@@ -145,7 +121,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the local player's hero abilities.
+        /// Information about the local player's hero abilities or team players abilities when spectating.<br/>
+        /// Enabled by including <code>"abilities" "1"</code> in the game state cfg file.
         /// </summary>
         public Abilities Abilities
         {
@@ -161,7 +138,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the local player's hero items.
+        /// Information about the local player's hero items or team players items when spectating.<br/>
+        /// Enabled by including <code>"items" "1"</code> in the game state cfg file.
         /// </summary>
         public Items Items
         {
@@ -177,7 +155,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about game events.
+        /// Information about game events.<br/>
+        /// Enabled by including <code>"events" "1"</code> in the game state cfg file.
         /// </summary>
         public Events Events
         {
@@ -193,7 +172,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the buildings on the map.
+        /// Information about the buildings on the map.<br/>
+        /// Enabled by including <code>"buildings" "1"</code> in the game state cfg file.
         /// </summary>
         public Buildings Buildings
         {
@@ -209,7 +189,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the current league.
+        /// Information about the current league (or game configuration).<br/>
+        /// Enabled by including <code>"league" "1"</code> in the game state cfg file.
         /// </summary>
         public League League
         {
@@ -225,7 +206,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the draft.
+        /// Information about the draft. (TOURNAMENT ONLY)<br/>
+        /// Enabled by including <code>"draft" "1"</code> in the game state cfg file.
         /// </summary>
         public Draft Draft
         {
@@ -241,7 +223,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the local player's wearable items or team players wearable items when spectating.
+        /// Information about the local player's wearable items or team players wearable items when spectating.<br/>
+        /// Enabled by including <code>"wearables" "1"</code> in the game state cfg file.
         /// </summary>
         public Wearables Wearables
         {
@@ -257,7 +240,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about the minimap.
+        /// Information about the minimap.<br/>
+        /// Enabled by including <code>"minimap" "1"</code> in the game state cfg file.
         /// </summary>
         public Minimap Minimap
         {
@@ -273,7 +257,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about Roshan. (SPECTATOR ONLY)
+        /// Information about Roshan. (SPECTATOR ONLY)<br/>
+        /// Enabled by including <code>"roshan" "1"</code> in the game state cfg file.
         /// </summary>
         public Roshan Roshan
         {
@@ -289,7 +274,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about couriers. (SPECTATOR ONLY)
+        /// Information about couriers. (SPECTATOR ONLY)<br/>
+        /// Enabled by including <code>"couriers" "1"</code> in the game state cfg file.
         /// </summary>
         public Couriers Couriers
         {
@@ -305,7 +291,8 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Information about neutral items. (SPECTATOR ONLY)
+        /// Information about neutral items. (SPECTATOR ONLY)<br/>
+        /// Enabled by including <code>"neutralitems" "1"</code> in the game state cfg file.
         /// </summary>
         public NeutralItems NeutralItems
         {
@@ -319,7 +306,7 @@ namespace Dota2GSI
                 return neutral_items;
             }
         }
-        
+
         /// <summary>
         /// A previous GameState.
         /// </summary>
@@ -337,7 +324,7 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// Returns the json string that generated this GameState instance
+        /// Returns the json string that generated this GameState instance.
         /// </summary>
         /// <returns>Json string</returns>
         public override string ToString()

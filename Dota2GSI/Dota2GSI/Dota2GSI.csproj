@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -62,8 +62,6 @@
     <Compile Include="Nodes\Abilities.cs" />
     <Compile Include="Nodes\Ability.cs" />
     <Compile Include="Nodes\Attributes.cs" />
-    <Compile Include="Nodes\PlayerDetails.cs" />
-    <Compile Include="Nodes\Teams.cs" />
     <Compile Include="Nodes\Auth.cs" />
     <Compile Include="Nodes\Hero.cs" />
     <Compile Include="Nodes\Item.cs" />

@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
@@ -141,46 +142,30 @@ namespace Dota2GSI.Nodes
         {
             ItemsFound = GetInt("items_found");
 
-            if (parsed_data != null)
+            GetMatchingObjects(parsed_data, _tier_id_regex, (Match match, JObject obj) =>
             {
-                foreach (var property in parsed_data.Properties())
+                var tier_index = Convert.ToInt32(match.Groups[1].Value);
+
+                if (!TeamItems.ContainsKey(tier_index))
                 {
-                    string property_name = property.Name;
-
-                    if (_tier_id_regex.IsMatch(property_name) && property.Value.Type == JTokenType.Object)
-                    {
-                        var match = _tier_id_regex.Match(property_name);
-                        var tier_index = Convert.ToInt32(match.Groups[1].Value);
-
-                        if (!TeamItems.ContainsKey(tier_index))
-                        {
-                            TeamItems.Add(tier_index, new Dictionary<int, NeutralItem>());
-                        }
-
-                        foreach (var sub_property in (property.Value as JObject).Properties())
-                        {
-                            string sub_property_name = property.Name;
-
-                            if (_item_id_regex.IsMatch(sub_property_name) && sub_property.Value.Type == JTokenType.Object)
-                            {
-                                var sub_match = _item_id_regex.Match(sub_property_name);
-                                var item_index = Convert.ToInt32(sub_match.Groups[1].Value);
-
-                                var neutral_item = new NeutralItem(sub_property.Value as JObject);
-
-                                if (!TeamItems[tier_index].ContainsKey(item_index))
-                                {
-                                    TeamItems[tier_index].Add(item_index, neutral_item);
-                                }
-                                else
-                                {
-                                    TeamItems[tier_index][item_index] = neutral_item;
-                                }
-                            }
-                        }
-                    }
+                    TeamItems.Add(tier_index, new Dictionary<int, NeutralItem>());
                 }
-            }
+
+                GetMatchingObjects(obj, _item_id_regex, (Match sub_match, JObject sub_obj) =>
+                {
+                    var item_index = Convert.ToInt32(sub_match.Groups[1].Value);
+                    var neutral_item = new NeutralItem(sub_obj);
+
+                    if (!TeamItems[tier_index].ContainsKey(item_index))
+                    {
+                        TeamItems[tier_index].Add(item_index, neutral_item);
+                    }
+                    else
+                    {
+                        TeamItems[tier_index][item_index] = neutral_item;
+                    }
+                });
+            });
         }
     }
 
@@ -197,7 +182,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Information about team's neutral items.
         /// </summary>
-        public readonly Dictionary<int, TeamNeutralItems> TeamItems = new Dictionary<int, TeamNeutralItems>();
+        public readonly Dictionary<PlayerTeam, TeamNeutralItems> TeamItems = new Dictionary<PlayerTeam, TeamNeutralItems>();
 
         private Regex _tier_id_regex = new Regex(@"tier(\d+)");
         private Regex _team_id_regex = new Regex(@"team(\d+)");
@@ -205,44 +190,50 @@ namespace Dota2GSI.Nodes
         internal NeutralItems(JObject parsed_data = null) : base(parsed_data)
         {
             // Attempt to parse team player wearables
-            if (parsed_data != null)
+            GetMatchingObjects(parsed_data, _tier_id_regex, (Match match, JObject obj) =>
             {
-                foreach (var property in parsed_data.Properties())
+                var tier_index = Convert.ToInt32(match.Groups[1].Value);
+                var tier_info = new NeutralTierInfo(obj);
+
+                if (!TierInfos.ContainsKey(tier_index))
                 {
-                    string property_name = property.Name;
-
-                    if (_tier_id_regex.IsMatch(property_name) && property.Value.Type == JTokenType.Object)
-                    {
-                        var match = _tier_id_regex.Match(property_name);
-                        var tier_index = Convert.ToInt32(match.Groups[1].Value);
-                        var tier_info = new NeutralTierInfo(property.Value as JObject);
-
-                        if (!TierInfos.ContainsKey(tier_index))
-                        {
-                            TierInfos.Add(tier_index, tier_info);
-                        }
-                        else
-                        {
-                            TierInfos[tier_index] = tier_info;
-                        }
-                    }
-                    else if (_team_id_regex.IsMatch(property_name) && property.Value.Type == JTokenType.Object)
-                    {
-                        var match = _team_id_regex.Match(property_name);
-                        var team_index = Convert.ToInt32(match.Groups[1].Value);
-                        var team_items = new TeamNeutralItems(property.Value as JObject);
-
-                        if (!TeamItems.ContainsKey(team_index))
-                        {
-                            TeamItems.Add(team_index, team_items);
-                        }
-                        else
-                        {
-                            TeamItems[team_index] = team_items;
-                        }
-                    }
+                    TierInfos.Add(tier_index, tier_info);
                 }
+                else
+                {
+                    TierInfos[tier_index] = tier_info;
+                }
+            });
+
+            GetMatchingObjects(parsed_data, _team_id_regex, (Match match, JObject obj) =>
+            {
+                var team_id = (PlayerTeam)Convert.ToInt32(match.Groups[1].Value);
+                var team_items = new TeamNeutralItems(obj);
+
+                if (!TeamItems.ContainsKey(team_id))
+                {
+                    TeamItems.Add(team_id, team_items);
+                }
+                else
+                {
+                    TeamItems[team_id] = team_items;
+                }
+            });
+        }
+
+        /// <summary>
+        /// Gets the neutral items for a specific team.
+        /// </summary>
+        /// <param name="team_id">The team.</param>
+        /// <returns>The neutral items details.</returns>
+        public TeamNeutralItems GetTeam(PlayerTeam team)
+        {
+            if (TeamItems.ContainsKey(team))
+            {
+                return TeamItems[team];
             }
+
+            return new TeamNeutralItems();
         }
     }
 }

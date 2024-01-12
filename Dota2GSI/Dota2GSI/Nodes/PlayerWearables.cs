@@ -42,46 +42,35 @@ namespace Dota2GSI.Nodes
 
         internal PlayerWearables(JObject parsed_data = null) : base(parsed_data)
         {
-            if (parsed_data != null)
+            GetMatchingIntegers(parsed_data, _wearable_regex, (Match match, int value) =>
             {
-                foreach (var property in parsed_data.Properties())
+                var wearable_index = Convert.ToInt32(match.Groups[1].Value);
+
+                if (!Wearables.ContainsKey(wearable_index))
                 {
-                    string property_name = property.Name;
-
-                    if (_wearable_regex.IsMatch(property_name))
-                    {
-                        var match = _wearable_regex.Match(property_name);
-                        var wearable_index = Convert.ToInt32(match.Groups[1].Value);
-                        var wearable_id = Convert.ToInt32(property.Value.ToString());
-
-                        if (!Wearables.ContainsKey(wearable_index))
-                        {
-                            Wearables.Add(wearable_index, new WearableItem(wearable_id));
-                        }
-                        else
-                        {
-                            var existing_wearable = Wearables[wearable_index];
-                            Wearables[wearable_index] = new WearableItem(wearable_id, existing_wearable.Style);
-                        }
-                    }
-                    else if (_style_regex.IsMatch(property_name))
-                    {
-                        var match = _style_regex.Match(property_name);
-                        var wearable_index = Convert.ToInt32(match.Groups[1].Value);
-                        var style_id = Convert.ToInt32(property.Value.ToString());
-
-                        if (!Wearables.ContainsKey(wearable_index))
-                        {
-                            Wearables.Add(wearable_index, new WearableItem(0, style_id));
-                        }
-                        else
-                        {
-                            var existing_wearable = Wearables[wearable_index];
-                            Wearables[wearable_index] = new WearableItem(existing_wearable.ID, style_id);
-                        }
-                    }
+                    Wearables.Add(wearable_index, new WearableItem(value));
                 }
-            }
+                else
+                {
+                    var existing_wearable = Wearables[wearable_index];
+                    Wearables[wearable_index] = new WearableItem(value, existing_wearable.Style);
+                }
+            });
+
+            GetMatchingIntegers(parsed_data, _style_regex, (Match match, int value) =>
+            {
+                var wearable_index = Convert.ToInt32(match.Groups[1].Value);
+
+                if (!Wearables.ContainsKey(wearable_index))
+                {
+                    Wearables.Add(wearable_index, new WearableItem(0, value));
+                }
+                else
+                {
+                    var existing_wearable = Wearables[wearable_index];
+                    Wearables[wearable_index] = new WearableItem(existing_wearable.ID, value);
+                }
+            });
         }
     }
 }

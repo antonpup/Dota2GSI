@@ -280,7 +280,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// The streams for the league.
         /// </summary>
-        public readonly List<Stream> Streams;
+        public readonly List<Stream> Streams = new List<Stream>();
 
         internal League(JObject parsed_data = null) : base(parsed_data)
         {
