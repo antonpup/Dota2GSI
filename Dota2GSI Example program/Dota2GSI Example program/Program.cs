@@ -4,8 +4,6 @@ using System.IO;
 using Dota2GSI;
 using Microsoft.Win32;
 using System.Threading;
-using System.Text;
-using Dota2GSI.Nodes;
 
 namespace Dota2GSI_Example_program
 {
@@ -48,87 +46,68 @@ namespace Dota2GSI_Example_program
         static void OnNewGameState(GameState gs)
         {
             Console.Clear();
-            
-            Console.WriteLine("Press ESC to quit");
+
             Console.WriteLine("Current Dota version: " + gs.Provider.Version);
+            Console.WriteLine("Your steam name: " + gs.Player.LocalPlayer.Name);
+            Console.WriteLine("Your dota account id: " + gs.Player.LocalPlayer.AccountID);
+
             Console.WriteLine("Current time as displayed by the clock (in seconds): " + gs.Map.ClockTime);
 
-            if (gs.IsSpectator)
+            Console.WriteLine("Radiant Score: " + gs.Map.RadiantScore);
+            Console.WriteLine("Dire Score: " + gs.Map.DireScore);
+            Console.WriteLine("Is game paused: " + gs.Map.IsPaused);
+
+            Console.WriteLine("Hero ID: " + gs.Hero.LocalPlayer.ID);
+            Console.WriteLine("Hero XP: " + gs.Hero.LocalPlayer.Experience);
+            Console.WriteLine("Hero has Aghanims Shard upgrade: " + gs.Hero.LocalPlayer.HasAghanimsShardUpgrade);
+
+            Console.WriteLine("Hero Health: " + gs.Hero.LocalPlayer.Health);
+            for (int i = 0; i < gs.Abilities.LocalPlayer.Count; i++)
             {
-                foreach (var team in gs.Teams?.All)
-                {
-                    Console.WriteLine($"Team {team.Key}:");
-                    foreach (var player in team.Value)
-                    {
-                        Player plyr = player.Value.Player;
-                        Hero hero = player.Value.Hero;
-                        Abilities abilities = player.Value.Abilities;
-                        Items items = player.Value.Items;
+                Console.WriteLine("Ability {0} = {1}", i, gs.Abilities.LocalPlayer[i].Name);
+            }
 
-                        Console.WriteLine($"{plyr.Name}|{hero.Name}|{abilities.Count}|{items.CountInventory}");
-                        Console.WriteLine("Talent Tree:");
-                        for (int i = hero.TalentTree.Length - 1; i >= 0; i--)
-                        {
-                            var level = hero.TalentTree[i];
-                            Console.WriteLine($"{level}");
-                        }
+            Console.WriteLine("First slot inventory: " + gs.Items.LocalPlayer.GetInventoryAt(0).Name);
+            Console.WriteLine("Second slot inventory: " + gs.Items.LocalPlayer.GetInventoryAt(1).Name);
+            Console.WriteLine("Third slot inventory: " + gs.Items.LocalPlayer.GetInventoryAt(2).Name);
+            Console.WriteLine("Fourth slot inventory: " + gs.Items.LocalPlayer.GetInventoryAt(3).Name);
+            Console.WriteLine("Fifth slot inventory: " + gs.Items.LocalPlayer.GetInventoryAt(4).Name);
+            Console.WriteLine("Sixth slot inventory: " + gs.Items.LocalPlayer.GetInventoryAt(5).Name);
 
-                        Console.WriteLine("Kill list:");
-                        foreach (var item in plyr.KillList)
-                        {
-                            Console.WriteLine($"{item.Key}|{item.Value}");
-                        }
-                    }
-                }
+            Console.WriteLine("Teleport item slot: " + gs.Items.LocalPlayer.Teleport.Name);
+            Console.WriteLine("Neutral item slot: " + gs.Items.LocalPlayer.Neutral.Name);
+
+            if (gs.Items.LocalPlayer.InventoryContains("item_blink"))
+            {
+                Console.WriteLine("You have a blink dagger");
             }
             else
             {
-                Console.WriteLine("Your steam name: " + gs.Player.Name);
-                Console.WriteLine("Your dota account id: " + gs.Player.AccountID);
+                Console.WriteLine("You DO NOT have a blink dagger");
+            }
 
-                Console.WriteLine("Your hero healing: " + gs.Player.HeroHealing);
-                Console.WriteLine("Your hero damage: " + gs.Player.HeroDamage);
-                Console.WriteLine("Your hero tower damage: " + gs.Player.TowerDamage);
+            Console.WriteLine("Talent Tree:");
+            for (int i = gs.Hero.LocalPlayer.TalentTree.Length - 1; i >= 0; i--)
+            {
+                var level = gs.Hero.LocalPlayer.TalentTree[i];
+                Console.WriteLine($"{level}");
+            }
 
-                Console.WriteLine("Radiant Score: " + gs.Map.RadiantScore);
-                Console.WriteLine("Dire Score: " + gs.Map.DireScore);
-                Console.WriteLine("Is game paused: " + gs.Map.IsPaused);
-
-                Console.WriteLine("Hero ID: " + gs.Hero.ID);
-                Console.WriteLine("Hero XP: " + gs.Hero.Experience);
-                Console.WriteLine("Hero has Aghanims Shard upgrade: " + gs.Hero.HasAghanimsShardUpgrade);
-
-                Console.WriteLine("Hero Health: " + gs.Hero.Health);
-                for (int i = 0; i < gs.Abilities.Count; i++)
+            foreach(var game_event in gs.Events)
+            {
+                if (game_event.EventType == Dota2GSI.Nodes.EventType.Bounty_rune_pickup)
                 {
-                    Console.WriteLine("Ability {0} = {1}", i, gs.Abilities[i].Name);
+                    Console.WriteLine("Bounty rune was picked up!");
+                    break;
                 }
-                Console.WriteLine("First slot inventory: " + gs.Items.GetInventoryAt(0).Name);
-                Console.WriteLine("Second slot inventory: " + gs.Items.GetInventoryAt(1).Name);
-                Console.WriteLine("Third slot inventory: " + gs.Items.GetInventoryAt(2).Name);
-                Console.WriteLine("Fourth slot inventory: " + gs.Items.GetInventoryAt(3).Name);
-                Console.WriteLine("Fifth slot inventory: " + gs.Items.GetInventoryAt(4).Name);
-                Console.WriteLine("Sixth slot inventory: " + gs.Items.GetInventoryAt(5).Name);
-
-                Console.WriteLine("Teleport item slot: " + gs.Items.Teleport.Name);
-                Console.WriteLine("Neutral item slot: " + gs.Items.Neutral.Name);
-
-                if (gs.Items.InventoryContains("item_blink"))
+                else if (game_event.EventType == Dota2GSI.Nodes.EventType.Roshan_killed)
                 {
-                    Console.WriteLine("You have a blink dagger");
-                }
-                else
-                {
-                    Console.WriteLine("You DO NOT have a blink dagger");
-                }
-
-                Console.WriteLine("Talent Tree:");
-                for (int i = gs.Hero.TalentTree.Length - 1; i >= 0; i--)
-                {
-                    var level = gs.Hero.TalentTree[i];
-                    Console.WriteLine($"{level}");
+                    Console.WriteLine("Roshan was brutally killed!");
+                    break;
                 }
             }
+
+            Console.WriteLine("Press ESC to quit");
         }
 
         private static void CreateGsifile()
@@ -155,6 +134,7 @@ namespace Dota2GSI_Example_program
                     "    \"heartbeat\"     \"30.0\"",
                     "    \"data\"",
                     "    {",
+                    "        \"auth\"           \"1\"",
                     "        \"provider\"       \"1\"",
                     "        \"map\"            \"1\"",
                     "        \"player\"         \"1\"",
