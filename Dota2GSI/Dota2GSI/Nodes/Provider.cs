@@ -35,6 +35,7 @@ namespace Dota2GSI.Nodes
             TimeStamp = GetString("timestamp");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

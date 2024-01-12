@@ -16,7 +16,7 @@ namespace Dota2GSI.Nodes
         public readonly Dictionary<int, string> Items = new Dictionary<int, string>();
 
         private Regex _item_regex = new Regex(@"item(\d+)");
-        public ItemsDrop(JObject parsed_data = null) : base(parsed_data)
+        internal ItemsDrop(JObject parsed_data = null) : base(parsed_data)
         {
             GetMatchingStrings(parsed_data, _item_regex, (Match match, string value) =>
             {
@@ -26,6 +26,7 @@ namespace Dota2GSI.Nodes
             });
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -79,7 +80,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         public readonly ItemsDrop Drops;
 
-        public Roshan(JObject parsed_data = null) : base(parsed_data)
+        internal Roshan(JObject parsed_data = null) : base(parsed_data)
         {
             Location = new Vector2D(GetInt("xpos"), GetInt("ypos"));
             Health = GetInt("health");
@@ -91,6 +92,7 @@ namespace Dota2GSI.Nodes
             Drops = new ItemsDrop(GetJObject("items_drop"));
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

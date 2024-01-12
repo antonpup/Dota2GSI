@@ -66,6 +66,7 @@ namespace Dota2GSI.Nodes
             IsWinner = (game_state.Map.WinningTeam == team);
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

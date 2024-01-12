@@ -23,6 +23,7 @@ namespace Dota2GSI.Nodes
             MaxHealth = GetInt("max_health");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

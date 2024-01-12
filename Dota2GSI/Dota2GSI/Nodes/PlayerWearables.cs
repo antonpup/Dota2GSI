@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
@@ -27,6 +26,7 @@ namespace Dota2GSI.Nodes
             Style = style;
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -82,6 +82,7 @@ namespace Dota2GSI.Nodes
             });
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

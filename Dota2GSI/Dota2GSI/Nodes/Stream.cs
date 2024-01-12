@@ -47,6 +47,7 @@ namespace Dota2GSI.Nodes
             VodURL = GetString("vod_url");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

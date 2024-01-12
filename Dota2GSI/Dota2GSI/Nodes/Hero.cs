@@ -1,11 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 namespace Dota2GSI.Nodes
 {
@@ -246,6 +242,7 @@ namespace Dota2GSI.Nodes
             AttributesLevel = GetInt("attributes_level");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -335,7 +332,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Gets the hero details for a specific team.
         /// </summary>
-        /// <param name="team_id">The team.</param>
+        /// <param name="team">The team.</param>
         /// <returns>A dictionary of player id mapped to their hero details.</returns>
         public Dictionary<int, HeroDetails> GetForTeam(PlayerTeam team)
         {
@@ -368,6 +365,7 @@ namespace Dota2GSI.Nodes
             return new HeroDetails();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -376,6 +374,7 @@ namespace Dota2GSI.Nodes
                 $"]";
         }
 
+        /// <inheritdoc/>
         public override bool IsValid()
         {
             return LocalPlayer.IsValid() || base.IsValid();

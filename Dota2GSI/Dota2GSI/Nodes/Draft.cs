@@ -47,6 +47,7 @@ namespace Dota2GSI.Nodes
             });
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -113,7 +114,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Gets the draft for a specific team.
         /// </summary>
-        /// <param name="team_id">The team.</param>
+        /// <param name="team">The team.</param>
         /// <returns>The draft details.</returns>
         public DraftDetails GetForTeam(PlayerTeam team)
         {
@@ -125,6 +126,7 @@ namespace Dota2GSI.Nodes
             return new DraftDetails();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

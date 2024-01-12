@@ -256,6 +256,7 @@ namespace Dota2GSI.Nodes
             return hashCode;
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[X: {X}, Y: {Y}]";

@@ -253,6 +253,7 @@ namespace Dota2GSI.Nodes
             WardPurchaseCooldown = GetInt("ward_purchase_cooldown");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

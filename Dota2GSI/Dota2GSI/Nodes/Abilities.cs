@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
@@ -60,6 +59,7 @@ namespace Dota2GSI.Nodes
             return _abilities.GetEnumerator();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -121,7 +121,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Gets the abilities for a specific team.
         /// </summary>
-        /// <param name="team_id">The team.</param>
+        /// <param name="team">The team.</param>
         /// <returns>A dictionary of player id mapped to their ability details.</returns>
         public Dictionary<int, AbilityDetails> GetForTeam(PlayerTeam team)
         {
@@ -154,6 +154,7 @@ namespace Dota2GSI.Nodes
             return new AbilityDetails();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -162,6 +163,7 @@ namespace Dota2GSI.Nodes
                 $"]";
         }
 
+        /// <inheritdoc/>
         public override bool IsValid()
         {
             return LocalPlayer.IsValid() || base.IsValid();

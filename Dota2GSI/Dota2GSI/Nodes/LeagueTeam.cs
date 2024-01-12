@@ -1,8 +1,4 @@
 using Newtonsoft.Json.Linq;
-using System.Net.NetworkInformation;
-using System.Security.Policy;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 namespace Dota2GSI.Nodes
 {
@@ -21,7 +17,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         public readonly string TeamTag;
 
-        // <summary>
+        /// <summary>
         /// The team name.
         /// </summary>
         public readonly string TeamName;
@@ -39,6 +35,7 @@ namespace Dota2GSI.Nodes
             SeriesWins = GetInt("series_wins");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

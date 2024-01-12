@@ -71,6 +71,7 @@ namespace Dota2GSI.Nodes
             ChargeCooldown = GetInt("charge_cooldown");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

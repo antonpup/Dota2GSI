@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 namespace Dota2GSI.Nodes
 {
@@ -21,12 +20,13 @@ namespace Dota2GSI.Nodes
         /// </summary>
         public readonly string Name;
 
-        public CourierItem(JObject parsed_data = null) : base(parsed_data)
+        internal CourierItem(JObject parsed_data = null) : base(parsed_data)
         {
             OwnerID = GetInt("owner");
             Name = GetString("name");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -98,7 +98,7 @@ namespace Dota2GSI.Nodes
 
         private Regex _item_regex = new Regex(@"item(\d+)");
 
-        public Courier(JObject parsed_data = null) : base(parsed_data)
+        internal Courier(JObject parsed_data = null) : base(parsed_data)
         {
             Health = GetInt("health");
             MaxHealth = GetInt("max_health");
@@ -120,6 +120,7 @@ namespace Dota2GSI.Nodes
             });
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -179,6 +180,7 @@ namespace Dota2GSI.Nodes
             return new Courier();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

@@ -64,6 +64,7 @@ namespace Dota2GSI.Nodes
             MinimapElements = game_state.Minimap.GetByUnitName(Hero.Name);
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

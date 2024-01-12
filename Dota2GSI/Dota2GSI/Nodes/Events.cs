@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -105,6 +104,7 @@ namespace Dota2GSI.Nodes
             return _events.GetEnumerator();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

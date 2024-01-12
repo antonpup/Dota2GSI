@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 namespace Dota2GSI.Nodes
 {
@@ -80,6 +78,7 @@ namespace Dota2GSI.Nodes
             DropAfterTime = GetInt("drop_after_time");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -129,6 +128,7 @@ namespace Dota2GSI.Nodes
             PlayerID = GetInt("player_id");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -189,6 +189,7 @@ namespace Dota2GSI.Nodes
             });
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -253,7 +254,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Gets the neutral items for a specific team.
         /// </summary>
-        /// <param name="team_id">The team.</param>
+        /// <param name="team">The team.</param>
         /// <returns>The neutral items details.</returns>
         public TeamNeutralItems GetForTeam(PlayerTeam team)
         {
@@ -265,6 +266,7 @@ namespace Dota2GSI.Nodes
             return new TeamNeutralItems();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

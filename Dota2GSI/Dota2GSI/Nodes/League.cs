@@ -141,6 +141,7 @@ namespace Dota2GSI.Nodes
             UsedCoinToss = GetBool("used_coin_toss");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -336,6 +337,7 @@ namespace Dota2GSI.Nodes
             }
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

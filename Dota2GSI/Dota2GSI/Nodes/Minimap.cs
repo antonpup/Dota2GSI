@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using static System.Net.Mime.MediaTypeNames;
-using System.Xml.Linq;
 
 namespace Dota2GSI.Nodes
 {
@@ -57,7 +55,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         public readonly int VisionRange;
 
-        public MinimapElement(JObject parsed_data = null) : base(parsed_data)
+        internal MinimapElement(JObject parsed_data = null) : base(parsed_data)
         {
             Location = new Vector2D(GetInt("xpos"), GetInt("ypos"));
             RemainingTime = GetFloat("remainingtime");
@@ -70,6 +68,7 @@ namespace Dota2GSI.Nodes
             VisionRange = GetInt("visionrange");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -156,6 +155,7 @@ namespace Dota2GSI.Nodes
             return found_elements;
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

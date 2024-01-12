@@ -136,6 +136,7 @@ namespace Dota2GSI.Nodes
             }
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

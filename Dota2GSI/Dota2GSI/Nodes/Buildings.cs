@@ -75,7 +75,7 @@ namespace Dota2GSI.Nodes
         private Regex _racks_regex = new Regex(@"rax_(melee|range)_(top|mid|bot)");
         private Regex _ancient_regex = new Regex(@"_fort");
 
-        public BuildingLayout(JObject parsed_data = null)
+        internal BuildingLayout(JObject parsed_data = null)
         {
             if (parsed_data != null)
             {
@@ -148,6 +148,7 @@ namespace Dota2GSI.Nodes
             }
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
@@ -221,6 +222,7 @@ namespace Dota2GSI.Nodes
             return new BuildingLayout();
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +

@@ -150,6 +150,7 @@ namespace Dota2GSI.Nodes
             Charges = GetInt("charges");
         }
 
+        /// <inheritdoc/>
         public override string ToString()
         {
             return $"[" +
