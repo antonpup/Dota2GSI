@@ -45,27 +45,43 @@
   <ItemGroup>
     <Compile Include="GameState.cs" />
     <Compile Include="GameStateListener.cs" />
+    <Compile Include="Nodes\AbilitiesProvider\AbilityDetails.cs" />
+    <Compile Include="Nodes\BuildingsProvider\BuildingLayout.cs" />
+    <Compile Include="Nodes\CouriersProvider\CourierItem.cs" />
+    <Compile Include="Nodes\CouriersProvider\Courier.cs" />
     <Compile Include="Nodes\Couriers.cs" />
+    <Compile Include="Nodes\DraftProvider\DraftDetails.cs" />
     <Compile Include="Nodes\Events.cs" />
-    <Compile Include="Nodes\Event.cs" />
-    <Compile Include="Nodes\FullTeamDetails.cs" />
-    <Compile Include="Nodes\FullPlayerDetails.cs" />
+    <Compile Include="Nodes\EventsProvider\Event.cs" />
+    <Compile Include="Nodes\Helpers\FullTeamDetails.cs" />
+    <Compile Include="Nodes\Helpers\FullPlayerDetails.cs" />
+    <Compile Include="Nodes\HeroProvider\HeroDetails.cs" />
+    <Compile Include="Nodes\ItemsProvider\ItemDetails.cs" />
+    <Compile Include="Nodes\MinimapProvider\MinimapElement.cs" />
+    <Compile Include="Nodes\NeutralItemsProvider\NeutralItem.cs" />
+    <Compile Include="Nodes\PlayerProvider\PlayerDetails.cs" />
+    <Compile Include="Nodes\RoshanProvider\ItemsDrop.cs" />
+    <Compile Include="Nodes\WearablesProvider\WearableItem.cs" />
+    <Compile Include="Nodes\Helpers\Vector2D.cs" />
+    <Compile Include="Nodes\NeutralItemsProvider\TeamNeutralItems.cs" />
+    <Compile Include="Nodes\NeutralItemsProvider\NeutralTierInfo.cs" />
+    <Compile Include="Nodes\LeagueProvider\SelectionPriority.cs" />
     <Compile Include="Nodes\Roshan.cs" />
     <Compile Include="Nodes\Minimap.cs" />
     <Compile Include="Nodes\NeutralItems.cs" />
     <Compile Include="Nodes\Wearables.cs" />
     <Compile Include="Nodes\Draft.cs" />
-    <Compile Include="Nodes\PlayerWearables.cs" />
-    <Compile Include="Nodes\Stream.cs" />
-    <Compile Include="Nodes\LeagueTeam.cs" />
+    <Compile Include="Nodes\WearablesProvider\PlayerWearables.cs" />
+    <Compile Include="Nodes\LeagueProvider\Stream.cs" />
+    <Compile Include="Nodes\LeagueProvider\LeagueTeam.cs" />
     <Compile Include="Nodes\League.cs" />
-    <Compile Include="Nodes\Building.cs" />
+    <Compile Include="Nodes\BuildingsProvider\Building.cs" />
     <Compile Include="Nodes\Buildings.cs" />
     <Compile Include="Nodes\Abilities.cs" />
-    <Compile Include="Nodes\Ability.cs" />
+    <Compile Include="Nodes\AbilitiesProvider\Ability.cs" />
     <Compile Include="Nodes\Auth.cs" />
     <Compile Include="Nodes\Hero.cs" />
-    <Compile Include="Nodes\Item.cs" />
+    <Compile Include="Nodes\ItemsProvider\Item.cs" />
     <Compile Include="Nodes\Items.cs" />
     <Compile Include="Nodes\Map.cs" />
     <Compile Include="Nodes\Node.cs" />
@@ -76,6 +92,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

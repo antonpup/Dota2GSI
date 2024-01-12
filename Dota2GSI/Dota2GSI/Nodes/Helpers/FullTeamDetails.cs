@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Dota2GSI.Nodes.BuildingsProvider;
+using Dota2GSI.Nodes.DraftProvider;
+using Dota2GSI.Nodes.EventsProvider;
+using Dota2GSI.Nodes.MinimapProvider;
+using Dota2GSI.Nodes.NeutralItemsProvider;
+using System.Collections.Generic;
 
-namespace Dota2GSI.Nodes
+namespace Dota2GSI.Nodes.Helpers
 {
     /// <summary>
     /// Class representing full team details composed from GameState data.

@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace Dota2GSI.Nodes
+namespace Dota2GSI.Nodes.LeagueProvider
 {
     /// <summary>
     /// A class representing stream information.

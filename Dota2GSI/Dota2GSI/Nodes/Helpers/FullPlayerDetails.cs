@@ -1,6 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using Dota2GSI.Nodes.AbilitiesProvider;
+using Dota2GSI.Nodes.CouriersProvider;
+using Dota2GSI.Nodes.HeroProvider;
+using Dota2GSI.Nodes.ItemsProvider;
+using Dota2GSI.Nodes.MinimapProvider;
+using Dota2GSI.Nodes.PlayerProvider;
+using Dota2GSI.Nodes.WearablesProvider;
+using System.Collections.Generic;
 
-namespace Dota2GSI.Nodes
+namespace Dota2GSI.Nodes.Helpers
 {
     /// <summary>
     /// Class representing full player details composed from GameState data.
