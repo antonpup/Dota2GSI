@@ -1,104 +1,38 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}</ProjectGuid>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dota2GSI</RootNamespace>
-    <AssemblyName>Dota2GSI</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>Dota2GSI</AssemblyTitle>
+    <Description>A C# library to intrerface the Game State Integration found in Dota 2.</Description>
+    <Product>Dota2GSI</Product>
+    <Copyright>Copyright ©  2024</Copyright>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
+    <FileVersion>2.0.0</FileVersion>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>$(AssemblyName)</Title>
+    <PackageProjectUrl>https://github.com/antonpup/Dota2GSI</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/antonpup/Dota2GSI</RepositoryUrl>
+    <Version>$(AssemblyVersion)</Version>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Dota2GSI.XML</DocumentationFile>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameState.cs" />
-    <Compile Include="GameStateListener.cs" />
-    <Compile Include="Nodes\AbilitiesProvider\AbilityDetails.cs" />
-    <Compile Include="Nodes\BuildingsProvider\BuildingLayout.cs" />
-    <Compile Include="Nodes\CouriersProvider\CourierItem.cs" />
-    <Compile Include="Nodes\CouriersProvider\Courier.cs" />
-    <Compile Include="Nodes\Couriers.cs" />
-    <Compile Include="Nodes\DraftProvider\DraftDetails.cs" />
-    <Compile Include="Nodes\Events.cs" />
-    <Compile Include="Nodes\EventsProvider\Event.cs" />
-    <Compile Include="Nodes\Helpers\FullTeamDetails.cs" />
-    <Compile Include="Nodes\Helpers\FullPlayerDetails.cs" />
-    <Compile Include="Nodes\HeroProvider\HeroDetails.cs" />
-    <Compile Include="Nodes\ItemsProvider\ItemDetails.cs" />
-    <Compile Include="Nodes\MinimapProvider\MinimapElement.cs" />
-    <Compile Include="Nodes\NeutralItemsProvider\NeutralItem.cs" />
-    <Compile Include="Nodes\PlayerProvider\PlayerDetails.cs" />
-    <Compile Include="Nodes\RoshanProvider\ItemsDrop.cs" />
-    <Compile Include="Nodes\WearablesProvider\WearableItem.cs" />
-    <Compile Include="Nodes\Helpers\Vector2D.cs" />
-    <Compile Include="Nodes\NeutralItemsProvider\TeamNeutralItems.cs" />
-    <Compile Include="Nodes\NeutralItemsProvider\NeutralTierInfo.cs" />
-    <Compile Include="Nodes\LeagueProvider\SelectionPriority.cs" />
-    <Compile Include="Nodes\Roshan.cs" />
-    <Compile Include="Nodes\Minimap.cs" />
-    <Compile Include="Nodes\NeutralItems.cs" />
-    <Compile Include="Nodes\Wearables.cs" />
-    <Compile Include="Nodes\Draft.cs" />
-    <Compile Include="Nodes\WearablesProvider\PlayerWearables.cs" />
-    <Compile Include="Nodes\LeagueProvider\Stream.cs" />
-    <Compile Include="Nodes\LeagueProvider\LeagueTeam.cs" />
-    <Compile Include="Nodes\League.cs" />
-    <Compile Include="Nodes\BuildingsProvider\Building.cs" />
-    <Compile Include="Nodes\Buildings.cs" />
-    <Compile Include="Nodes\Abilities.cs" />
-    <Compile Include="Nodes\AbilitiesProvider\Ability.cs" />
-    <Compile Include="Nodes\Auth.cs" />
-    <Compile Include="Nodes\Hero.cs" />
-    <Compile Include="Nodes\ItemsProvider\Item.cs" />
-    <Compile Include="Nodes\Items.cs" />
-    <Compile Include="Nodes\Map.cs" />
-    <Compile Include="Nodes\Node.cs" />
-    <Compile Include="Nodes\Player.cs" />
-    <Compile Include="Nodes\Provider.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

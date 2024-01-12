@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dota2GSI", "Dota2GSI\Dota2GSI.csproj", "{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dota2GSI", "Dota2GSI\Dota2GSI.csproj", "{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
