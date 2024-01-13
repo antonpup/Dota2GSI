@@ -1,32 +1,30 @@
 # Dota 2 GSI (Game State Integration)
-A C# library to interface the Game State Integration found in Dota 2.
+A C# library to interface with the Game State Integration found in Dota 2.
 
 ## What is Game State Integration
-
-Game State Integration hasn't been officially released for Dota 2, but it has been available for Counter-Strike: Global Offensive for a few months now. The concept is the same as CSGO's, you can read about [Counter-Strike Game State Integration here](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration).
+You can read about Game State Integration for Counter-Strike: Global Offensive [here](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration).
 
 ## About Dota 2 GSI
-
 This library provides easy means of implementing Game State Integration from Dota 2 into C# applications. Library listens for HTTP POST requests made by the game on a specific address and port. Upon receiving a request, the game state is parsed and can be used.
 
 JSON parsing is done though help of Newtonsoft's [JSON.Net Framework](http://www.newtonsoft.com/json).
 
 After starting the `GameStateListener` instance, it will continuously listen for incoming HTTP requests. Upon a received request, the contents will be parsed into a `GameState` object.
 
-
 ## Installation
-Via NuGet:
+Install from [nuget](https://www.nuget.org/packages/Dota2GSI).
 
-```
-Install-Package Dota2GSI
-```
+## Manual installation:
+1. Get the [latest binaries](https://github.com/antonpup/Dota2GSI/releases/latest)
+2. Get the [JSON Framework .dll by Newtonsoft](https://github.com/JamesNK/Newtonsoft.Json/releases)
+3. Extract Newtonsoft.Json.dll from `Bin\Net80\Newtonsoft.Json.dll`
+4. Add a reference to both Dota2GSI.dll and Newtonsoft.Json.dll in your project
 
-Manual installation:
-
-1. Get the [latest binaries](https://github.com/antonpup/Dota2GSI/releases/latest)  
-2. Get the [JSON Framework .dll by Newtonsoft](https://github.com/JamesNK/Newtonsoft.Json/releases)  
-3. Extract Newtonsoft.Json.dll from `Bin\Net45\Newtonsoft.Json.dll`  
-4. Add a reference to both Dota2GSI.dll and Newtonsoft.Json.dll in your project  
+## Build Dota 2 GSI
+1. Make sure you have Visual Studio installed with `.NET desktop development` workload and `.Net 8.0 Runtime` individual component.
+2. Make sure you have CMake 3.26 or later installed from [https://cmake.org/](https://cmake.org/).
+3. In the repository root directory run: `cmake -B build/ .` to generate the project solution file.
+4. Open the project solution located in `build/Dota2GSI.sln`.
 
 ## Usage
 1. Create a `GameStateListener` instance by providing a port or passing a specific URI:
@@ -57,7 +55,6 @@ gsl.NewGameState += new NewGameStateHandler(OnNewGameState);
 4. Use `GameStateListener.Start()` to start listening for HTTP POST requests from the game client. This method will return `false` if starting the listener fails (most likely due to insufficient privileges).
 
 ## Layout
-
 ```
 GameState
 +-- Auth
@@ -169,6 +166,7 @@ GameState
 |   +-- LocalPlayer
 |   |   +-- Count
 |   |   +-- Ability[]
+|   |   |   \
 |   |   |   +-- Name
 |   |   |   +-- Level
 |   |   |   +-- CanCast
@@ -265,6 +263,7 @@ GameState
 |   +-- FirstTeamID
 |   +-- SecondTeamID
 |   +-- Stream[]
+|   |   \
 |   |   +-- StreamID
 |   |   +-- Language
 |   |   +-- Name
@@ -386,7 +385,6 @@ Console.WriteLine("You are playing as " + HeroName + " with " + Health + "/" + M
 ```
 
 ## Null value handling
-
 In case the JSON did not contain the requested information, these values will be returned:
 
 Type    |Default value
@@ -401,11 +399,9 @@ string  | String.Empty
 All Enums have a value `enum.Undefined` that serves the same purpose.
 
 ## Example program
-
 A user, [judge2020](https://github.com/judge2020), has created an example program to demonstrate Dota2GSI functionalities. It can be found in the "Dota2GSI Example program" folder.
 
 ## Example implementation
-
 Prints "You bought an item" when you buy an item, and "It is night time" when it is night time.
 
 ```C#
