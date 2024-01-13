@@ -248,3 +248,17 @@ Dota2GSI/nuget.exe
 # NuGet v3's project.json files produces more ignoreable files
 *.nuget.props
 *.nuget.targets
+
+# Cmake files
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+build/

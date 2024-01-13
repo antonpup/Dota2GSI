@@ -13,30 +13,32 @@ jobs:
   variables:
     runs-on: windows-latest
     outputs:
-      version_suffix: ${{ steps.get_version_suffix.outputs.suffix }}
+      build_number: ${{ steps.get_build_num.outputs.build_number }}
     steps:
-    - name: Generating version suffix
+    - name: Generating build number
       uses: actions/github-script@v7
-      id: get_version_suffix
+      id: get_build_num
       with:
         script: |
-          core.setOutput('suffix', "${{ github.run_id }}".substr(-4, 4));
+          core.setOutput('build_number', "${{ github.run_id }}".substr(-4, 4));
   build:
     needs: [variables]
     runs-on: windows-latest
     env:
-      solution_path: Dota2GSI\Dota2GSI.sln
-      build_path: Dota2GSI\Dota2GSI\bin\Release\net8.0\
+      solution_path: build\Dota2GSI.sln
+      build_path: build\binaries\Release\
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+    - name: Generate project
+      run: cmake -B build/ -A x64 -D BUILD_NUMBER=${{ needs.variables.outputs.build_number }} .
     - name: Restore dependencies
       run: dotnet restore $env:solution_path
     - name: Build
-      run: dotnet build $env:solution_path --no-restore -c Release -p:VersionSuffix=.${{ needs.variables.outputs.version_suffix }}
+      run: dotnet build $env:solution_path --no-restore -c Release
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
