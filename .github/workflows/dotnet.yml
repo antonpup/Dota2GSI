@@ -15,17 +15,18 @@ jobs:
     outputs:
       version_suffix: ${{ steps.get_version_suffix.outputs.suffix }}
     steps:
-      - name: Generating version suffix
-        uses: actions/github-script@v7
-        id: get_version_suffix
-        with:
-          script: |
-            core.setOutput('suffix', "${{ github.run_id }}".substr(-4, 4));
+    - name: Generating version suffix
+      uses: actions/github-script@v7
+      id: get_version_suffix
+      with:
+        script: |
+          core.setOutput('suffix', "${{ github.run_id }}".substr(-4, 4));
   build:
     needs: [variables]
     runs-on: windows-latest
     env:
-      Solution_Path: Dota2GSI\Dota2GSI.sln
+      solution_path: Dota2GSI\Dota2GSI.sln
+      build_path: Dota2GSI\Dota2GSI\bin\Release\net8.0\
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -33,6 +34,11 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet restore $env:Solution_Path
+      run: dotnet restore $env:solution_path
     - name: Build
-      run: dotnet build $env:Solution_Path --no-restore -c Release -p:VersionSuffix=.${{ needs.variables.outputs.version_suffix }}
+      run: dotnet build $env:solution_path --no-restore -c Release -p:VersionSuffix=.${{ needs.variables.outputs.version_suffix }}
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: ${{ env.build_path }}
