@@ -20,6 +20,26 @@ SET(SOURCES
     EventHandler.cs
     GameState.cs
     GameStateListener.cs
+    GameStateHandler.cs
+    EventMessages/AbilitiesEvents.cs
+    EventMessages/AuthEvents.cs
+    EventMessages/BaseEvent.cs
+    EventMessages/BuildingsEvents.cs
+    EventMessages/CouriersEvents.cs
+    EventMessages/DotaGameEvent.cs
+    EventMessages/DraftEvents.cs
+    EventMessages/EventsEvents.cs
+    EventMessages/HeroEvents.cs
+    EventMessages/ItemsEvents.cs
+    EventMessages/LeagueEvents.cs
+    EventMessages/MapEvents.cs
+    EventMessages/MinimapEvents.cs
+    EventMessages/NeutralItemsEvents.cs
+    EventMessages/PlayerEvents.cs
+    EventMessages/ProviderEvents.cs
+    EventMessages/RoshanEvents.cs
+    EventMessages/UpdateEvent.cs
+    EventMessages/WearablesEvents.cs
     Nodes/Roshan.cs
     Nodes/HeroProvider/HeroDetails.cs
     Nodes/CouriersProvider/Courier.cs
