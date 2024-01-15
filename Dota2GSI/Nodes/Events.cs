@@ -17,7 +17,7 @@ namespace Dota2GSI.Nodes
         /// </summary>
         public int Count { get { return _events.Count; } }
 
-        internal Events(JObject parsed_data = null) : base()
+        internal Events(JArray parsed_data = null) : base()
         {
             if (parsed_data != null)
             {

@@ -53,6 +53,18 @@ namespace Dota2GSI.Nodes
             return null;
         }
 
+        internal JArray GetJArray(string property_name)
+        {
+            var jtoken = GetJToken(property_name);
+
+            if (jtoken != null)
+            {
+                return jtoken as JArray;
+            }
+
+            return null;
+        }
+
 
         internal string GetString(string property_name)
         {

@@ -173,7 +173,7 @@ namespace Dota2GSI
             {
                 if (events == null)
                 {
-                    events = new Events(GetJObject("events"));
+                    events = new Events(GetJArray("events"));
                 }
 
                 return events;
