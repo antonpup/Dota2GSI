@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Dota2GSI;
+using Dota2GSI.EventMessages;
+using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.IO;
-using Dota2GSI;
-using Microsoft.Win32;
 using System.Threading;
 
 namespace Dota2GSI_Example_program
@@ -24,7 +25,8 @@ namespace Dota2GSI_Example_program
             }
 
             _gsl = new GameStateListener(4000);
-            _gsl.NewGameState += OnNewGameState;
+            // _gsl.NewGameState += OnNewGameState; // `NewGameState` can be used alongside `GameEvent`. Just not in this example.
+            _gsl.GameEvent += OnGameEvent; // `GameEvent` can be used alongside `NewGameState`.
 
             if (!_gsl.Start())
             {
@@ -43,6 +45,130 @@ namespace Dota2GSI_Example_program
                 }
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
+
+        private static void OnGameEvent(DotaGameEvent game_event)
+        {
+            if (game_event is ProviderStateUpdated provider)
+            {
+                Console.WriteLine($"Current Game version: {provider.New.Version}");
+                Console.WriteLine($"Current Game time stamp: {provider.New.TimeStamp}");
+            }
+            else if (game_event is PlayerDetailsChanged player_details)
+            {
+                Console.WriteLine($"Player Name: {player_details.New.Name}");
+                Console.WriteLine($"Player Account ID: {player_details.New.AccountID}");
+            }
+            else if (game_event is TimeOfDayChanged time_of_day)
+            {
+                Console.WriteLine($"Is daytime: {time_of_day.IsDaytime} Is Nightstalker night: {time_of_day.IsNightstalkerNight}");
+            }
+            else if (game_event is TeamScoreChanged team_score)
+            {
+                Console.WriteLine($"New score for {team_score.Team} is {team_score.New}");
+            }
+            else if (game_event is PauseStateChanged paused_state)
+            {
+                Console.WriteLine($"New pause state is {paused_state.New}");
+            }
+            else if (game_event is HeroDetailsChanged hero_details)
+            {
+                Console.WriteLine($"Player {hero_details.PlayerID} Hero ID: " + hero_details.New.ID);
+                Console.WriteLine($"Player {hero_details.PlayerID} Hero XP: " + hero_details.New.Experience);
+                Console.WriteLine($"Player {hero_details.PlayerID} Hero has Aghanims Shard upgrade: " + hero_details.New.HasAghanimsShardUpgrade);
+                Console.WriteLine($"Player {hero_details.PlayerID} Hero Health: " + hero_details.New.Health);
+                Console.WriteLine($"Player {hero_details.PlayerID} Hero Mana: " + hero_details.New.Mana);
+                Console.WriteLine($"Player {hero_details.PlayerID} Hero Location: " + hero_details.New.Location);
+            }
+            else if (game_event is AbilityUpdated ability)
+            {
+                Console.WriteLine($"Player {ability.PlayerID} updated their ability: " + ability.New);
+            }
+            else if (game_event is ItemDetailsChanged item_details)
+            {
+                Console.WriteLine($"Player {item_details.PlayerID} updated their items: " + item_details.New);
+
+                if (item_details.New.InventoryContains("item_blink"))
+                {
+                    Console.WriteLine($"Player {item_details.PlayerID} has a blink dagger.");
+                }
+                else
+                {
+                    Console.WriteLine($"Player {item_details.PlayerID} DOES NOT have a blink dagger.");
+                }
+            }
+            else if (game_event is PlayerEvent player_event)
+            {
+                Console.WriteLine($"Player {player_event.PlayerID} did a thing: " + player_event.Value.EventType);
+            }
+            else if (game_event is TeamEvent team_event)
+            {
+                Console.WriteLine($"Team {team_event.Team} did a thing: " + team_event.Value.EventType);
+            }
+            else if (game_event is TowerUpdated tower_updated)
+            {
+                if (tower_updated.New.Health < tower_updated.Previous.Health)
+                {
+                    Console.WriteLine($"{tower_updated.Team} {tower_updated.Location} tower is under attack! Health: " + tower_updated.New.Health);
+                }
+                else if (tower_updated.New.Health > tower_updated.Previous.Health)
+                {
+                    Console.WriteLine($"{tower_updated.Team} {tower_updated.Location} tower is being healed! Health: " + tower_updated.New.Health);
+                }
+            }
+            else if (game_event is TowerDestroyed tower_destroyed)
+            {
+                Console.WriteLine($"{tower_destroyed.Team} {tower_destroyed.Location} tower is destroyed!");
+            }
+            else if (game_event is RacksUpdated racks_updated)
+            {
+                if (racks_updated.New.Health < racks_updated.Previous.Health)
+                {
+                    Console.WriteLine($"{racks_updated.Team} {racks_updated.Location} {racks_updated.RacksType} racks are under attack! Health: " + racks_updated.New.Health);
+                }
+                else if (racks_updated.New.Health > racks_updated.Previous.Health)
+                {
+                    Console.WriteLine($"{racks_updated.Team} {racks_updated.Location} {racks_updated.RacksType} tower are being healed! Health: " + racks_updated.New.Health);
+                }
+            }
+            else if (game_event is RacksDestroyed racks_destroyed)
+            {
+                Console.WriteLine($"{racks_destroyed.Team} {racks_destroyed.Location} {racks_destroyed.RacksType} racks is destroyed!");
+            }
+            else if (game_event is AncientUpdated ancient_updated)
+            {
+                if (ancient_updated.New.Health < ancient_updated.Previous.Health)
+                {
+                    Console.WriteLine($"{ancient_updated.Team} ancient is under attack! Health: " + ancient_updated.New.Health);
+                }
+                else if (ancient_updated.New.Health > ancient_updated.Previous.Health)
+                {
+                    Console.WriteLine($"{ancient_updated.Team} ancient is being healed! Health: " + ancient_updated.New.Health);
+                }
+            }
+            else if (game_event is TeamNeutralItemsUpdated team_neutral_items_updated)
+            {
+                Console.WriteLine($"{team_neutral_items_updated.Team} neutral items updated: {team_neutral_items_updated.New}");
+            }
+            else if (game_event is CourierUpdated courier_updated)
+            {
+                Console.WriteLine($"Player {courier_updated.PlayerID} courier updated: {courier_updated.New}");
+            }
+            else if (game_event is TeamDraftDetailsUpdated draft_details_updated)
+            {
+                Console.WriteLine($"{draft_details_updated.Team} draft details updated: {draft_details_updated.New}");
+            }
+            else if (game_event is TeamDefeat team_defeat)
+            {
+                Console.WriteLine($"{team_defeat.Team} lost the game.");
+            }
+            else if (game_event is TeamVictory team_victory)
+            {
+                Console.WriteLine($"{team_victory.Team} won the game!");
+            }
+        }
+
+        // NewGameState example
+
         static void OnNewGameState(GameState gs)
         {
             Console.Clear();
@@ -93,7 +219,7 @@ namespace Dota2GSI_Example_program
                 Console.WriteLine($"{level}");
             }
 
-            foreach(var game_event in gs.Events)
+            foreach (var game_event in gs.Events)
             {
                 if (game_event.EventType == Dota2GSI.Nodes.EventsProvider.EventType.Bounty_rune_pickup)
                 {
