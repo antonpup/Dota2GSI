@@ -1,7 +1,6 @@
 using Dota2GSI.Nodes.DraftProvider;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
@@ -39,7 +38,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// The team draft information.
         /// </summary>
-        public readonly Dictionary<PlayerTeam, DraftDetails> Teams = new Dictionary<PlayerTeam, DraftDetails>();
+        public readonly NodeMap<PlayerTeam, DraftDetails> Teams = new NodeMap<PlayerTeam, DraftDetails>();
 
         private Regex _team_id_regex = new Regex(@"team(\d+)");
 
@@ -85,6 +84,36 @@ namespace Dota2GSI.Nodes
                 $"DireBonusTime: {DireBonusTime}, " +
                 $"Teams: {Teams}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Draft other &&
+                ActiveTeam == other.ActiveTeam &&
+                Pick == other.Pick &&
+                ActiveTeamRemainingTime == other.ActiveTeamRemainingTime &&
+                RadiantBonusTime == other.RadiantBonusTime &&
+                DireBonusTime == other.DireBonusTime &&
+                Teams.Equals(other.Teams);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 370669188;
+            hashCode = hashCode * -824566422 + ActiveTeam.GetHashCode();
+            hashCode = hashCode * -824566422 + Pick.GetHashCode();
+            hashCode = hashCode * -824566422 + ActiveTeamRemainingTime.GetHashCode();
+            hashCode = hashCode * -824566422 + RadiantBonusTime.GetHashCode();
+            hashCode = hashCode * -824566422 + DireBonusTime.GetHashCode();
+            hashCode = hashCode * -824566422 + Teams.GetHashCode();
+            return hashCode;
         }
     }
 }

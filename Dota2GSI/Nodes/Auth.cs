@@ -24,5 +24,25 @@ namespace Dota2GSI.Nodes
                 $"Token: {Token}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Auth other &&
+                Token.Equals(other.Token);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 930327133;
+            hashCode = hashCode * -487188821 + Token.GetHashCode();
+            return hashCode;
+        }
     }
 }

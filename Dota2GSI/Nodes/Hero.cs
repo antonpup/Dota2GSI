@@ -1,7 +1,6 @@
 ﻿using Dota2GSI.Nodes.HeroProvider;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
@@ -19,7 +18,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// The team players hero details. (SPECTATOR ONLY)
         /// </summary>
-        public readonly Dictionary<PlayerTeam, Dictionary<int, HeroDetails>> Teams = new Dictionary<PlayerTeam, Dictionary<int, HeroDetails>>();
+        public readonly NodeMap<PlayerTeam, NodeMap<int, HeroDetails>> Teams = new NodeMap<PlayerTeam, NodeMap<int, HeroDetails>>();
 
         private Regex _team_id_regex = new Regex(@"team(\d+)");
         private Regex _player_id_regex = new Regex(@"player(\d+)");
@@ -36,7 +35,7 @@ namespace Dota2GSI.Nodes
 
                 if (!Teams.ContainsKey(team_id))
                 {
-                    Teams.Add(team_id, new Dictionary<int, HeroDetails>());
+                    Teams.Add(team_id, new NodeMap<int, HeroDetails>());
                 }
 
                 GetMatchingObjects(obj, _player_id_regex, (Match sub_match, JObject sub_obj) =>
@@ -61,14 +60,14 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="team">The team.</param>
         /// <returns>A dictionary of player id mapped to their hero details.</returns>
-        public Dictionary<int, HeroDetails> GetForTeam(PlayerTeam team)
+        public NodeMap<int, HeroDetails> GetForTeam(PlayerTeam team)
         {
             if (Teams.ContainsKey(team))
             {
                 return Teams[team];
             }
 
-            return new Dictionary<int, HeroDetails>();
+            return new NodeMap<int, HeroDetails>();
         }
 
         /// <summary>
@@ -105,6 +104,28 @@ namespace Dota2GSI.Nodes
         public override bool IsValid()
         {
             return LocalPlayer.IsValid() || base.IsValid();
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Hero other &&
+                LocalPlayer.Equals(other.LocalPlayer) &&
+                Teams.Equals(other.Teams);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 222282086;
+            hashCode = hashCode * -422594062 + LocalPlayer.GetHashCode();
+            hashCode = hashCode * -422594062 + Teams.GetHashCode();
+            return hashCode;
         }
     }
 }

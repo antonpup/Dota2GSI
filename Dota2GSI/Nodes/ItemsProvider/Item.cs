@@ -168,5 +168,47 @@ namespace Dota2GSI.Nodes.ItemsProvider
                 $"Charges: {Charges}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Item other &&
+                Name.Equals(other.Name) &&
+                Purchaser == other.Purchaser &&
+                ItemLevel == other.ItemLevel &&
+                ContainsRune == other.ContainsRune &&
+                CanCast == other.CanCast &&
+                Cooldown == other.Cooldown &&
+                IsPassive == other.IsPassive &&
+                ItemCharges == other.ItemCharges &&
+                AbilityCharges == other.AbilityCharges &&
+                MaxCharges == other.MaxCharges &&
+                ChargeCooldown == other.ChargeCooldown &&
+                Charges == other.Charges;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 578432725;
+            hashCode = hashCode * -280156728 + Name.GetHashCode();
+            hashCode = hashCode * -280156728 + Purchaser.GetHashCode();
+            hashCode = hashCode * -280156728 + ItemLevel.GetHashCode();
+            hashCode = hashCode * -280156728 + ContainsRune.GetHashCode();
+            hashCode = hashCode * -280156728 + CanCast.GetHashCode();
+            hashCode = hashCode * -280156728 + Cooldown.GetHashCode();
+            hashCode = hashCode * -280156728 + IsPassive.GetHashCode();
+            hashCode = hashCode * -280156728 + ItemCharges.GetHashCode();
+            hashCode = hashCode * -280156728 + AbilityCharges.GetHashCode();
+            hashCode = hashCode * -280156728 + MaxCharges.GetHashCode();
+            hashCode = hashCode * -280156728 + ChargeCooldown.GetHashCode();
+            hashCode = hashCode * -280156728 + Charges.GetHashCode();
+            return hashCode;
+        }
     }
 }

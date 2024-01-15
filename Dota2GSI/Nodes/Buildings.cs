@@ -1,6 +1,5 @@
 ﻿using Dota2GSI.Nodes.BuildingsProvider;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 
 namespace Dota2GSI.Nodes
 {
@@ -12,7 +11,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Gets all buildings layouts.
         /// </summary>
-        public readonly Dictionary<PlayerTeam, BuildingLayout> AllBuildings = new Dictionary<PlayerTeam, BuildingLayout>();
+        public readonly NodeMap<PlayerTeam, BuildingLayout> AllBuildings = new NodeMap<PlayerTeam, BuildingLayout>();
 
         /// <summary>
         /// Gets Radiant buildings layout.
@@ -68,6 +67,26 @@ namespace Dota2GSI.Nodes
             return $"[" +
                 $"AllBuildings: {AllBuildings}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Buildings other &&
+                AllBuildings.Equals(other.AllBuildings);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 107254384;
+            hashCode = hashCode * -739411027 + AllBuildings.GetHashCode();
+            return hashCode;
         }
     }
 }

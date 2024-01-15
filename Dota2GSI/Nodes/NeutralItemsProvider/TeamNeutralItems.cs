@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes.NeutralItemsProvider
@@ -18,7 +17,7 @@ namespace Dota2GSI.Nodes.NeutralItemsProvider
         /// <summary>
         /// The team neutral items.
         /// </summary>
-        public readonly Dictionary<int, Dictionary<int, NeutralItem>> TeamItems = new Dictionary<int, Dictionary<int, NeutralItem>>();
+        public readonly NodeMap<int, NodeMap<int, NeutralItem>> TeamItems = new NodeMap<int, NodeMap<int, NeutralItem>>();
 
         private Regex _tier_id_regex = new Regex(@"tier(\d+)");
         private Regex _item_id_regex = new Regex(@"item(\d+)");
@@ -33,7 +32,7 @@ namespace Dota2GSI.Nodes.NeutralItemsProvider
 
                 if (!TeamItems.ContainsKey(tier_index))
                 {
-                    TeamItems.Add(tier_index, new Dictionary<int, NeutralItem>());
+                    TeamItems.Add(tier_index, new NodeMap<int, NeutralItem>());
                 }
 
                 GetMatchingObjects(obj, _item_id_regex, (Match sub_match, JObject sub_obj) =>
@@ -60,6 +59,28 @@ namespace Dota2GSI.Nodes.NeutralItemsProvider
                 $"ItemsFound: {ItemsFound}, " +
                 $"TeamItems: {TeamItems}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is TeamNeutralItems other &&
+                ItemsFound == other.ItemsFound &&
+                TeamItems.Equals(other.TeamItems);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 799436177;
+            hashCode = hashCode * -132257912 + ItemsFound.GetHashCode();
+            hashCode = hashCode * -132257912 + TeamItems.GetHashCode();
+            return hashCode;
         }
     }
 }

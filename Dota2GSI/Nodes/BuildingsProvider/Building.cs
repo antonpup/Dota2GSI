@@ -31,5 +31,27 @@ namespace Dota2GSI.Nodes.BuildingsProvider
                 $"MaxHealth: {MaxHealth}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Building other &&
+                Health == other.Health &&
+                MaxHealth == other.MaxHealth;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 815636796;
+            hashCode = hashCode * -192822430 + Health.GetHashCode();
+            hashCode = hashCode * -192822430 + MaxHealth.GetHashCode();
+            return hashCode;
+        }
     }
 }

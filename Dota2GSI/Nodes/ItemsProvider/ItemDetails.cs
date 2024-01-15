@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -13,12 +12,12 @@ namespace Dota2GSI.Nodes.ItemsProvider
         /// <summary>
         /// List of the inventory items.
         /// </summary>
-        public readonly List<Item> Inventory = new List<Item>();
+        public readonly NodeList<Item> Inventory = new NodeList<Item>();
 
         /// <summary>
         /// List of the stash items.
         /// </summary>
-        public readonly List<Item> Stash = new List<Item>();
+        public readonly NodeList<Item> Stash = new NodeList<Item>();
 
         /// <summary>
         /// Number of items in the inventory.
@@ -215,6 +214,32 @@ namespace Dota2GSI.Nodes.ItemsProvider
                 $"Teleport: {Teleport}, " +
                 $"Neutral: {Neutral}, " +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is ItemDetails other &&
+                Inventory.Equals(other.Inventory) &&
+                Stash.Equals(other.Stash) &&
+                Teleport.Equals(other.Teleport) &&
+                Neutral.Equals(other.Neutral);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 74222497;
+            hashCode = hashCode * -709592358 + Inventory.GetHashCode();
+            hashCode = hashCode * -709592358 + Stash.GetHashCode();
+            hashCode = hashCode * -709592358 + Teleport.GetHashCode();
+            hashCode = hashCode * -709592358 + Neutral.GetHashCode();
+            return hashCode;
         }
     }
 }

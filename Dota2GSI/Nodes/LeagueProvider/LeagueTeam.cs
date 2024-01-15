@@ -45,5 +45,31 @@ namespace Dota2GSI.Nodes.LeagueProvider
                 $"SeriesWins: {SeriesWins}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is LeagueTeam other &&
+                TeamID == other.TeamID &&
+                TeamTag.Equals(other.TeamTag) &&
+                TeamName.Equals(other.TeamName) &&
+                SeriesWins == other.SeriesWins;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 248757312;
+            hashCode = hashCode * -665381140 + TeamID.GetHashCode();
+            hashCode = hashCode * -665381140 + TeamTag.GetHashCode();
+            hashCode = hashCode * -665381140 + TeamName.GetHashCode();
+            hashCode = hashCode * -665381140 + SeriesWins.GetHashCode();
+            return hashCode;
+        }
     }
 }

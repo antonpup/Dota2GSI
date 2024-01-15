@@ -126,5 +126,35 @@ namespace Dota2GSI.Nodes.LeagueProvider
                 $"UsedCoinToss: {UsedCoinToss}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is SelectionPriority other &&
+                Rules == other.Rules &&
+                PreviousPriorityTeamID == other.PreviousPriorityTeamID &&
+                CurrentPriorityTeamID == other.CurrentPriorityTeamID &&
+                PriorityTeamChoice == other.PriorityTeamChoice &&
+                NonPriorityTeamChoice == other.NonPriorityTeamChoice &&
+                UsedCoinToss == other.UsedCoinToss;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 107532357;
+            hashCode = hashCode * -96977732 + Rules.GetHashCode();
+            hashCode = hashCode * -96977732 + PreviousPriorityTeamID.GetHashCode();
+            hashCode = hashCode * -96977732 + CurrentPriorityTeamID.GetHashCode();
+            hashCode = hashCode * -96977732 + PriorityTeamChoice.GetHashCode();
+            hashCode = hashCode * -96977732 + NonPriorityTeamChoice.GetHashCode();
+            hashCode = hashCode * -96977732 + UsedCoinToss.GetHashCode();
+            return hashCode;
+        }
     }
 }

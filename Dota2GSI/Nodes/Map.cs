@@ -276,5 +276,57 @@ namespace Dota2GSI.Nodes
                 $"RoshanStateEndTime: {RoshanStateEndTime}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Map other &&
+                Name.Equals(other.Name) &&
+                MatchID == other.MatchID &&
+                GameTime == other.GameTime &&
+                ClockTime == other.ClockTime &&
+                IsDaytime == other.IsDaytime &&
+                IsNightstalkerNight == other.IsNightstalkerNight &&
+                RadiantScore == other.RadiantScore &&
+                DireScore == other.DireScore &&
+                GameState == other.GameState &&
+                IsPaused == other.IsPaused &&
+                WinningTeam == other.WinningTeam &&
+                CustomGameName.Equals(other.CustomGameName) &&
+                WardPurchaseCooldown == other.WardPurchaseCooldown &&
+                RadiantWardPurchaseCooldown == other.RadiantWardPurchaseCooldown &&
+                DireWardPurchaseCooldown == other.DireWardPurchaseCooldown &&
+                RoshanState == other.RoshanState &&
+                RoshanStateEndTime == other.RoshanStateEndTime;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 225797103;
+            hashCode = hashCode * -955669127 + Name.GetHashCode();
+            hashCode = hashCode * -955669127 + MatchID.GetHashCode();
+            hashCode = hashCode * -955669127 + GameTime.GetHashCode();
+            hashCode = hashCode * -955669127 + ClockTime.GetHashCode();
+            hashCode = hashCode * -955669127 + IsDaytime.GetHashCode();
+            hashCode = hashCode * -955669127 + IsNightstalkerNight.GetHashCode();
+            hashCode = hashCode * -955669127 + RadiantScore.GetHashCode();
+            hashCode = hashCode * -955669127 + DireScore.GetHashCode();
+            hashCode = hashCode * -955669127 + GameState.GetHashCode();
+            hashCode = hashCode * -955669127 + IsPaused.GetHashCode();
+            hashCode = hashCode * -955669127 + WinningTeam.GetHashCode();
+            hashCode = hashCode * -955669127 + CustomGameName.GetHashCode();
+            hashCode = hashCode * -955669127 + WardPurchaseCooldown.GetHashCode();
+            hashCode = hashCode * -955669127 + RadiantWardPurchaseCooldown.GetHashCode();
+            hashCode = hashCode * -955669127 + DireWardPurchaseCooldown.GetHashCode();
+            hashCode = hashCode * -955669127 + RoshanState.GetHashCode();
+            hashCode = hashCode * -955669127 + RoshanStateEndTime.GetHashCode();
+            return hashCode;
+        }
     }
 }

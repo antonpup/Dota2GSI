@@ -152,5 +152,43 @@ namespace Dota2GSI.Nodes.EventsProvider
                 $"TeamGold: {TeamGold}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Event other &&
+                GameTime == other.GameTime &&
+                EventType == other.EventType &&
+                Team == other.Team &&
+                KillerPlayerID == other.KillerPlayerID &&
+                PlayerID == other.PlayerID &&
+                WasSnatched == other.WasSnatched &&
+                TipReceiverPlayerID == other.TipReceiverPlayerID &&
+                TipAmount == other.TipAmount &&
+                BountyValue == other.BountyValue &&
+                TeamGold == other.TeamGold;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 973835034;
+            hashCode = hashCode * -320607063 + GameTime.GetHashCode();
+            hashCode = hashCode * -320607063 + EventType.GetHashCode();
+            hashCode = hashCode * -320607063 + Team.GetHashCode();
+            hashCode = hashCode * -320607063 + KillerPlayerID.GetHashCode();
+            hashCode = hashCode * -320607063 + PlayerID.GetHashCode();
+            hashCode = hashCode * -320607063 + WasSnatched.GetHashCode();
+            hashCode = hashCode * -320607063 + TipReceiverPlayerID.GetHashCode();
+            hashCode = hashCode * -320607063 + TipAmount.GetHashCode();
+            hashCode = hashCode * -320607063 + BountyValue.GetHashCode();
+            hashCode = hashCode * -320607063 + TeamGold.GetHashCode();
+            return hashCode;
+        }
     }
 }

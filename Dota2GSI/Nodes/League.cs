@@ -1,6 +1,5 @@
 using Dota2GSI.Nodes.LeagueProvider;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 
 namespace Dota2GSI.Nodes
 {
@@ -168,7 +167,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// The streams for the league.
         /// </summary>
-        public readonly List<Stream> Streams = new List<Stream>();
+        public readonly NodeList<Stream> Streams = new NodeList<Stream>();
 
         internal League(JObject parsed_data = null) : base(parsed_data)
         {
@@ -244,6 +243,78 @@ namespace Dota2GSI.Nodes
                 $"SecondTeamID: {SecondTeamID}, " +
                 $"Streams: {Streams}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is League other &&
+                SeriesType == other.SeriesType &&
+                SelectionPriority.Equals(other.SelectionPriority) &&
+                LeagueID == other.LeagueID &&
+                MatchID == other.MatchID &&
+                Name.Equals(other.Name) &&
+                Tier == other.Tier &&
+                Region == other.Region &&
+                Url.Equals(other.Url) &&
+                Description.Equals(other.Description) &&
+                Notes.Equals(other.Notes) &&
+                StartTimestamp == other.StartTimestamp &&
+                EndTimestamp == other.EndTimestamp &&
+                ProCircuitPoints == other.ProCircuitPoints &&
+                ImageBits == other.ImageBits &&
+                Status == other.Status &&
+                MostRecentActivity == other.MostRecentActivity &&
+                RegistrationPeriod == other.RegistrationPeriod &&
+                BasePrizePool == other.BasePrizePool &&
+                TotalPrizePool == other.TotalPrizePool &&
+                LeagueNoteID == other.LeagueNoteID &&
+                RadiantTeam.Equals(other.RadiantTeam) &&
+                DireTeam.Equals(other.DireTeam) &&
+                SeriesID == other.SeriesID &&
+                StartTime == other.StartTime &&
+                FirstTeamID == other.FirstTeamID &&
+                SecondTeamID == other.SecondTeamID &&
+                Streams.Equals(other.Streams);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 761863323;
+            hashCode = hashCode * -43571779 + SeriesType.GetHashCode();
+            hashCode = hashCode * -43571779 + SelectionPriority.GetHashCode();
+            hashCode = hashCode * -43571779 + LeagueID.GetHashCode();
+            hashCode = hashCode * -43571779 + MatchID.GetHashCode();
+            hashCode = hashCode * -43571779 + Name.GetHashCode();
+            hashCode = hashCode * -43571779 + Tier.GetHashCode();
+            hashCode = hashCode * -43571779 + Region.GetHashCode();
+            hashCode = hashCode * -43571779 + Url.GetHashCode();
+            hashCode = hashCode * -43571779 + Description.GetHashCode();
+            hashCode = hashCode * -43571779 + Notes.GetHashCode();
+            hashCode = hashCode * -43571779 + StartTimestamp.GetHashCode();
+            hashCode = hashCode * -43571779 + EndTimestamp.GetHashCode();
+            hashCode = hashCode * -43571779 + ProCircuitPoints.GetHashCode();
+            hashCode = hashCode * -43571779 + ImageBits.GetHashCode();
+            hashCode = hashCode * -43571779 + Status.GetHashCode();
+            hashCode = hashCode * -43571779 + MostRecentActivity.GetHashCode();
+            hashCode = hashCode * -43571779 + RegistrationPeriod.GetHashCode();
+            hashCode = hashCode * -43571779 + BasePrizePool.GetHashCode();
+            hashCode = hashCode * -43571779 + TotalPrizePool.GetHashCode();
+            hashCode = hashCode * -43571779 + LeagueNoteID.GetHashCode();
+            hashCode = hashCode * -43571779 + RadiantTeam.GetHashCode();
+            hashCode = hashCode * -43571779 + DireTeam.GetHashCode();
+            hashCode = hashCode * -43571779 + SeriesID.GetHashCode();
+            hashCode = hashCode * -43571779 + StartTime.GetHashCode();
+            hashCode = hashCode * -43571779 + FirstTeamID.GetHashCode();
+            hashCode = hashCode * -43571779 + SecondTeamID.GetHashCode();
+            hashCode = hashCode * -43571779 + Streams.GetHashCode();
+            return hashCode;
         }
     }
 }
