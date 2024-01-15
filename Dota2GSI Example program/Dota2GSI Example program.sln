@@ -1,14 +1,10 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 14 for Windows Desktop
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dota2GSI Example program", "Dota2GSI Example program\Dota2GSI Example program.csproj", "{4DA21306-D491-4196-9125-C281B05180BF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F} = {ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}
-	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dota2GSI", "..\Dota2GSI\Dota2GSI\Dota2GSI.csproj", "{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dota2GSI", "..\build\Dota2GSI\Dota2GSI.csproj", "{60CA8072-0CB7-3C64-86A6-FE8AE605A650}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,10 +16,10 @@ Global
 		{4DA21306-D491-4196-9125-C281B05180BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DA21306-D491-4196-9125-C281B05180BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DA21306-D491-4196-9125-C281B05180BF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED6F76C6-A3FC-40F2-9B9B-3C47093A4B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60CA8072-0CB7-3C64-86A6-FE8AE605A650}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60CA8072-0CB7-3C64-86A6-FE8AE605A650}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60CA8072-0CB7-3C64-86A6-FE8AE605A650}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60CA8072-0CB7-3C64-86A6-FE8AE605A650}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
