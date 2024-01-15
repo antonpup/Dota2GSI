@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
@@ -215,6 +217,158 @@ namespace Dota2GSI.Nodes
         public virtual bool IsValid()
         {
             return _successfully_retrieved_any_value;
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Node other &&
+                _ParsedData.Equals(other._ParsedData) &&
+                _successfully_retrieved_any_value.Equals(other._successfully_retrieved_any_value);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 898763153;
+            hashCode = hashCode * -405816372 + _ParsedData.GetHashCode();
+            hashCode = hashCode * -405816372 + _successfully_retrieved_any_value.GetHashCode();
+            return hashCode;
+        }
+    }
+
+    /// <summary>
+    /// Helper class,<br/>
+    /// A Dictionary class wrapped with proper Equals and GetHashCode functionality.<br/>
+    /// Can be safely cast into Dictionary.
+    /// </summary>
+    /// <typeparam name="Key">Key type</typeparam>
+    /// <typeparam name="Value">Value type</typeparam>
+    public class NodeMap<Key, Value> : Dictionary<Key, Value>
+    {
+        public NodeMap()
+        {
+        }
+
+        public NodeMap(Dictionary<Key, Value> dictionary)
+        {
+            foreach (var kvp in dictionary)
+            {
+                Add(kvp.Key, kvp.Value);
+            }
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            string return_string = "";
+            return_string += "[";
+            bool first_element = true;
+            foreach (var kvp in this)
+            {
+                if (first_element)
+                {
+                    first_element = false;
+                }
+                else
+                {
+                    return_string += $", ";
+                }
+
+                return_string += $"{kvp.Key}: {kvp.Value}";
+            }
+            return_string += "]";
+            return return_string;
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return obj is NodeMap<Key, Value> other &&
+                Count == other.Count && !this.Except(other).Any();
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 482146548;
+
+            foreach (var kvp in this)
+            {
+                hashCode = hashCode * -954782166 + kvp.Key.GetHashCode();
+                hashCode = hashCode * -954782166 + kvp.Value.GetHashCode();
+            }
+
+            return hashCode;
+        }
+    }
+
+    /// <summary>
+    /// Helper class,<br/>
+    /// A List class wrapped with proper Equals and GetHashCode functionality.<br/>
+    /// Can be safely cast into List.
+    /// </summary>
+    /// <typeparam name="Value">Value type</typeparam>
+    public class NodeList<Value> : List<Value>
+    {
+        public NodeList()
+        {
+        }
+
+        public NodeList(IEnumerable<Value> list)
+        {
+            foreach (var item in list)
+            {
+                Add(item);
+            }
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            string return_string = "";
+            return_string += "[";
+            bool first_element = true;
+            foreach (var item in this)
+            {
+                if (first_element)
+                {
+                    first_element = false;
+                }
+                else
+                {
+                    return_string += $", ";
+                }
+
+                return_string += $"{item}";
+            }
+            return_string += "]";
+            return return_string;
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            return obj is NodeList<Value> other &&
+                Count == other.Count && !this.Except(other).Any();
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 825543184;
+
+            foreach (var item in this)
+            {
+                hashCode = hashCode * -357544921 + item.GetHashCode();
+            }
+
+            return hashCode;
         }
     }
 }

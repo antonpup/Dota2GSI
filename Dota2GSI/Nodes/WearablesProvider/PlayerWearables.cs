@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes.WearablesProvider
@@ -13,7 +12,7 @@ namespace Dota2GSI.Nodes.WearablesProvider
         /// <summary>
         /// The dictionary of player's wearable items.
         /// </summary>
-        public readonly Dictionary<int, WearableItem> Wearables = new Dictionary<int, WearableItem>();
+        public readonly NodeMap<int, WearableItem> Wearables = new NodeMap<int, WearableItem>();
 
         private Regex _wearable_regex = new Regex(@"wearable(\d+)");
         private Regex _style_regex = new Regex(@"style(\d+)");
@@ -57,6 +56,26 @@ namespace Dota2GSI.Nodes.WearablesProvider
             return $"[" +
                 $"Wearables: {Wearables}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is PlayerWearables other &&
+                Wearables.Equals(other.Wearables);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 954667287;
+            hashCode = hashCode * -711254284 + Wearables.GetHashCode();
+            return hashCode;
         }
     }
 }

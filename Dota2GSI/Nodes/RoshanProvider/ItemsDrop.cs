@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes.RoshanProvider
@@ -13,7 +12,7 @@ namespace Dota2GSI.Nodes.RoshanProvider
         /// <summary>
         /// Items that can drop.
         /// </summary>
-        public readonly Dictionary<int, string> Items = new Dictionary<int, string>();
+        public readonly NodeMap<int, string> Items = new NodeMap<int, string>();
 
         private Regex _item_regex = new Regex(@"item(\d+)");
         internal ItemsDrop(JObject parsed_data = null) : base(parsed_data)
@@ -32,6 +31,26 @@ namespace Dota2GSI.Nodes.RoshanProvider
             return $"[" +
                 $"Items: {Items}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is ItemsDrop other &&
+                Items.Equals(other.Items);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 771247438;
+            hashCode = hashCode * -122023451 + Items.GetHashCode();
+            return hashCode;
         }
     }
 }

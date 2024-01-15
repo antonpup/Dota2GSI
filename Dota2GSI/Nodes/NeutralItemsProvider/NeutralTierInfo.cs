@@ -38,5 +38,29 @@ namespace Dota2GSI.Nodes.NeutralItemsProvider
                 $"DropAfterTime: {DropAfterTime}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is NeutralTierInfo other &&
+                Tier == other.Tier &&
+                MaxCount == other.MaxCount &&
+                DropAfterTime == other.DropAfterTime;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 919325865;
+            hashCode = hashCode * -426172320 + Tier.GetHashCode();
+            hashCode = hashCode * -426172320 + MaxCount.GetHashCode();
+            hashCode = hashCode * -426172320 + DropAfterTime.GetHashCode();
+            return hashCode;
+        }
     }
 }

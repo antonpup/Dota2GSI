@@ -1,4 +1,4 @@
-﻿using Dota2GSI.Nodes;
+using Dota2GSI.Nodes;
 using Dota2GSI.Nodes.Helpers;
 using Newtonsoft.Json.Linq;
 
@@ -9,312 +9,101 @@ namespace Dota2GSI
     /// </summary>
     public class GameState : Node
     {
-        private Auth auth;
-        private Provider provider;
-        private Map map;
-        private Player player;
-        private Hero hero;
-        private Abilities abilities;
-        private Items items;
-        private Events events;
-        private Buildings buildings;
-        private League league;
-        private Draft draft;
-        private Wearables wearables;
-        private Minimap minimap;
-        private Roshan roshan;
-        private Couriers couriers;
-        private NeutralItems neutral_items;
-        private GameState previously;
-        // private GameState added; // Added is removed due to only returning bool values instead of proper values.
-
-        // Helpers
-
-        private FullPlayerDetails local_player_details;
-        private FullTeamDetails radiant_team_details;
-        private FullTeamDetails dire_team_details;
-        private FullTeamDetails neutral_team_details;
-
-
-        /// <summary>
-        /// Creates a GameState instance based on the given json data.
-        /// </summary>
-        /// <param name="parsed_data">The parsed json data.</param>
-        public GameState(JObject parsed_data = null) : base(parsed_data)
-        {
-        }
-
         /// <summary>
         /// Information about GSI authentication.<br/>
         /// Enabled by including <code>"auth" "1"</code> in the game state cfg file.
         /// </summary>
-        public Auth Auth
-        {
-            get
-            {
-                if (auth == null)
-                {
-                    auth = new Auth(GetJObject("auth"));
-                }
-
-                return auth;
-            }
-        }
+        public readonly Auth Auth;
 
         /// <summary>
         /// Information about the provider of this GameState.<br/>
         /// Enabled by including <code>"provider" "1"</code> in the game state cfg file.
         /// </summary>
-        public Provider Provider
-        {
-            get
-            {
-                if (provider == null)
-                {
-                    provider = new Provider(GetJObject("provider"));
-                }
-
-                return provider;
-            }
-        }
+        public readonly Provider Provider;
 
         /// <summary>
         /// Information about the current map.<br/>
         /// Enabled by including <code>"map" "1"</code> in the game state cfg file.
         /// </summary>
-        public Map Map
-        {
-            get
-            {
-                if (map == null)
-                {
-                    map = new Map(GetJObject("map"));
-                }
-
-                return map;
-            }
-        }
+        public readonly Map Map;
 
         /// <summary>
         /// Information about the local player or team players when spectating.<br/>
         /// Enabled by including <code>"player" "1"</code> in the game state cfg file.
         /// </summary>
-        public Player Player
-        {
-            get
-            {
-                if (player == null)
-                {
-                    player = new Player(GetJObject("player"));
-                }
-
-                return player;
-            }
-        }
+        public readonly Player Player;
 
         /// <summary>
         /// Information about the local player's hero or team players heroes when spectating.<br/>
         /// Enabled by including <code>"hero" "1"</code> in the game state cfg file.
         /// </summary>
-        public Hero Hero
-        {
-            get
-            {
-                if (hero == null)
-                {
-                    hero = new Hero(GetJObject("hero"));
-                }
-
-                return hero;
-            }
-        }
+        public readonly Hero Hero;
 
         /// <summary>
         /// Information about the local player's hero abilities or team players abilities when spectating.<br/>
         /// Enabled by including <code>"abilities" "1"</code> in the game state cfg file.
         /// </summary>
-        public Abilities Abilities
-        {
-            get
-            {
-                if (abilities == null)
-                {
-                    abilities = new Abilities(GetJObject("abilities"));
-                }
-
-                return abilities;
-            }
-        }
+        public readonly Abilities Abilities;
 
         /// <summary>
         /// Information about the local player's hero items or team players items when spectating.<br/>
         /// Enabled by including <code>"items" "1"</code> in the game state cfg file.
         /// </summary>
-        public Items Items
-        {
-            get
-            {
-                if (items == null)
-                {
-                    items = new Items(GetJObject("items"));
-                }
-
-                return items;
-            }
-        }
+        public readonly Items Items;
 
         /// <summary>
         /// Information about game events.<br/>
         /// Enabled by including <code>"events" "1"</code> in the game state cfg file.
         /// </summary>
-        public Events Events
-        {
-            get
-            {
-                if (events == null)
-                {
-                    events = new Events(GetJArray("events"));
-                }
-
-                return events;
-            }
-        }
+        public readonly Events Events;
 
         /// <summary>
         /// Information about the buildings on the map.<br/>
         /// Enabled by including <code>"buildings" "1"</code> in the game state cfg file.
         /// </summary>
-        public Buildings Buildings
-        {
-            get
-            {
-                if (buildings == null)
-                {
-                    buildings = new Buildings(GetJObject("buildings"));
-                }
-
-                return buildings;
-            }
-        }
+        public readonly Buildings Buildings;
 
         /// <summary>
         /// Information about the current league (or game configuration).<br/>
         /// Enabled by including <code>"league" "1"</code> in the game state cfg file.
         /// </summary>
-        public League League
-        {
-            get
-            {
-                if (league == null)
-                {
-                    league = new League(GetJObject("league"));
-                }
-
-                return league;
-            }
-        }
+        public readonly League League;
 
         /// <summary>
         /// Information about the draft. (TOURNAMENT ONLY)<br/>
         /// Enabled by including <code>"draft" "1"</code> in the game state cfg file.
         /// </summary>
-        public Draft Draft
-        {
-            get
-            {
-                if (draft == null)
-                {
-                    draft = new Draft(GetJObject("draft"));
-                }
-
-                return draft;
-            }
-        }
+        public readonly Draft Draft;
 
         /// <summary>
         /// Information about the local player's wearable items or team players wearable items when spectating.<br/>
         /// Enabled by including <code>"wearables" "1"</code> in the game state cfg file.
         /// </summary>
-        public Wearables Wearables
-        {
-            get
-            {
-                if (wearables == null)
-                {
-                    wearables = new Wearables(GetJObject("wearables"));
-                }
-
-                return wearables;
-            }
-        }
+        public readonly Wearables Wearables;
 
         /// <summary>
         /// Information about the minimap.<br/>
         /// Enabled by including <code>"minimap" "1"</code> in the game state cfg file.
         /// </summary>
-        public Minimap Minimap
-        {
-            get
-            {
-                if (minimap == null)
-                {
-                    minimap = new Minimap(GetJObject("minimap"));
-                }
-
-                return minimap;
-            }
-        }
+        public readonly Minimap Minimap;
 
         /// <summary>
         /// Information about Roshan. (SPECTATOR ONLY)<br/>
         /// Enabled by including <code>"roshan" "1"</code> in the game state cfg file.
         /// </summary>
-        public Roshan Roshan
-        {
-            get
-            {
-                if (roshan == null)
-                {
-                    roshan = new Roshan(GetJObject("roshan"));
-                }
-
-                return roshan;
-            }
-        }
+        public readonly Roshan Roshan;
 
         /// <summary>
         /// Information about couriers. (SPECTATOR ONLY)<br/>
         /// Enabled by including <code>"couriers" "1"</code> in the game state cfg file.
         /// </summary>
-        public Couriers Couriers
-        {
-            get
-            {
-                if (couriers == null)
-                {
-                    couriers = new Couriers(GetJObject("couriers"));
-                }
-
-                return couriers;
-            }
-        }
+        public readonly Couriers Couriers;
 
         /// <summary>
         /// Information about neutral items. (SPECTATOR ONLY)<br/>
         /// Enabled by including <code>"neutralitems" "1"</code> in the game state cfg file.
         /// </summary>
-        public NeutralItems NeutralItems
-        {
-            get
-            {
-                if (neutral_items == null)
-                {
-                    neutral_items = new NeutralItems(GetJObject("neutralitems"));
-                }
-
-                return neutral_items;
-            }
-        }
+        public readonly NeutralItems NeutralItems;
 
         /// <summary>
         /// A previous GameState.
@@ -323,12 +112,12 @@ namespace Dota2GSI
         {
             get
             {
-                if (previously == null)
+                if (_previous_game_state == null)
                 {
-                    previously = new GameState(GetJObject("previously"));
+                    _previous_game_state = new GameState(GetJObject("previously"));
                 }
 
-                return previously;
+                return _previous_game_state;
             }
         }
 
@@ -424,6 +213,40 @@ namespace Dota2GSI
             {
                 return Player.IsValid() && Player.LocalPlayer.IsValid() && (Player.Teams.Count == 0);
             }
+        }
+
+        private GameState _previous_game_state;
+
+        // Helpers
+
+        private FullPlayerDetails local_player_details;
+        private FullTeamDetails radiant_team_details;
+        private FullTeamDetails dire_team_details;
+        private FullTeamDetails neutral_team_details;
+
+
+        /// <summary>
+        /// Creates a GameState instance based on the given json data.
+        /// </summary>
+        /// <param name="parsed_data">The parsed json data.</param>
+        public GameState(JObject parsed_data = null) : base(parsed_data)
+        {
+            Auth = new Auth(GetJObject("auth"));
+            Provider = new Provider(GetJObject("provider"));
+            Map = new Map(GetJObject("map"));
+            Player = new Player(GetJObject("player"));
+            Hero = new Hero(GetJObject("hero"));
+            Abilities = new Abilities(GetJObject("abilities"));
+            Items = new Items(GetJObject("items"));
+            Events = new Events(GetJArray("events"));
+            Buildings = new Buildings(GetJObject("buildings"));
+            League = new League(GetJObject("league"));
+            Draft = new Draft(GetJObject("draft"));
+            Wearables = new Wearables(GetJObject("wearables"));
+            Minimap = new Minimap(GetJObject("minimap"));
+            Roshan = new Roshan(GetJObject("roshan"));
+            Couriers = new Couriers(GetJObject("couriers"));
+            NeutralItems = new NeutralItems(GetJObject("neutralitems"));
         }
     }
 }

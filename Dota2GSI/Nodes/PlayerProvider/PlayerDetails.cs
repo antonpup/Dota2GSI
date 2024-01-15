@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes.PlayerProvider
@@ -89,7 +88,7 @@ namespace Dota2GSI.Nodes.PlayerProvider
         /// <summary>
         /// Player's list of kills. The index corresponds to the player no which can be used to find the playerdetails if in spectator mode using the Teams.AllPlayers property.
         /// </summary>
-        public readonly Dictionary<int, int> KillList = new Dictionary<int, int>();
+        public readonly NodeMap<int, int> KillList = new NodeMap<int, int>();
 
         /// <summary>
         /// Player's team.
@@ -322,6 +321,102 @@ namespace Dota2GSI.Nodes.PlayerProvider
                 $"RunesActivated: {RunesActivated}, " +
                 $"CampsStacked: {CampsStacked}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is PlayerDetails other &&
+                SteamID.Equals(other.SteamID) &&
+                AccountID.Equals(other.AccountID) &&
+                Name.Equals(other.Name) &&
+                Activity == other.Activity &&
+                Kills == other.Kills &&
+                Deaths == other.Deaths &&
+                Assists == other.Assists &&
+                LastHits == other.LastHits &&
+                Denies == other.Denies &&
+                KillStreak == other.KillStreak &&
+                CommandsIssued == other.CommandsIssued &&
+                KillList.Equals(other.KillList) &&
+                Team == other.Team &&
+                PlayerSlot == other.PlayerSlot &&
+                PlayerTeamSlot.Equals(other.PlayerTeamSlot) &&
+                Gold == other.Gold &&
+                GoldReliable == other.GoldReliable &&
+                GoldUnreliable == other.GoldUnreliable &&
+                GoldFromHeroKills == other.GoldFromHeroKills &&
+                GoldFromCreepKills == other.GoldFromCreepKills &&
+                GoldFromIncome == other.GoldFromIncome &&
+                GoldFromShared == other.GoldFromShared &&
+                GoldPerMinute == other.GoldPerMinute &&
+                ExperiencePerMinute == other.ExperiencePerMinute &&
+                OnstageSeat == other.OnstageSeat &&
+                NetWorth == other.NetWorth &&
+                HeroDamage == other.HeroDamage &&
+                HeroHealing == other.HeroHealing &&
+                TowerDamage == other.TowerDamage &&
+                SupportGoldSpent == other.SupportGoldSpent &&
+                ConsumableGoldSpent == other.ConsumableGoldSpent &&
+                ItemGoldSpent == other.ItemGoldSpent &&
+                GoldLostToDeath == other.GoldLostToDeath &&
+                GoldSpentOnBuybacks == other.GoldSpentOnBuybacks &&
+                WardsPurchased == other.WardsPurchased &&
+                WardsPlaced == other.WardsPlaced &&
+                WardsDestroyed == other.WardsDestroyed &&
+                RunesActivated == other.RunesActivated &&
+                CampsStacked == other.CampsStacked;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 602668635;
+            hashCode = hashCode * -112730515 + SteamID.GetHashCode();
+            hashCode = hashCode * -112730515 + AccountID.GetHashCode();
+            hashCode = hashCode * -112730515 + Name.GetHashCode();
+            hashCode = hashCode * -112730515 + Activity.GetHashCode();
+            hashCode = hashCode * -112730515 + Kills.GetHashCode();
+            hashCode = hashCode * -112730515 + Deaths.GetHashCode();
+            hashCode = hashCode * -112730515 + Assists.GetHashCode();
+            hashCode = hashCode * -112730515 + LastHits.GetHashCode();
+            hashCode = hashCode * -112730515 + Denies.GetHashCode();
+            hashCode = hashCode * -112730515 + KillStreak.GetHashCode();
+            hashCode = hashCode * -112730515 + CommandsIssued.GetHashCode();
+            hashCode = hashCode * -112730515 + KillList.GetHashCode();
+            hashCode = hashCode * -112730515 + Team.GetHashCode();
+            hashCode = hashCode * -112730515 + PlayerSlot.GetHashCode();
+            hashCode = hashCode * -112730515 + PlayerTeamSlot.GetHashCode();
+            hashCode = hashCode * -112730515 + Gold.GetHashCode();
+            hashCode = hashCode * -112730515 + GoldReliable.GetHashCode();
+            hashCode = hashCode * -112730515 + GoldUnreliable.GetHashCode();
+            hashCode = hashCode * -112730515 + GoldFromHeroKills.GetHashCode();
+            hashCode = hashCode * -112730515 + GoldFromCreepKills.GetHashCode();
+            hashCode = hashCode * -112730515 + GoldFromIncome.GetHashCode();
+            hashCode = hashCode * -112730515 + GoldFromShared.GetHashCode();
+            hashCode = hashCode * -112730515 + GoldPerMinute.GetHashCode();
+            hashCode = hashCode * -112730515 + ExperiencePerMinute.GetHashCode();
+            hashCode = hashCode * -112730515 + OnstageSeat.GetHashCode();
+            hashCode = hashCode * -112730515 + NetWorth.GetHashCode();
+            hashCode = hashCode * -112730515 + HeroDamage.GetHashCode();
+            hashCode = hashCode * -112730515 + HeroHealing.GetHashCode();
+            hashCode = hashCode * -112730515 + TowerDamage.GetHashCode();
+            hashCode = hashCode * -112730515 + SupportGoldSpent.GetHashCode();
+            hashCode = hashCode * -112730515 + ConsumableGoldSpent.GetHashCode();
+            hashCode = hashCode * -112730515 + ItemGoldSpent.GetHashCode();
+            hashCode = hashCode * -112730515 + GoldLostToDeath.GetHashCode();
+            hashCode = hashCode * -112730515 + GoldSpentOnBuybacks.GetHashCode();
+            hashCode = hashCode * -112730515 + WardsPurchased.GetHashCode();
+            hashCode = hashCode * -112730515 + WardsPlaced.GetHashCode();
+            hashCode = hashCode * -112730515 + WardsDestroyed.GetHashCode();
+            hashCode = hashCode * -112730515 + RunesActivated.GetHashCode();
+            hashCode = hashCode * -112730515 + CampsStacked.GetHashCode();
+            return hashCode;
         }
     }
 }

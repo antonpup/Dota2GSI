@@ -27,11 +27,7 @@ namespace Dota2GSI.Nodes.Helpers
             Y = y;
         }
 
-        /// <summary>
-        /// Equates this Vector2D object to another object.
-        /// </summary>
-        /// <param name="obj">The other object to compare against.</param>
-        /// <returns>True if the two objects are equal, false otherwise.</returns>
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return obj is Vector2D other &&
@@ -39,10 +35,7 @@ namespace Dota2GSI.Nodes.Helpers
                    Y == other.Y;
         }
 
-        /// <summary>
-        /// Calculates unique hash code for this object.
-        /// </summary>
-        /// <returns>The hash code.</returns>
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             int hashCode = 1861411795;

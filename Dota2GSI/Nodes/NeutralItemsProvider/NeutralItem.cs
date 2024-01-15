@@ -98,5 +98,33 @@ namespace Dota2GSI.Nodes.NeutralItemsProvider
                 $"PlayerID: {PlayerID}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is NeutralItem other &&
+                Name.Equals(other.Name) &&
+                Tier == other.Tier &&
+                Charges == other.Charges &&
+                State == other.State &&
+                PlayerID == other.PlayerID;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 905733096;
+            hashCode = hashCode * -66160412 + Name.GetHashCode();
+            hashCode = hashCode * -66160412 + Tier.GetHashCode();
+            hashCode = hashCode * -66160412 + Charges.GetHashCode();
+            hashCode = hashCode * -66160412 + State.GetHashCode();
+            hashCode = hashCode * -66160412 + PlayerID.GetHashCode();
+            return hashCode;
+        }
     }
 }

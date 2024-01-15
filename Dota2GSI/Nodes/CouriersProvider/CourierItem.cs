@@ -31,5 +31,27 @@ namespace Dota2GSI.Nodes.CouriersProvider
                 $"OwnerID: {OwnerID}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is CourierItem other &&
+                Name.Equals(other.Name) &&
+                OwnerID == other.OwnerID;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 710433606;
+            hashCode = hashCode * -324247450 + Name.GetHashCode();
+            hashCode = hashCode * -324247450 + OwnerID.GetHashCode();
+            return hashCode;
+        }
     }
 }

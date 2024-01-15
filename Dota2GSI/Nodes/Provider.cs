@@ -45,5 +45,31 @@ namespace Dota2GSI.Nodes
                 $"TimeStamp: {TimeStamp}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Provider other &&
+                Name.Equals(other.Name) &&
+                AppID == other.AppID &&
+                Version == other.Version &&
+                TimeStamp.Equals(other.TimeStamp);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 464630987;
+            hashCode = hashCode * -987549067 + Name.GetHashCode();
+            hashCode = hashCode * -987549067 + AppID.GetHashCode();
+            hashCode = hashCode * -987549067 + Version.GetHashCode();
+            hashCode = hashCode * -987549067 + TimeStamp.GetHashCode();
+            return hashCode;
+        }
     }
 }

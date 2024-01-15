@@ -81,5 +81,41 @@ namespace Dota2GSI.Nodes.MinimapProvider
                 $"VisionRange: {VisionRange}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is MinimapElement other &&
+                Location.Equals(other.Location) &&
+                RemainingTime == other.RemainingTime &&
+                EventDuration == other.EventDuration &&
+                Image.Equals(other.Image) &&
+                Team == other.Team &&
+                Name.Equals(other.Name) &&
+                Rotation == other.Rotation &&
+                UnitName.Equals(other.UnitName) &&
+                VisionRange == other.VisionRange;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 111327035;
+            hashCode = hashCode * -71571866 + Location.GetHashCode();
+            hashCode = hashCode * -71571866 + RemainingTime.GetHashCode();
+            hashCode = hashCode * -71571866 + EventDuration.GetHashCode();
+            hashCode = hashCode * -71571866 + Image.GetHashCode();
+            hashCode = hashCode * -71571866 + Team.GetHashCode();
+            hashCode = hashCode * -71571866 + Name.GetHashCode();
+            hashCode = hashCode * -71571866 + Rotation.GetHashCode();
+            hashCode = hashCode * -71571866 + UnitName.GetHashCode();
+            hashCode = hashCode * -71571866 + VisionRange.GetHashCode();
+            return hashCode;
+        }
     }
 }

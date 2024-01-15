@@ -1,5 +1,6 @@
-﻿using Dota2GSI.Nodes.Helpers;
+using Dota2GSI.Nodes.Helpers;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 
 namespace Dota2GSI.Nodes.HeroProvider
 {
@@ -27,6 +28,57 @@ namespace Dota2GSI.Nodes.HeroProvider
         /// Both sides of the tree have been selected at this tier.
         /// </summary>
         Both
+    }
+
+    /// <summary>
+    /// The hero state.
+    /// </summary>
+    public enum HeroState
+    {
+        /// <summary>
+        /// No states.
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// Hero is silenced.
+        /// </summary>
+        Silenced,
+
+        /// <summary>
+        /// Hero is stunned.
+        /// </summary>
+        Stunned,
+
+        /// <summary>
+        /// Hero is disarmed.
+        /// </summary>
+        Disarmed,
+
+        /// <summary>
+        /// Hero is magic immune.
+        /// </summary>
+        MagicImmune,
+
+        /// <summary>
+        /// Hero is hexed.
+        /// </summary>
+        Hexed,
+
+        /// <summary>
+        /// Hero is broken.
+        /// </summary>
+        Broken,
+
+        /// <summary>
+        /// Hero is smoked.
+        /// </summary>
+        Smoked,
+
+        /// <summary>
+        /// Hero is debuffed.
+        /// </summary>
+        Debuffed
     }
 
     /// <summary>
@@ -110,39 +162,14 @@ namespace Dota2GSI.Nodes.HeroProvider
         public readonly int ManaPercent;
 
         /// <summary>
-        /// A boolean representing whether the hero is silenced.
+        /// Current hero state.
         /// </summary>
-        public readonly bool IsSilenced;
-
-        /// <summary>
-        /// A boolean representing whether the hero is stunned.
-        /// </summary>
-        public readonly bool IsStunned;
-
-        /// <summary>
-        /// A boolean representing whether the hero is disarmed.
-        /// </summary>
-        public readonly bool IsDisarmed;
-
-        /// <summary>
-        /// A boolean representing whether the hero is magic immune.
-        /// </summary>
-        public readonly bool IsMagicImmune;
-
-        /// <summary>
-        /// A boolean representing whether the hero is hexed.
-        /// </summary>
-        public readonly bool IsHexed;
+        public readonly HeroState HeroState;
 
         /// <summary>
         /// A boolean representing whether the hero is muted.
         /// </summary>
         public readonly bool IsMuted;
-
-        /// <summary>
-        /// A boolean representing whether the hero is broken.
-        /// </summary>
-        public readonly bool IsBreak;
 
         /// <summary>
         /// A boolean representing whether the hero has the aghanims scepter upgrade.
@@ -153,16 +180,6 @@ namespace Dota2GSI.Nodes.HeroProvider
         /// A boolean representing whether the hero has the aghanims shard upgrade.
         /// </summary>
         public readonly bool HasAghanimsShardUpgrade;
-
-        /// <summary>
-        /// A boolean representing whether the hero is smoked.
-        /// </summary>
-        public readonly bool IsSmoked;
-
-        /// <summary>
-        /// A boolean representing whether the hero is debuffed.
-        /// </summary>
-        public readonly bool HasDebuff;
 
         /// <summary>
         /// A boolean representing whether this hero is currently selected by the spectator. (SPECTATOR ONLY)
@@ -196,18 +213,52 @@ namespace Dota2GSI.Nodes.HeroProvider
             Mana = GetInt("mana");
             MaxMana = GetInt("max_mana");
             ManaPercent = GetInt("mana_percent");
-            IsSilenced = GetBool("silenced");
-            IsStunned = GetBool("stunned");
-            IsDisarmed = GetBool("disarmed");
-            IsMagicImmune = GetBool("magicimmune");
-            IsHexed = GetBool("hexed");
             IsMuted = GetBool("muted");
-            IsBreak = GetBool("break");
             HasAghanimsScepterUpgrade = GetBool("aghanims_scepter");
             HasAghanimsShardUpgrade = GetBool("aghanims_shard");
-            IsSmoked = GetBool("smoked");
-            HasDebuff = GetBool("has_debuff");
             SelectedUnit = GetBool("selected_unit");
+
+            HeroState = HeroState.None;
+
+            if (GetBool("silenced"))
+            {
+                HeroState &= HeroState.Silenced;
+            }
+
+            if (GetBool("stunned"))
+            {
+                HeroState &= HeroState.Stunned;
+            }
+
+            if (GetBool("disarmed"))
+            {
+                HeroState &= HeroState.Disarmed;
+            }
+
+            if (GetBool("magicimmune"))
+            {
+                HeroState &= HeroState.MagicImmune;
+            }
+
+            if (GetBool("hexed"))
+            {
+                HeroState &= HeroState.Hexed;
+            }
+
+            if (GetBool("break"))
+            {
+                HeroState &= HeroState.Broken;
+            }
+
+            if (GetBool("smoked"))
+            {
+                HeroState &= HeroState.Smoked;
+            }
+
+            if (GetBool("has_debuff"))
+            {
+                HeroState &= HeroState.Debuffed;
+            }
 
             TalentTree = new TalentTreeSpec[4];
             for (int i = 0; i < TalentTree.Length; i++)
@@ -259,21 +310,74 @@ namespace Dota2GSI.Nodes.HeroProvider
                 $"Mana: {Mana}, " +
                 $"MaxMana: {MaxMana}, " +
                 $"ManaPercent: {ManaPercent}, " +
-                $"IsSilenced: {IsSilenced}, " +
-                $"IsStunned: {IsStunned}, " +
-                $"IsDisarmed: {IsDisarmed}, " +
-                $"IsMagicImmune: {IsMagicImmune}, " +
-                $"IsHexed: {IsHexed}, " +
+                $"IsSilenced: {HeroState}, " +
                 $"IsMuted: {IsMuted}, " +
-                $"IsBreak: {IsBreak}, " +
                 $"HasAghanimsScepterUpgrade: {HasAghanimsScepterUpgrade}, " +
                 $"HasAghanimsShardUpgrade: {HasAghanimsShardUpgrade}, " +
-                $"IsSmoked: {IsSmoked}, " +
-                $"HasDebuff: {HasDebuff}, " +
                 $"SelectedUnit: {SelectedUnit}, " +
                 $"TalentTree: {TalentTree}, " +
                 $"AttributesLevel: {AttributesLevel}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is HeroDetails other &&
+                Location.Equals(other.Location) &&
+                ID == other.ID &&
+                Name.Equals(other.Name) &&
+                Level == other.Level &&
+                Experience == other.Experience &&
+                IsAlive == other.IsAlive &&
+                SecondsToRespawn == other.SecondsToRespawn &&
+                BuybackCost == other.BuybackCost &&
+                BuybackCooldown == other.BuybackCooldown &&
+                Health == other.Health &&
+                MaxHealth == other.MaxHealth &&
+                HealthPercent == other.HealthPercent &&
+                Mana == other.Mana &&
+                MaxMana == other.MaxMana &&
+                ManaPercent == other.ManaPercent &&
+                IsMuted == other.IsMuted &&
+                HasAghanimsScepterUpgrade == other.HasAghanimsScepterUpgrade &&
+                HasAghanimsShardUpgrade == other.HasAghanimsShardUpgrade &&
+                SelectedUnit == other.SelectedUnit &&
+                Enumerable.SequenceEqual(TalentTree, other.TalentTree) &&
+                AttributesLevel == other.AttributesLevel;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 189436882;
+            hashCode = hashCode * -287957234 + Location.GetHashCode();
+            hashCode = hashCode * -287957234 + ID.GetHashCode();
+            hashCode = hashCode * -287957234 + Name.GetHashCode();
+            hashCode = hashCode * -287957234 + Level.GetHashCode();
+            hashCode = hashCode * -287957234 + Experience.GetHashCode();
+            hashCode = hashCode * -287957234 + IsAlive.GetHashCode();
+            hashCode = hashCode * -287957234 + SecondsToRespawn.GetHashCode();
+            hashCode = hashCode * -287957234 + BuybackCost.GetHashCode();
+            hashCode = hashCode * -287957234 + BuybackCooldown.GetHashCode();
+            hashCode = hashCode * -287957234 + Health.GetHashCode();
+            hashCode = hashCode * -287957234 + MaxHealth.GetHashCode();
+            hashCode = hashCode * -287957234 + HealthPercent.GetHashCode();
+            hashCode = hashCode * -287957234 + Mana.GetHashCode();
+            hashCode = hashCode * -287957234 + MaxMana.GetHashCode();
+            hashCode = hashCode * -287957234 + ManaPercent.GetHashCode();
+            hashCode = hashCode * -287957234 + IsMuted.GetHashCode();
+            hashCode = hashCode * -287957234 + HasAghanimsScepterUpgrade.GetHashCode();
+            hashCode = hashCode * -287957234 + HasAghanimsShardUpgrade.GetHashCode();
+            hashCode = hashCode * -287957234 + SelectedUnit.GetHashCode();
+            hashCode = hashCode * -287957234 + TalentTree.GetHashCode();
+            hashCode = hashCode * -287957234 + AttributesLevel.GetHashCode();
+            return hashCode;
         }
     }
 }

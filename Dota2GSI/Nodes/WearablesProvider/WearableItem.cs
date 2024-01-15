@@ -30,5 +30,27 @@ namespace Dota2GSI.Nodes.WearablesProvider
                 $"Style: {Style}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is WearableItem other &&
+                ID == other.ID &&
+                Style == other.Style;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 652470603;
+            hashCode = hashCode * -397083684 + ID.GetHashCode();
+            hashCode = hashCode * -397083684 + Style.GetHashCode();
+            return hashCode;
+        }
     }
 }

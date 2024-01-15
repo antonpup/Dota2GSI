@@ -5,7 +5,6 @@ using Dota2GSI.Nodes.ItemsProvider;
 using Dota2GSI.Nodes.MinimapProvider;
 using Dota2GSI.Nodes.PlayerProvider;
 using Dota2GSI.Nodes.WearablesProvider;
-using System.Collections.Generic;
 
 namespace Dota2GSI.Nodes.Helpers
 {
@@ -47,7 +46,7 @@ namespace Dota2GSI.Nodes.Helpers
         /// <summary>
         /// Player's minimap elements.
         /// </summary>
-        public readonly Dictionary<int, MinimapElement> MinimapElements = new Dictionary<int, MinimapElement>();
+        public readonly NodeMap<int, MinimapElement> MinimapElements = new NodeMap<int, MinimapElement>();
 
         internal FullPlayerDetails(int player_id, GameState game_state)
         {
@@ -83,6 +82,38 @@ namespace Dota2GSI.Nodes.Helpers
                 $"PlayerCourier: {Courier}, " +
                 $"PlayerMinimapElements: {MinimapElements}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is FullPlayerDetails other &&
+                Details.Equals(other.Details) &&
+                Hero.Equals(other.Hero) &&
+                Abilities.Equals(other.Abilities) &&
+                Items.Equals(other.Items) &&
+                Wearables.Equals(other.Wearables) &&
+                Courier.Equals(other.Courier) &&
+                MinimapElements.Equals(other.MinimapElements);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 339357341;
+            hashCode = hashCode * -959873209 + Details.GetHashCode();
+            hashCode = hashCode * -959873209 + Hero.GetHashCode();
+            hashCode = hashCode * -959873209 + Abilities.GetHashCode();
+            hashCode = hashCode * -959873209 + Items.GetHashCode();
+            hashCode = hashCode * -959873209 + Wearables.GetHashCode();
+            hashCode = hashCode * -959873209 + Courier.GetHashCode();
+            hashCode = hashCode * -959873209 + MinimapElements.GetHashCode();
+            return hashCode;
         }
     }
 }

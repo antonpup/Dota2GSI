@@ -1,7 +1,6 @@
 ﻿using Dota2GSI.Nodes.CouriersProvider;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
@@ -14,7 +13,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// A dictionary mapping of courier ID to courier.
         /// </summary>
-        public readonly Dictionary<int, Courier> CouriersMap = new Dictionary<int, Courier>();
+        public readonly NodeMap<int, Courier> CouriersMap = new NodeMap<int, Courier>();
 
         private Regex _courier_regex = new Regex(@"courier(\d+)");
 
@@ -53,6 +52,26 @@ namespace Dota2GSI.Nodes
             return $"[" +
                 $"CouriersMap: {CouriersMap}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Couriers other &&
+                CouriersMap.Equals(other.CouriersMap);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 743690963;
+            hashCode = hashCode * -787011489 + CouriersMap.GetHashCode();
+            return hashCode;
         }
     }
 }

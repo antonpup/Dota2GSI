@@ -1,7 +1,6 @@
 ﻿using Dota2GSI.Nodes.WearablesProvider;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
@@ -19,7 +18,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// The team players wearables. (SPECTATOR ONLY)
         /// </summary>
-        public readonly Dictionary<PlayerTeam, Dictionary<int, PlayerWearables>> Teams = new Dictionary<PlayerTeam, Dictionary<int, PlayerWearables>>();
+        public readonly NodeMap<PlayerTeam, NodeMap<int, PlayerWearables>> Teams = new NodeMap<PlayerTeam, NodeMap<int, PlayerWearables>>();
 
         private Regex _team_id_regex = new Regex(@"team(\d+)");
         private Regex _player_id_regex = new Regex(@"player(\d+)");
@@ -36,7 +35,7 @@ namespace Dota2GSI.Nodes
 
                 if (!Teams.ContainsKey(team_id))
                 {
-                    Teams.Add(team_id, new Dictionary<int, PlayerWearables>());
+                    Teams.Add(team_id, new NodeMap<int, PlayerWearables>());
                 }
 
                 GetMatchingObjects(parsed_data, _player_id_regex, (Match sub_match, JObject sub_obj) =>
@@ -62,14 +61,14 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="team">The team.</param>
         /// <returns>A dictionary of player id mapped to their wearables.</returns>
-        public Dictionary<int, PlayerWearables> GetForTeam(PlayerTeam team)
+        public NodeMap<int, PlayerWearables> GetForTeam(PlayerTeam team)
         {
             if (Teams.ContainsKey(team))
             {
                 return Teams[team];
             }
 
-            return new Dictionary<int, PlayerWearables>();
+            return new NodeMap<int, PlayerWearables>();
         }
 
         /// <summary>
@@ -106,6 +105,28 @@ namespace Dota2GSI.Nodes
         public override bool IsValid()
         {
             return LocalPlayer.IsValid() || base.IsValid();
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Wearables other &&
+                LocalPlayer.Equals(other.LocalPlayer) &&
+                Teams.Equals(other.Teams);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 894234507;
+            hashCode = hashCode * -274381118 + LocalPlayer.GetHashCode();
+            hashCode = hashCode * -274381118 + Teams.GetHashCode();
+            return hashCode;
         }
     }
 }

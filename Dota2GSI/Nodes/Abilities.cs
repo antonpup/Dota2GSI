@@ -19,7 +19,7 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// The team players ability details. (SPECTATOR ONLY)
         /// </summary>
-        public readonly Dictionary<PlayerTeam, Dictionary<int, AbilityDetails>> Teams = new Dictionary<PlayerTeam, Dictionary<int, AbilityDetails>>();
+        public readonly NodeMap<PlayerTeam, NodeMap<int, AbilityDetails>> Teams = new NodeMap<PlayerTeam, NodeMap<int, AbilityDetails>>();
 
         private Regex _team_id_regex = new Regex(@"team(\d+)");
         private Regex _player_id_regex = new Regex(@"player(\d+)");
@@ -36,7 +36,7 @@ namespace Dota2GSI.Nodes
 
                 if (!Teams.ContainsKey(team_id))
                 {
-                    Teams.Add(team_id, new Dictionary<int, AbilityDetails>());
+                    Teams.Add(team_id, new NodeMap<int, AbilityDetails>());
                 }
 
                 GetMatchingObjects(obj, _player_id_regex, (Match sub_match, JObject sub_obj) =>
@@ -105,6 +105,28 @@ namespace Dota2GSI.Nodes
         public override bool IsValid()
         {
             return LocalPlayer.IsValid() || base.IsValid();
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Abilities other &&
+                LocalPlayer.Equals(other.LocalPlayer) &&
+                Teams.Equals(other.Teams);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 145729690;
+            hashCode = hashCode * -516479333 + LocalPlayer.GetHashCode();
+            hashCode = hashCode * -516479333 + Teams.GetHashCode();
+            return hashCode;
         }
     }
 }

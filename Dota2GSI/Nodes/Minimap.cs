@@ -1,7 +1,6 @@
 ﻿using Dota2GSI.Nodes.MinimapProvider;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
@@ -16,7 +15,7 @@ namespace Dota2GSI.Nodes
         /// Key is element ID.<br/>
         /// Value is minimap element.
         /// </summary>
-        public readonly Dictionary<int, MinimapElement> Elements = new Dictionary<int, MinimapElement>();
+        public readonly NodeMap<int, MinimapElement> Elements = new NodeMap<int, MinimapElement>();
 
         private Regex _object_regex = new Regex(@"o(\d+)");
         internal Minimap(JObject parsed_data = null) : base(parsed_data)
@@ -36,9 +35,9 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="team">The team.</param>
         /// <returns>The minimap elements.</returns>
-        public Dictionary<int, MinimapElement> GetForTeam(PlayerTeam team)
+        public NodeMap<int, MinimapElement> GetForTeam(PlayerTeam team)
         {
-            Dictionary<int, MinimapElement> found_elements = new Dictionary<int, MinimapElement>();
+            NodeMap<int, MinimapElement> found_elements = new NodeMap<int, MinimapElement>();
 
             foreach (var element_kvp in Elements)
             {
@@ -58,9 +57,9 @@ namespace Dota2GSI.Nodes
         /// </summary>
         /// <param name="unit_name">The unit name.</param>
         /// <returns>The minimap elements.</returns>
-        public Dictionary<int, MinimapElement> GetByUnitName(string unit_name)
+        public NodeMap<int, MinimapElement> GetByUnitName(string unit_name)
         {
-            Dictionary<int, MinimapElement> found_elements = new Dictionary<int, MinimapElement>();
+            NodeMap<int, MinimapElement> found_elements = new NodeMap<int, MinimapElement>();
 
             if (!string.IsNullOrEmpty(unit_name))
             {
@@ -82,6 +81,26 @@ namespace Dota2GSI.Nodes
             return $"[" +
                 $"Elements: {Elements}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Minimap other &&
+                Elements.Equals(other.Elements);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 212298410;
+            hashCode = hashCode * -927590333 + Elements.GetHashCode();
+            return hashCode;
         }
     }
 }

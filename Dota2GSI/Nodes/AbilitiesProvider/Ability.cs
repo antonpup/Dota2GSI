@@ -87,5 +87,43 @@ namespace Dota2GSI.Nodes.AbilitiesProvider
                 $"ChargeCooldown: {ChargeCooldown}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Ability other &&
+                Name.Equals(other.Name) &&
+                Level == other.Level &&
+                CanCast == other.CanCast &&
+                IsPassive == other.IsPassive &&
+                IsActive == other.IsActive &&
+                Cooldown == other.Cooldown &&
+                IsUltimate == other.IsUltimate &&
+                Charges == other.Charges &&
+                MaxCharges == other.MaxCharges &&
+                ChargeCooldown == other.ChargeCooldown;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 634642291;
+            hashCode = hashCode * -84013849 + Name.GetHashCode();
+            hashCode = hashCode * -84013849 + Level.GetHashCode();
+            hashCode = hashCode * -84013849 + CanCast.GetHashCode();
+            hashCode = hashCode * -84013849 + IsPassive.GetHashCode();
+            hashCode = hashCode * -84013849 + IsActive.GetHashCode();
+            hashCode = hashCode * -84013849 + Cooldown.GetHashCode();
+            hashCode = hashCode * -84013849 + IsUltimate.GetHashCode();
+            hashCode = hashCode * -84013849 + Charges.GetHashCode();
+            hashCode = hashCode * -84013849 + MaxCharges.GetHashCode();
+            hashCode = hashCode * -84013849 + ChargeCooldown.GetHashCode();
+            return hashCode;
+        }
     }
 }

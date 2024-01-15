@@ -75,5 +75,39 @@ namespace Dota2GSI.Nodes
                 $"Drops: {Drops}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Roshan other &&
+                Health == other.Health &&
+                MaxHealth == other.MaxHealth &&
+                IsAlive == other.IsAlive &&
+                SpawnPhase == other.SpawnPhase &&
+                PhaseTimeRemaining == other.PhaseTimeRemaining &&
+                Location.Equals(other.Location) &&
+                Rotation == other.Rotation &&
+                Drops.Equals(other.Drops);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 289605977;
+            hashCode = hashCode * -839892812 + Health.GetHashCode();
+            hashCode = hashCode * -839892812 + MaxHealth.GetHashCode();
+            hashCode = hashCode * -839892812 + IsAlive.GetHashCode();
+            hashCode = hashCode * -839892812 + SpawnPhase.GetHashCode();
+            hashCode = hashCode * -839892812 + PhaseTimeRemaining.GetHashCode();
+            hashCode = hashCode * -839892812 + Location.GetHashCode();
+            hashCode = hashCode * -839892812 + Rotation.GetHashCode();
+            hashCode = hashCode * -839892812 + Drops.GetHashCode();
+            return hashCode;
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Dota2GSI.Nodes.Helpers;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes.CouriersProvider
@@ -64,7 +63,7 @@ namespace Dota2GSI.Nodes.CouriersProvider
         /// <summary>
         /// Items the courier is carrying.
         /// </summary>
-        public readonly Dictionary<int, CourierItem> Items = new Dictionary<int, CourierItem>();
+        public readonly NodeMap<int, CourierItem> Items = new NodeMap<int, CourierItem>();
 
         private Regex _item_regex = new Regex(@"item(\d+)");
 
@@ -106,6 +105,46 @@ namespace Dota2GSI.Nodes.CouriersProvider
                 $"IsBoosted: {IsBoosted}, " +
                 $"Items: {Items}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Courier other &&
+                Health == other.Health &&
+                MaxHealth == other.MaxHealth &&
+                IsAlive == other.IsAlive &&
+                RemainingRespawnTime == other.RemainingRespawnTime &&
+                Location.Equals(other.Location) &&
+                Rotation == other.Rotation &&
+                OwnerID.Equals(other.OwnerID) &&
+                HasFlyingUpgrade == other.HasFlyingUpgrade &&
+                IsShielded == other.IsShielded &&
+                IsBoosted == other.IsBoosted &&
+                Items.Equals(other.Items);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 232969005;
+            hashCode = hashCode * -115989773 + Health.GetHashCode();
+            hashCode = hashCode * -115989773 + MaxHealth.GetHashCode();
+            hashCode = hashCode * -115989773 + IsAlive.GetHashCode();
+            hashCode = hashCode * -115989773 + RemainingRespawnTime.GetHashCode();
+            hashCode = hashCode * -115989773 + Location.GetHashCode();
+            hashCode = hashCode * -115989773 + Rotation.GetHashCode();
+            hashCode = hashCode * -115989773 + OwnerID.GetHashCode();
+            hashCode = hashCode * -115989773 + HasFlyingUpgrade.GetHashCode();
+            hashCode = hashCode * -115989773 + IsShielded.GetHashCode();
+            hashCode = hashCode * -115989773 + IsBoosted.GetHashCode();
+            hashCode = hashCode * -115989773 + Items.GetHashCode();
+            return hashCode;
         }
     }
 }

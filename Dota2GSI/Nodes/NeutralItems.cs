@@ -1,7 +1,6 @@
 ﻿using Dota2GSI.Nodes.NeutralItemsProvider;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes
@@ -14,12 +13,12 @@ namespace Dota2GSI.Nodes
         /// <summary>
         /// Information about various neutral item tiers.
         /// </summary>
-        public readonly Dictionary<int, NeutralTierInfo> TierInfos = new Dictionary<int, NeutralTierInfo>();
+        public readonly NodeMap<int, NeutralTierInfo> TierInfos = new NodeMap<int, NeutralTierInfo>();
 
         /// <summary>
         /// Information about team's neutral items.
         /// </summary>
-        public readonly Dictionary<PlayerTeam, TeamNeutralItems> TeamItems = new Dictionary<PlayerTeam, TeamNeutralItems>();
+        public readonly NodeMap<PlayerTeam, TeamNeutralItems> TeamItems = new NodeMap<PlayerTeam, TeamNeutralItems>();
 
         private Regex _tier_id_regex = new Regex(@"tier(\d+)");
         private Regex _team_id_regex = new Regex(@"team(\d+)");
@@ -80,6 +79,28 @@ namespace Dota2GSI.Nodes
                 $"TierInfos: {TierInfos}, " +
                 $"TeamItems: {TeamItems}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is NeutralItems other &&
+                TierInfos.Equals(other.TierInfos) &&
+                TeamItems.Equals(other.TeamItems);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 904745338;
+            hashCode = hashCode * -700564887 + TierInfos.GetHashCode();
+            hashCode = hashCode * -700564887 + TeamItems.GetHashCode();
+            return hashCode;
         }
     }
 }

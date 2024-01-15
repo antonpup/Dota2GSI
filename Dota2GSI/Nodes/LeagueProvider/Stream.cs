@@ -59,5 +59,35 @@ namespace Dota2GSI.Nodes.LeagueProvider
                 $"VodURL: {VodURL}" +
                 $"]";
         }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is Stream other &&
+                StreamID == other.StreamID &&
+                Language == other.Language &&
+                Name.Equals(other.Name) &&
+                BroadcastProvider == other.BroadcastProvider &&
+                StreamURL.Equals(other.StreamURL) &&
+                VodURL.Equals(other.VodURL);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 192157661;
+            hashCode = hashCode * -913935863 + StreamID.GetHashCode();
+            hashCode = hashCode * -913935863 + Language.GetHashCode();
+            hashCode = hashCode * -913935863 + Name.GetHashCode();
+            hashCode = hashCode * -913935863 + BroadcastProvider.GetHashCode();
+            hashCode = hashCode * -913935863 + StreamURL.GetHashCode();
+            hashCode = hashCode * -913935863 + VodURL.GetHashCode();
+            return hashCode;
+        }
     }
 }

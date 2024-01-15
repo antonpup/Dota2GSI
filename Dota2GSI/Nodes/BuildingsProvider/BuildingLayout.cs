@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Dota2GSI.Nodes.BuildingsProvider
@@ -34,32 +33,32 @@ namespace Dota2GSI.Nodes.BuildingsProvider
         /// <summary>
         /// Top towers.
         /// </summary>
-        public readonly Dictionary<int, Building> TopTowers = new Dictionary<int, Building>();
+        public readonly NodeMap<int, Building> TopTowers = new NodeMap<int, Building>();
 
         /// <summary>
         /// Middle towers.
         /// </summary>
-        public readonly Dictionary<int, Building> MiddleTowers = new Dictionary<int, Building>();
+        public readonly NodeMap<int, Building> MiddleTowers = new NodeMap<int, Building>();
 
         /// <summary>
         /// Bottom towers.
         /// </summary>
-        public readonly Dictionary<int, Building> BottomTowers = new Dictionary<int, Building>();
+        public readonly NodeMap<int, Building> BottomTowers = new NodeMap<int, Building>();
 
         /// <summary>
         /// Top racks.
         /// </summary>
-        public readonly Dictionary<RacksType, Building> TopRacks = new Dictionary<RacksType, Building>();
+        public readonly NodeMap<RacksType, Building> TopRacks = new NodeMap<RacksType, Building>();
 
         /// <summary>
         /// Middle racks.
         /// </summary>
-        public readonly Dictionary<RacksType, Building> MiddleRacks = new Dictionary<RacksType, Building>();
+        public readonly NodeMap<RacksType, Building> MiddleRacks = new NodeMap<RacksType, Building>();
 
         /// <summary>
         /// Bottom racks.
         /// </summary>
-        public readonly Dictionary<RacksType, Building> BottomRacks = new Dictionary<RacksType, Building>();
+        public readonly NodeMap<RacksType, Building> BottomRacks = new NodeMap<RacksType, Building>();
 
         /// <summary>
         /// Ancient.
@@ -69,7 +68,7 @@ namespace Dota2GSI.Nodes.BuildingsProvider
         /// <summary>
         /// Other buildings.
         /// </summary>
-        public readonly Dictionary<string, Building> OtherBuildings = new Dictionary<string, Building>();
+        public readonly NodeMap<string, Building> OtherBuildings = new NodeMap<string, Building>();
 
         private Regex _tower_regex = new Regex(@"tower(\d+)_(top|mid|bot)");
         private Regex _racks_regex = new Regex(@"rax_(melee|range)_(top|mid|bot)");
@@ -161,6 +160,40 @@ namespace Dota2GSI.Nodes.BuildingsProvider
                 $"Ancient: {Ancient}, " +
                 $"OtherBuildings: {OtherBuildings}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is BuildingLayout other &&
+                TopTowers.Equals(other.TopTowers) &&
+                MiddleTowers.Equals(other.MiddleTowers) &&
+                BottomTowers.Equals(other.BottomTowers) &&
+                TopRacks.Equals(other.TopRacks) &&
+                MiddleRacks.Equals(other.MiddleRacks) &&
+                BottomRacks.Equals(other.BottomRacks) &&
+                Ancient.Equals(other.Ancient) &&
+                OtherBuildings.Equals(other.OtherBuildings);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 946659162;
+            hashCode = hashCode * -439837856 + TopTowers.GetHashCode();
+            hashCode = hashCode * -439837856 + MiddleTowers.GetHashCode();
+            hashCode = hashCode * -439837856 + BottomTowers.GetHashCode();
+            hashCode = hashCode * -439837856 + TopRacks.GetHashCode();
+            hashCode = hashCode * -439837856 + MiddleRacks.GetHashCode();
+            hashCode = hashCode * -439837856 + BottomRacks.GetHashCode();
+            hashCode = hashCode * -439837856 + Ancient.GetHashCode();
+            hashCode = hashCode * -439837856 + OtherBuildings.GetHashCode();
+            return hashCode;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Dota2GSI.Nodes.AbilitiesProvider
     /// </summary>
     public class AbilityDetails : Node, IEnumerable<Ability>
     {
-        private List<Ability> _abilities = new List<Ability>();
+        private NodeList<Ability> _abilities = new NodeList<Ability>();
 
         /// <summary>
         /// The number of abilities.
@@ -64,6 +64,26 @@ namespace Dota2GSI.Nodes.AbilitiesProvider
             return $"[" +
                 $"Abilities: {_abilities}" +
                 $"]";
+        }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            if (null == obj)
+            {
+                return false;
+            }
+
+            return obj is AbilityDetails other &&
+                _abilities.Equals(other._abilities);
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            int hashCode = 356743140;
+            hashCode = hashCode * -394407688 + _abilities.GetHashCode();
+            return hashCode;
         }
     }
 }
