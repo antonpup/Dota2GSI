@@ -82,6 +82,22 @@ SET(SOURCES
     Nodes/Provider.cs
     Nodes/Map.cs
     Nodes/Auth.cs
+    StateHandlers/AbilitiesStateHandler.cs
+    StateHandlers/AuthStateHandler.cs
+    StateHandlers/BuildingsStateHandler.cs
+    StateHandlers/CouriersStateHandler.cs
+    StateHandlers/DraftStateHandler.cs
+    StateHandlers/EventsStateHandler.cs
+    StateHandlers/HeroStateHandler.cs
+    StateHandlers/ItemsStateHandler.cs
+    StateHandlers/LeagueStateHandler.cs
+    StateHandlers/MapStateHandler.cs
+    StateHandlers/MinimapStateHandler.cs
+    StateHandlers/NeutralItemsStateHandler.cs
+    StateHandlers/PlayerStateHandler.cs
+    StateHandlers/ProviderStateHandler.cs
+    StateHandlers/RoshanStateHandler.cs
+    StateHandlers/WearablesStateHandler.cs
 )
 
 SET(README "${CMAKE_SOURCE_DIR}/README.md")
