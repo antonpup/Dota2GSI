@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Dota2GSI.EventMessages;
+using Newtonsoft.Json.Linq;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -15,23 +16,16 @@ namespace Dota2GSI
     public delegate void NewGameStateHandler(GameState gamestate);
 
     /// <summary>
-    /// Delegate for handing map game state changes.
+    /// Delegate for handing game events.
     /// </summary>
-    /// <param name="newGameState">The new map game state.</param>
-    public delegate void ChangedMapState(Nodes.DOTA_GameState newGameState);
+    /// <param name="game_event">The new game event.</param>
+    public delegate void GameEventHandler(DotaGameEvent game_event);
 
     /// <summary>
     /// 
     /// </summary>
     public class GameStateListener : IDisposable
     {
-        private bool isRunning = false;
-        private int connection_port;
-        private HttpListener net_Listener;
-        private AutoResetEvent waitForConnection = new AutoResetEvent(false);
-        private GameState previousGameState = new GameState();
-        private GameState currentGameState = new GameState();
-
         /// <summary>
         /// The previous game state.
         /// </summary>
@@ -56,7 +50,7 @@ namespace Dota2GSI
             {
                 previousGameState = currentGameState;
                 currentGameState = value;
-                RaiseOnNewGameState();
+                RaiseOnNewGameState(ref currentGameState);
             }
         }
 
@@ -76,15 +70,51 @@ namespace Dota2GSI
         public event NewGameStateHandler NewGameState = delegate { };
 
         /// <summary>
-        /// Event for when the map's gamestate changes.
+        /// Event for handing Dota 2 game events.
         /// </summary>
-        public event ChangedMapState ChangedMapState = delegate { };
+        public event GameEventHandler GameEvent = delegate { };
+
+        private bool isRunning = false;
+        private int connection_port;
+        private HttpListener net_Listener;
+        private AutoResetEvent waitForConnection = new AutoResetEvent(false);
+        private GameState previousGameState = new GameState();
+        private GameState currentGameState = new GameState();
+
+        private static EventDispatcher<DotaGameEvent> dispatcher = new EventDispatcher<DotaGameEvent>();
+
+        private AbilitiesStateHandler abilities_state_handler = new AbilitiesStateHandler(ref dispatcher);
+        private AuthStateHandler auth_state_handler = new AuthStateHandler(ref dispatcher);
+        private BuildingsStateHandler buildings_state_handler = new BuildingsStateHandler(ref dispatcher);
+        private CouriersStateHandler couriers_state_handler = new CouriersStateHandler(ref dispatcher);
+        private DraftStateHandler draft_state_handler = new DraftStateHandler(ref dispatcher);
+        private EventsStateHandler events_state_handler = new EventsStateHandler(ref dispatcher);
+        private HeroStateHandler hero_state_handler = new HeroStateHandler(ref dispatcher);
+        private ItemsStateHandler items_state_handler = new ItemsStateHandler(ref dispatcher);
+        private LeagueStateHandler league_state_handler = new LeagueStateHandler(ref dispatcher);
+        private MapStateHandler map_state_handler = new MapStateHandler(ref dispatcher);
+        private MinimapStateHandler minimap_state_handler = new MinimapStateHandler(ref dispatcher);
+        private NeutralItemsStateHandler neutral_items_state_handler = new NeutralItemsStateHandler(ref dispatcher);
+        private PlayerStateHandler player_state_handler = new PlayerStateHandler(ref dispatcher);
+        private ProviderStateHandler provider_state_handler = new ProviderStateHandler(ref dispatcher);
+        private RoshanStateHandler roshan_state_handler = new RoshanStateHandler(ref dispatcher);
+        private WearablesStateHandler wearables_state_handler = new WearablesStateHandler(ref dispatcher);
+
+        private GameStateHandler game_state_handler = new GameStateHandler(ref dispatcher);
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        private GameStateListener()
+        {
+            dispatcher.GameEvent += RaiseOnDotaGameEvent;
+        }
 
         /// <summary>
         /// A GameStateListener that listens for connections on http://localhost:port/.
         /// </summary>
         /// <param name="Port">The port to listen on.</param>
-        public GameStateListener(int Port)
+        public GameStateListener(int Port) : this()
         {
             connection_port = Port;
             net_Listener = new HttpListener();
@@ -95,7 +125,7 @@ namespace Dota2GSI
         /// A GameStateListener that listens for connections to the specified URI.
         /// </summary>
         /// <param name="URI">The URI to listen to.</param>
-        public GameStateListener(string URI)
+        public GameStateListener(string URI) : this()
         {
             if (!URI.EndsWith("/"))
             {
@@ -196,34 +226,36 @@ namespace Dota2GSI
             }
         }
 
-        private void RaiseOnNewGameState()
+        private void RaiseOnDotaGameEvent(DotaGameEvent e)
+        {
+            foreach (Delegate d in GameEvent.GetInvocationList())
+            {
+                if (d.Target is ISynchronizeInvoke)
+                {
+                    (d.Target as ISynchronizeInvoke).BeginInvoke(d, new object[] { e });
+                }
+                else
+                {
+                    d.DynamicInvoke(e);
+                }
+            }
+        }
+
+        private void RaiseOnNewGameState(ref GameState game_state)
         {
             foreach (Delegate d in NewGameState.GetInvocationList())
             {
                 if (d.Target is ISynchronizeInvoke)
                 {
-                    (d.Target as ISynchronizeInvoke).BeginInvoke(d, new object[] { CurrentGameState });
+                    (d.Target as ISynchronizeInvoke).BeginInvoke(d, new object[] { game_state });
                 }
                 else
                 {
-                    d.DynamicInvoke(CurrentGameState);
+                    d.DynamicInvoke(game_state);
                 }
             }
 
-            if (CurrentGameState.Map.GameState != PreviousGameState.Map.GameState)
-            {
-                foreach (Delegate d in ChangedMapState.GetInvocationList())
-                {
-                    if (d.Target is ISynchronizeInvoke)
-                    {
-                        (d.Target as ISynchronizeInvoke).BeginInvoke(d, new object[] { CurrentGameState.Map.GameState });
-                    }
-                    else
-                    {
-                        d.DynamicInvoke(CurrentGameState.Map.GameState);
-                    }
-                }
-            }
+            game_state_handler.OnNewGameState(CurrentGameState);
         }
 
         /// <summary>
