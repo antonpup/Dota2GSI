@@ -16,6 +16,8 @@ PROJECT(${PRODUCT} VERSION ${PRODUCT_VERSION} LANGUAGES CSharp)
 INCLUDE(CSharpUtilities)
 
 SET(SOURCES
+    EventDispatcher.cs
+    EventHandler.cs
     GameState.cs
     GameStateListener.cs
     Nodes/Roshan.cs
