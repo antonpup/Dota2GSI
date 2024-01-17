@@ -96,6 +96,9 @@ namespace Dota2GSI
         private RoshanHandler _roshan_handler = new RoshanHandler(ref _dispatcher);
         private WearablesHandler _wearables_handler = new WearablesHandler(ref _dispatcher);
 
+        // Custom handlers.
+        private FullDetailsHandler _full_details_handler = new FullDetailsHandler(ref _dispatcher);
+
         // Overall GameState handler.
         private GameStateHandler _game_state_handler = new GameStateHandler(ref _dispatcher);
 

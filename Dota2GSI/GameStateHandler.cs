@@ -24,6 +24,28 @@ namespace Dota2GSI
                 previous_game_state = game_state.Previously;
             }
 
+            // Broadcast changes for custom providers.
+
+            if (!previous_game_state.LocalPlayer.Equals(game_state.LocalPlayer))
+            {
+                dispatcher.Broadcast(new FullPlayerDetailsUpdated(game_state.LocalPlayer, previous_game_state.LocalPlayer));
+            }
+
+            if (!previous_game_state.RadiantTeamDetails.Equals(game_state.RadiantTeamDetails))
+            {
+                dispatcher.Broadcast(new FullTeamDetailsUpdated(game_state.RadiantTeamDetails, previous_game_state.RadiantTeamDetails));
+            }
+
+            if (!previous_game_state.DireTeamDetails.Equals(game_state.DireTeamDetails))
+            {
+                dispatcher.Broadcast(new FullTeamDetailsUpdated(game_state.DireTeamDetails, previous_game_state.DireTeamDetails));
+            }
+
+            if (!previous_game_state.NeutralTeamDetails.Equals(game_state.NeutralTeamDetails))
+            {
+                dispatcher.Broadcast(new FullTeamDetailsUpdated(game_state.NeutralTeamDetails, previous_game_state.NeutralTeamDetails));
+            }
+
             // Broadcast changes for providers.
 
             if (!previous_game_state.Auth.Equals(game_state.Auth))
