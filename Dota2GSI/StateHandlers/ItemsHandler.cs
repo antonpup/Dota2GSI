@@ -2,14 +2,14 @@
 
 namespace Dota2GSI
 {
-    public class ItemsStateHandler : EventHandler<DotaGameEvent>
+    public class ItemsHandler : EventHandler<DotaGameEvent>
     {
-        public ItemsStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public ItemsHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<ItemsUpdated>(OnItemsStateUpdated);
         }
 
-        ~ItemsStateHandler()
+        ~ItemsHandler()
         {
             dispatcher.Unsubscribe<ItemsUpdated>(OnItemsStateUpdated);
         }

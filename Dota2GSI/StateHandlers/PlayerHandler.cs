@@ -2,15 +2,15 @@
 
 namespace Dota2GSI
 {
-    public class PlayerStateHandler : EventHandler<DotaGameEvent>
+    public class PlayerHandler : EventHandler<DotaGameEvent>
     {
-        public PlayerStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public PlayerHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<PlayerUpdated>(OnPlayerStateUpdated);
             dispatcher.Subscribe<PlayerDetailsChanged>(OnPlayerDetailsChanged);
         }
 
-        ~PlayerStateHandler()
+        ~PlayerHandler()
         {
             dispatcher.Unsubscribe<PlayerUpdated>(OnPlayerStateUpdated);
             dispatcher.Unsubscribe<PlayerDetailsChanged>(OnPlayerDetailsChanged);

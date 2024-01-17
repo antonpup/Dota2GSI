@@ -2,15 +2,15 @@
 
 namespace Dota2GSI
 {
-    public class HeroStateHandler : EventHandler<DotaGameEvent>
+    public class HeroHandler : EventHandler<DotaGameEvent>
     {
-        public HeroStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public HeroHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<HeroUpdated>(OnHeroStateUpdated);
             dispatcher.Subscribe<HeroDetailsChanged>(OnHeroDetailsChanged);
         }
 
-        ~HeroStateHandler()
+        ~HeroHandler()
         {
             dispatcher.Unsubscribe<HeroUpdated>(OnHeroStateUpdated);
             dispatcher.Unsubscribe<HeroDetailsChanged>(OnHeroDetailsChanged);

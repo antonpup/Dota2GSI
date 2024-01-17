@@ -2,14 +2,14 @@
 
 namespace Dota2GSI
 {
-    public class DraftStateHandler : EventHandler<DotaGameEvent>
+    public class DraftHandler : EventHandler<DotaGameEvent>
     {
-        public DraftStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public DraftHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<DraftUpdated>(OnDraftStateUpdated);
         }
 
-        ~DraftStateHandler()
+        ~DraftHandler()
         {
             dispatcher.Unsubscribe<DraftUpdated>(OnDraftStateUpdated);
         }

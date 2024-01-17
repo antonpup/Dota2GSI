@@ -1,4 +1,4 @@
-﻿using Dota2GSI.EventMessages;
+using Dota2GSI.EventMessages;
 using Newtonsoft.Json.Linq;
 using System;
 using System.ComponentModel;
@@ -82,21 +82,22 @@ namespace Dota2GSI
         private GameState currentGameState = new GameState();
 
         private static EventDispatcher<DotaGameEvent> dispatcher = new EventDispatcher<DotaGameEvent>();
-
-        private AbilitiesStateHandler abilities_state_handler = new AbilitiesStateHandler(ref dispatcher);
-        private AuthStateHandler auth_state_handler = new AuthStateHandler(ref dispatcher);
-        private BuildingsStateHandler buildings_state_handler = new BuildingsStateHandler(ref dispatcher);
-        private CouriersStateHandler couriers_state_handler = new CouriersStateHandler(ref dispatcher);
-        private DraftStateHandler draft_state_handler = new DraftStateHandler(ref dispatcher);
-        private EventsStateHandler events_state_handler = new EventsStateHandler(ref dispatcher);
-        private HeroStateHandler hero_state_handler = new HeroStateHandler(ref dispatcher);
-        private ItemsStateHandler items_state_handler = new ItemsStateHandler(ref dispatcher);
-        private LeagueStateHandler league_state_handler = new LeagueStateHandler(ref dispatcher);
-        private MapStateHandler map_state_handler = new MapStateHandler(ref dispatcher);
-        private MinimapStateHandler minimap_state_handler = new MinimapStateHandler(ref dispatcher);
-        private NeutralItemsStateHandler neutral_items_state_handler = new NeutralItemsStateHandler(ref dispatcher);
-        private PlayerStateHandler player_state_handler = new PlayerStateHandler(ref dispatcher);
-        private ProviderStateHandler provider_state_handler = new ProviderStateHandler(ref dispatcher);
+        private AbilitiesHandler _abilities_handler = new AbilitiesHandler(ref _dispatcher);
+        private AuthHandler _auth_handler = new AuthHandler(ref _dispatcher);
+        private BuildingsHandler _buildings_handler = new BuildingsHandler(ref _dispatcher);
+        private CouriersHandler _couriers_handler = new CouriersHandler(ref _dispatcher);
+        private DraftHandler _draft_handler = new DraftHandler(ref _dispatcher);
+        private EventsHandler _events_handler = new EventsHandler(ref _dispatcher);
+        private HeroHandler _hero_handler = new HeroHandler(ref _dispatcher);
+        private ItemsHandler _items_handler = new ItemsHandler(ref _dispatcher);
+        private LeagueHandler _league_handler = new LeagueHandler(ref _dispatcher);
+        private MapHandler _map_handler = new MapHandler(ref _dispatcher);
+        private MinimapHandler _minimap_handler = new MinimapHandler(ref _dispatcher);
+        private NeutralItemsHandler _neutral_items_handler = new NeutralItemsHandler(ref _dispatcher);
+        private PlayerHandler _player_handler = new PlayerHandler(ref _dispatcher);
+        private ProviderHandler _provider_handler = new ProviderHandler(ref _dispatcher);
+        private RoshanHandler _roshan_handler = new RoshanHandler(ref _dispatcher);
+        private WearablesHandler _wearables_handler = new WearablesHandler(ref _dispatcher);
         private RoshanStateHandler roshan_state_handler = new RoshanStateHandler(ref dispatcher);
         private WearablesStateHandler wearables_state_handler = new WearablesStateHandler(ref dispatcher);
 

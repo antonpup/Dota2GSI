@@ -2,14 +2,14 @@
 
 namespace Dota2GSI
 {
-    public class MinimapStateHandler : EventHandler<DotaGameEvent>
+    public class MinimapHandler : EventHandler<DotaGameEvent>
     {
-        public MinimapStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public MinimapHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<MinimapUpdated>(OnMinimapStateUpdated);
         }
 
-        ~MinimapStateHandler()
+        ~MinimapHandler()
         {
             dispatcher.Unsubscribe<MinimapUpdated>(OnMinimapStateUpdated);
         }

@@ -2,14 +2,14 @@
 
 namespace Dota2GSI
 {
-    public class AuthStateHandler : EventHandler<DotaGameEvent>
+    public class AuthHandler : EventHandler<DotaGameEvent>
     {
-        public AuthStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public AuthHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<AuthUpdated>(OnAuthStateUpdated);
         }
 
-        ~AuthStateHandler()
+        ~AuthHandler()
         {
             dispatcher.Unsubscribe<AuthUpdated>(OnAuthStateUpdated);
         }

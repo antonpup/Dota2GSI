@@ -2,14 +2,14 @@
 
 namespace Dota2GSI
 {
-    public class WearablesStateHandler : EventHandler<DotaGameEvent>
+    public class WearablesHandler : EventHandler<DotaGameEvent>
     {
-        public WearablesStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public WearablesHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<WearablesUpdated>(OnWearablesStateUpdated);
         }
 
-        ~WearablesStateHandler()
+        ~WearablesHandler()
         {
             dispatcher.Unsubscribe<WearablesUpdated>(OnWearablesStateUpdated);
         }

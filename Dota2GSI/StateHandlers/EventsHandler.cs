@@ -5,17 +5,17 @@ using System.Linq;
 
 namespace Dota2GSI
 {
-    public class EventsStateHandler : EventHandler<DotaGameEvent>
+    public class EventsHandler : EventHandler<DotaGameEvent>
     {
         private Player current_player_state = new Player();
 
-        public EventsStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public EventsHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<EventsUpdated>(OnEventsStateUpdated);
             dispatcher.Subscribe<PlayerUpdated>(OnPlayerStateUpdated);
         }
 
-        ~EventsStateHandler()
+        ~EventsHandler()
         {
             dispatcher.Unsubscribe<EventsUpdated>(OnEventsStateUpdated);
             dispatcher.Unsubscribe<PlayerUpdated>(OnPlayerStateUpdated);

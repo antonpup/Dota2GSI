@@ -3,17 +3,17 @@ using Dota2GSI.Nodes;
 
 namespace Dota2GSI
 {
-    public class CouriersStateHandler : EventHandler<DotaGameEvent>
+    public class CouriersHandler : EventHandler<DotaGameEvent>
     {
         private Player current_player_state = new Player();
 
-        public CouriersStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public CouriersHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<CouriersUpdated>(OnCouriersStateUpdated);
             dispatcher.Subscribe<PlayerUpdated>(OnPlayerStateUpdated);
         }
 
-        ~CouriersStateHandler()
+        ~CouriersHandler()
         {
             dispatcher.Unsubscribe<CouriersUpdated>(OnCouriersStateUpdated);
             dispatcher.Unsubscribe<PlayerUpdated>(OnPlayerStateUpdated);
