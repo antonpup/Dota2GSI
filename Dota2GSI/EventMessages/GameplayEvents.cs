@@ -25,11 +25,11 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Event.
+    /// Event for specific team Gameplay Event.
     /// </summary>
-    public class TeamEvent : TeamValueEvent<Event>
+    public class TeamGameplayEvent : TeamValueEvent<Event>
     {
-        public TeamEvent(Event value, PlayerTeam team) : base(value, team)
+        public TeamGameplayEvent(Event value, PlayerTeam team) : base(value, team)
         {
         }
     }
@@ -37,9 +37,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for specific player Event.
     /// </summary>
-    public class PlayerEvent : PlayerValueEvent<Event>
+    public class PlayerGameplayEvent : PlayerValueEvent<Event>
     {
-        public PlayerEvent(Event value, FullPlayerDetails player) : base(value, player)
+        public PlayerGameplayEvent(Event value, FullPlayerDetails player) : base(value, player)
         {
         }
     }

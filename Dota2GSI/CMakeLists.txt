@@ -30,7 +30,7 @@ SET(SOURCES
     EventMessages/CouriersEvents.cs
     EventMessages/DotaGameEvent.cs
     EventMessages/DraftEvents.cs
-    EventMessages/EventsEvents.cs
+    EventMessages/GameplayEvents.cs
     EventMessages/FullDetailsEvents.cs
     EventMessages/HeroEvents.cs
     EventMessages/ItemsEvents.cs
@@ -90,7 +90,7 @@ SET(SOURCES
     StateHandlers/BuildingsHandler.cs
     StateHandlers/CouriersHandler.cs
     StateHandlers/DraftHandler.cs
-    StateHandlers/EventsHandler.cs
+    StateHandlers/GameplayEventsHandler.cs
     StateHandlers/FullDetailsHandler.cs
     StateHandlers/HeroHandler.cs
     StateHandlers/ItemsHandler.cs
