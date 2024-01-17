@@ -31,6 +31,7 @@ SET(SOURCES
     EventMessages/DotaGameEvent.cs
     EventMessages/DraftEvents.cs
     EventMessages/EventsEvents.cs
+    EventMessages/FullDetailsEvents.cs
     EventMessages/HeroEvents.cs
     EventMessages/ItemsEvents.cs
     EventMessages/LeagueEvents.cs
@@ -90,6 +91,7 @@ SET(SOURCES
     StateHandlers/CouriersHandler.cs
     StateHandlers/DraftHandler.cs
     StateHandlers/EventsHandler.cs
+    StateHandlers/FullDetailsHandler.cs
     StateHandlers/HeroHandler.cs
     StateHandlers/ItemsHandler.cs
     StateHandlers/LeagueHandler.cs
