@@ -1,4 +1,5 @@
 ﻿using Dota2GSI.Nodes;
+using Dota2GSI.Nodes.Helpers;
 using Dota2GSI.Nodes.ItemsProvider;
 
 namespace Dota2GSI.EventMessages
@@ -18,7 +19,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class ItemDetailsChanged : PlayerUpdateEvent<ItemDetails>
     {
-        public ItemDetailsChanged(ItemDetails new_value, ItemDetails previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public ItemDetailsChanged(ItemDetails new_value, ItemDetails previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }

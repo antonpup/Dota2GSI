@@ -1,5 +1,6 @@
 ﻿using Dota2GSI.Nodes;
 using Dota2GSI.Nodes.CouriersProvider;
+using Dota2GSI.Nodes.Helpers;
 
 namespace Dota2GSI.EventMessages
 {
@@ -18,7 +19,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class CourierUpdated : PlayerUpdateEvent<Courier>
     {
-        public CourierUpdated(Courier new_value, Courier previous_value, int player_id) : base(new_value, previous_value, player_id)
+        public CourierUpdated(Courier new_value, Courier previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }

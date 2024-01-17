@@ -65,26 +65,31 @@ namespace Dota2GSI
 
             if (!previous_game_state.Player.Equals(game_state.Player))
             {
+                // Depends on FullPlayerDetailsUpdated. This broadcast must happen after FullPlayerDetailsUpdated.
                 dispatcher.Broadcast(new PlayerUpdated(game_state.Player, previous_game_state.Player));
             }
 
             if (!previous_game_state.Hero.Equals(game_state.Hero))
             {
+                // Depends on FullPlayerDetailsUpdated. This broadcast must happen after FullPlayerDetailsUpdated.
                 dispatcher.Broadcast(new HeroUpdated(game_state.Hero, previous_game_state.Hero));
             }
 
             if (!previous_game_state.Abilities.Equals(game_state.Abilities))
             {
+                // Depends on FullPlayerDetailsUpdated. This broadcast must happen after FullPlayerDetailsUpdated.
                 dispatcher.Broadcast(new AbilitiesUpdated(game_state.Abilities, previous_game_state.Abilities));
             }
 
             if (!previous_game_state.Items.Equals(game_state.Items))
             {
+                // Depends on FullPlayerDetailsUpdated. This broadcast must happen after FullPlayerDetailsUpdated.
                 dispatcher.Broadcast(new ItemsUpdated(game_state.Items, previous_game_state.Items));
             }
 
             if (!previous_game_state.Events.Equals(game_state.Events))
             {
+                // Depends on FullPlayerDetailsUpdated. This broadcast must happen after FullPlayerDetailsUpdated.
                 dispatcher.Broadcast(new EventsUpdated(game_state.Events, previous_game_state.Events));
             }
 
@@ -105,6 +110,7 @@ namespace Dota2GSI
 
             if (!previous_game_state.Wearables.Equals(game_state.Wearables))
             {
+                // Depends on FullPlayerDetailsUpdated. This broadcast must happen after FullPlayerDetailsUpdated.
                 dispatcher.Broadcast(new WearablesUpdated(game_state.Wearables, previous_game_state.Wearables));
             }
 
@@ -120,6 +126,7 @@ namespace Dota2GSI
 
             if (!previous_game_state.Couriers.Equals(game_state.Couriers))
             {
+                // Depends on FullPlayerDetailsUpdated. This broadcast must happen after FullPlayerDetailsUpdated.
                 dispatcher.Broadcast(new CouriersUpdated(game_state.Couriers, previous_game_state.Couriers));
             }
 
