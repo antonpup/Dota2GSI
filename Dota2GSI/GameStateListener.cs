@@ -1,7 +1,6 @@
-using Dota2GSI.EventMessages;
+﻿using Dota2GSI.EventMessages;
 using Newtonsoft.Json.Linq;
 using System;
-using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -24,7 +23,7 @@ namespace Dota2GSI
     /// <summary>
     /// 
     /// </summary>
-    public class GameStateListener : IDisposable
+    public class GameStateListener : Dota2EventsInterface, IDisposable
     {
         /// <summary>
         /// The previous game state.
@@ -33,7 +32,7 @@ namespace Dota2GSI
         {
             get
             {
-                return previousGameState;
+                return _previous_game_state;
             }
         }
 
@@ -44,44 +43,42 @@ namespace Dota2GSI
         {
             get
             {
-                return currentGameState;
+                return _current_game_state;
             }
             private set
             {
-                previousGameState = currentGameState;
-                currentGameState = value;
-                RaiseOnNewGameState(ref currentGameState);
+                _previous_game_state = _current_game_state;
+                _current_game_state = value;
+                RaiseOnNewGameState(ref _current_game_state);
             }
         }
 
         /// <summary>
         /// Gets the port that is being listened.
         /// </summary>
-        public int Port { get { return connection_port; } }
+        public int Port { get { return _port; } }
 
         /// <summary>
         /// Returns whether or not the listener is running.
         /// </summary>
-        public bool Running { get { return isRunning; } }
+        public bool Running { get { return _is_running; } }
 
         /// <summary>
         /// Event for handing a newly received game state.
         /// </summary>
         public event NewGameStateHandler NewGameState = delegate { };
 
-        /// <summary>
-        /// Event for handing Dota 2 game events.
-        /// </summary>
-        public event GameEventHandler GameEvent = delegate { };
+        private bool _is_running = false;
+        private int _port;
+        private HttpListener _http_listener;
+        private AutoResetEvent _wait_for_connection = new AutoResetEvent(false);
+        private GameState _previous_game_state = new GameState();
+        private GameState _current_game_state = new GameState();
 
-        private bool isRunning = false;
-        private int connection_port;
-        private HttpListener net_Listener;
-        private AutoResetEvent waitForConnection = new AutoResetEvent(false);
-        private GameState previousGameState = new GameState();
-        private GameState currentGameState = new GameState();
+        // Dispatcher for game events.
+        private static EventDispatcher<DotaGameEvent> _dispatcher = new EventDispatcher<DotaGameEvent>();
 
-        private static EventDispatcher<DotaGameEvent> dispatcher = new EventDispatcher<DotaGameEvent>();
+        // Game State handlers.
         private AbilitiesHandler _abilities_handler = new AbilitiesHandler(ref _dispatcher);
         private AuthHandler _auth_handler = new AuthHandler(ref _dispatcher);
         private BuildingsHandler _buildings_handler = new BuildingsHandler(ref _dispatcher);
@@ -98,17 +95,16 @@ namespace Dota2GSI
         private ProviderHandler _provider_handler = new ProviderHandler(ref _dispatcher);
         private RoshanHandler _roshan_handler = new RoshanHandler(ref _dispatcher);
         private WearablesHandler _wearables_handler = new WearablesHandler(ref _dispatcher);
-        private RoshanStateHandler roshan_state_handler = new RoshanStateHandler(ref dispatcher);
-        private WearablesStateHandler wearables_state_handler = new WearablesStateHandler(ref dispatcher);
 
-        private GameStateHandler game_state_handler = new GameStateHandler(ref dispatcher);
+        // Overall GameState handler.
+        private GameStateHandler _game_state_handler = new GameStateHandler(ref _dispatcher);
 
         /// <summary>
         /// Default constructor.
         /// </summary>
         private GameStateListener()
         {
-            dispatcher.GameEvent += RaiseOnDotaGameEvent;
+            _dispatcher.GameEvent += OnNewGameEvent;
         }
 
         /// <summary>
@@ -117,9 +113,9 @@ namespace Dota2GSI
         /// <param name="Port">The port to listen on.</param>
         public GameStateListener(int Port) : this()
         {
-            connection_port = Port;
-            net_Listener = new HttpListener();
-            net_Listener.Prefixes.Add("http://localhost:" + Port + "/");
+            _port = Port;
+            _http_listener = new HttpListener();
+            _http_listener.Prefixes.Add("http://localhost:" + Port + "/");
         }
 
         /// <summary>
@@ -141,10 +137,10 @@ namespace Dota2GSI
                 throw new ArgumentException("Not a valid URI: " + URI);
             }
 
-            connection_port = Convert.ToInt32(PortMatch.Groups[1].Value);
+            _port = Convert.ToInt32(PortMatch.Groups[1].Value);
 
-            net_Listener = new HttpListener();
-            net_Listener.Prefixes.Add(URI);
+            _http_listener = new HttpListener();
+            _http_listener.Prefixes.Add(URI);
         }
 
         /// <summary>
@@ -152,18 +148,18 @@ namespace Dota2GSI
         /// </summary>
         public bool Start()
         {
-            if (!isRunning)
+            if (!_is_running)
             {
                 Thread ListenerThread = new Thread(new ThreadStart(Run));
                 try
                 {
-                    net_Listener.Start();
+                    _http_listener.Start();
                 }
                 catch (HttpListenerException)
                 {
                     return false;
                 }
-                isRunning = true;
+                _is_running = true;
 
                 // Set this to true, so when the program wants to terminate,
                 // this thread won't stop the program from exiting.
@@ -181,29 +177,29 @@ namespace Dota2GSI
         /// </summary>
         public void Stop()
         {
-            isRunning = false;
+            _is_running = false;
         }
 
         private void Run()
         {
-            while (isRunning)
+            while (_is_running)
             {
-                net_Listener.BeginGetContext(ReceiveGameState, net_Listener);
-                waitForConnection.WaitOne();
-                waitForConnection.Reset();
+                _http_listener.BeginGetContext(ReceiveGameState, _http_listener);
+                _wait_for_connection.WaitOne();
+                _wait_for_connection.Reset();
             }
-            net_Listener.Stop();
+            _http_listener.Stop();
         }
 
         private void ReceiveGameState(IAsyncResult result)
         {
             try
             {
-                HttpListenerContext context = net_Listener.EndGetContext(result);
+                HttpListenerContext context = _http_listener.EndGetContext(result);
                 HttpListenerRequest request = context.Request;
                 string json_data;
 
-                waitForConnection.Set();
+                _wait_for_connection.Set();
 
                 using (Stream inputStream = request.InputStream)
                 {
@@ -227,36 +223,11 @@ namespace Dota2GSI
             }
         }
 
-        private void RaiseOnDotaGameEvent(DotaGameEvent e)
-        {
-            foreach (Delegate d in GameEvent.GetInvocationList())
-            {
-                if (d.Target is ISynchronizeInvoke)
-                {
-                    (d.Target as ISynchronizeInvoke).BeginInvoke(d, new object[] { e });
-                }
-                else
-                {
-                    d.DynamicInvoke(e);
-                }
-            }
-        }
-
         private void RaiseOnNewGameState(ref GameState game_state)
         {
-            foreach (Delegate d in NewGameState.GetInvocationList())
-            {
-                if (d.Target is ISynchronizeInvoke)
-                {
-                    (d.Target as ISynchronizeInvoke).BeginInvoke(d, new object[] { game_state });
-                }
-                else
-                {
-                    d.DynamicInvoke(game_state);
-                }
-            }
+            RaiseEvent(NewGameState, game_state);
 
-            game_state_handler.OnNewGameState(CurrentGameState);
+            _game_state_handler.OnNewGameState(CurrentGameState);
         }
 
         /// <summary>
@@ -265,8 +236,8 @@ namespace Dota2GSI
         public void Dispose()
         {
             Stop();
-            waitForConnection.Dispose();
-            net_Listener.Close();
+            _wait_for_connection.Dispose();
+            _http_listener.Close();
         }
     }
 }
