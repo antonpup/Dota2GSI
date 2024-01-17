@@ -2,14 +2,14 @@
 
 namespace Dota2GSI
 {
-    public class MapStateHandler : EventHandler<DotaGameEvent>
+    public class MapHandler : EventHandler<DotaGameEvent>
     {
-        public MapStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public MapHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<MapUpdated>(OnMapStateUpdated);
         }
 
-        ~MapStateHandler()
+        ~MapHandler()
         {
             dispatcher.Unsubscribe<MapUpdated>(OnMapStateUpdated);
         }

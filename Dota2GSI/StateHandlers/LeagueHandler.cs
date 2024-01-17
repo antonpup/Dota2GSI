@@ -2,14 +2,14 @@
 
 namespace Dota2GSI
 {
-    public class LeagueStateHandler : EventHandler<DotaGameEvent>
+    public class LeagueHandler : EventHandler<DotaGameEvent>
     {
-        public LeagueStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public LeagueHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<LeagueUpdated>(OnLeagueStateUpdated);
         }
 
-        ~LeagueStateHandler()
+        ~LeagueHandler()
         {
             dispatcher.Unsubscribe<LeagueUpdated>(OnLeagueStateUpdated);
         }

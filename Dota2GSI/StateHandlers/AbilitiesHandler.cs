@@ -4,15 +4,15 @@ using System.Linq;
 
 namespace Dota2GSI
 {
-    public class AbilitiesStateHandler : EventHandler<DotaGameEvent>
+    public class AbilitiesHandler : EventHandler<DotaGameEvent>
     {
-        public AbilitiesStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
+        public AbilitiesHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<AbilitiesUpdated>(OnAbilitiesStateUpdated);
             dispatcher.Subscribe<AbilityDetailsChanged>(OnAbilityDetailsChanged);
         }
 
-        ~AbilitiesStateHandler()
+        ~AbilitiesHandler()
         {
             dispatcher.Unsubscribe<AbilitiesUpdated>(OnAbilitiesStateUpdated);
             dispatcher.Unsubscribe<AbilityDetailsChanged>(OnAbilityDetailsChanged);
