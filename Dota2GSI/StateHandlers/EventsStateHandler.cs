@@ -1,4 +1,4 @@
-﻿using Dota2GSI.EventMessages;
+using Dota2GSI.EventMessages;
 using Dota2GSI.Nodes;
 using Dota2GSI.Nodes.EventsProvider;
 using System.Linq;
@@ -11,19 +11,19 @@ namespace Dota2GSI
 
         public EventsStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<EventsStateUpdated>(OnEventsStateUpdated);
-            dispatcher.Subscribe<PlayerStateUpdated>(OnPlayerStateUpdated);
+            dispatcher.Subscribe<EventsUpdated>(OnEventsStateUpdated);
+            dispatcher.Subscribe<PlayerUpdated>(OnPlayerStateUpdated);
         }
 
         ~EventsStateHandler()
         {
-            dispatcher.Unsubscribe<EventsStateUpdated>(OnEventsStateUpdated);
-            dispatcher.Unsubscribe<PlayerStateUpdated>(OnPlayerStateUpdated);
+            dispatcher.Unsubscribe<EventsUpdated>(OnEventsStateUpdated);
+            dispatcher.Unsubscribe<PlayerUpdated>(OnPlayerStateUpdated);
         }
 
         private void OnPlayerStateUpdated(DotaGameEvent e)
         {
-            PlayerStateUpdated evt = (e as PlayerStateUpdated);
+            PlayerUpdated evt = (e as PlayerUpdated);
 
             if (evt == null)
             {
@@ -35,7 +35,7 @@ namespace Dota2GSI
 
         private void OnEventsStateUpdated(DotaGameEvent e)
         {
-            EventsStateUpdated evt = (e as EventsStateUpdated);
+            EventsUpdated evt = (e as EventsUpdated);
 
             if (evt == null)
             {

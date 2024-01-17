@@ -8,19 +8,19 @@ namespace Dota2GSI
     {
         public AbilitiesStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<AbilitiesStateUpdated>(OnAbilitiesStateUpdated);
+            dispatcher.Subscribe<AbilitiesUpdated>(OnAbilitiesStateUpdated);
             dispatcher.Subscribe<AbilityDetailsChanged>(OnAbilityDetailsChanged);
         }
 
         ~AbilitiesStateHandler()
         {
-            dispatcher.Unsubscribe<AbilitiesStateUpdated>(OnAbilitiesStateUpdated);
+            dispatcher.Unsubscribe<AbilitiesUpdated>(OnAbilitiesStateUpdated);
             dispatcher.Unsubscribe<AbilityDetailsChanged>(OnAbilityDetailsChanged);
         }
 
         private void OnAbilitiesStateUpdated(DotaGameEvent e)
         {
-            AbilitiesStateUpdated evt = (e as AbilitiesStateUpdated);
+            AbilitiesUpdated evt = (e as AbilitiesUpdated);
 
             if (evt == null)
             {

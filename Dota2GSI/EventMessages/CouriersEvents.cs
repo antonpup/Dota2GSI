@@ -6,9 +6,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Couriers update. 
     /// </summary>
-    public class CouriersStateUpdated : UpdateEvent<Couriers>
+    public class CouriersUpdated : UpdateEvent<Couriers>
     {
-        public CouriersStateUpdated(Couriers new_value, Couriers previous_value) : base(new_value, previous_value)
+        public CouriersUpdated(Couriers new_value, Couriers previous_value) : base(new_value, previous_value)
         {
         }
     }

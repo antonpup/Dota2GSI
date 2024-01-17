@@ -5,9 +5,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Roshan update. 
     /// </summary>
-    public class RoshanStateUpdated : UpdateEvent<Roshan>
+    public class RoshanUpdated : UpdateEvent<Roshan>
     {
-        public RoshanStateUpdated(Roshan new_value, Roshan previous_value) : base(new_value, previous_value)
+        public RoshanUpdated(Roshan new_value, Roshan previous_value) : base(new_value, previous_value)
         {
         }
     }

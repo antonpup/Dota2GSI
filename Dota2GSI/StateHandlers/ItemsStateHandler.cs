@@ -6,17 +6,17 @@ namespace Dota2GSI
     {
         public ItemsStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<ItemsStateUpdated>(OnItemsStateUpdated);
+            dispatcher.Subscribe<ItemsUpdated>(OnItemsStateUpdated);
         }
 
         ~ItemsStateHandler()
         {
-            dispatcher.Unsubscribe<ItemsStateUpdated>(OnItemsStateUpdated);
+            dispatcher.Unsubscribe<ItemsUpdated>(OnItemsStateUpdated);
         }
 
         private void OnItemsStateUpdated(DotaGameEvent e)
         {
-            ItemsStateUpdated evt = (e as ItemsStateUpdated);
+            ItemsUpdated evt = (e as ItemsUpdated);
 
             if (evt == null)
             {

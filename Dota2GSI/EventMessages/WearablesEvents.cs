@@ -6,9 +6,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Wearables update. 
     /// </summary>
-    public class WearablesStateUpdated : UpdateEvent<Wearables>
+    public class WearablesUpdated : UpdateEvent<Wearables>
     {
-        public WearablesStateUpdated(Wearables new_value, Wearables previous_value) : base(new_value, previous_value)
+        public WearablesUpdated(Wearables new_value, Wearables previous_value) : base(new_value, previous_value)
         {
         }
     }

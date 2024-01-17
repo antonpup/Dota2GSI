@@ -1,5 +1,4 @@
-﻿
-using Dota2GSI.Nodes;
+﻿using Dota2GSI.Nodes;
 
 namespace Dota2GSI.EventMessages
 {

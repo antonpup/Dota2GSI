@@ -6,9 +6,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Buildings update. 
     /// </summary>
-    public class BuildingsStateUpdated : UpdateEvent<Buildings>
+    public class BuildingsUpdated : UpdateEvent<Buildings>
     {
-        public BuildingsStateUpdated(Buildings new_value, Buildings previous_value) : base(new_value, previous_value)
+        public BuildingsUpdated(Buildings new_value, Buildings previous_value) : base(new_value, previous_value)
         {
         }
     }

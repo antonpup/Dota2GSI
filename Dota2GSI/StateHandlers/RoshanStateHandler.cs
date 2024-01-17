@@ -6,19 +6,19 @@ namespace Dota2GSI
     {
         public RoshanStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<RoshanStateUpdated>(OnRoshanStateUpdated);
+            dispatcher.Subscribe<RoshanUpdated>(OnRoshanStateUpdated);
         }
 
         ~RoshanStateHandler()
         {
-            dispatcher.Unsubscribe<RoshanStateUpdated>(OnRoshanStateUpdated);
+            dispatcher.Unsubscribe<RoshanUpdated>(OnRoshanStateUpdated);
         }
 
         private void OnRoshanStateUpdated(DotaGameEvent e)
         {
-            RoshanStateUpdated roshan_state_updated_event = (e as RoshanStateUpdated);
+            RoshanUpdated evt = (e as RoshanUpdated);
 
-            if (roshan_state_updated_event == null)
+            if (evt == null)
             {
                 return;
             }

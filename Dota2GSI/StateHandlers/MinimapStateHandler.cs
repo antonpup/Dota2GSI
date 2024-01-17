@@ -6,17 +6,17 @@ namespace Dota2GSI
     {
         public MinimapStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<MinimapStateUpdated>(OnMinimapStateUpdated);
+            dispatcher.Subscribe<MinimapUpdated>(OnMinimapStateUpdated);
         }
 
         ~MinimapStateHandler()
         {
-            dispatcher.Unsubscribe<MinimapStateUpdated>(OnMinimapStateUpdated);
+            dispatcher.Unsubscribe<MinimapUpdated>(OnMinimapStateUpdated);
         }
 
         private void OnMinimapStateUpdated(DotaGameEvent e)
         {
-            MinimapStateUpdated evt = (e as MinimapStateUpdated);
+            MinimapUpdated evt = (e as MinimapUpdated);
 
             if (evt == null)
             {

@@ -6,19 +6,19 @@ namespace Dota2GSI
     {
         public HeroStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<HeroStateUpdated>(OnHeroStateUpdated);
+            dispatcher.Subscribe<HeroUpdated>(OnHeroStateUpdated);
             dispatcher.Subscribe<HeroDetailsChanged>(OnHeroDetailsChanged);
         }
 
         ~HeroStateHandler()
         {
-            dispatcher.Unsubscribe<HeroStateUpdated>(OnHeroStateUpdated);
+            dispatcher.Unsubscribe<HeroUpdated>(OnHeroStateUpdated);
             dispatcher.Unsubscribe<HeroDetailsChanged>(OnHeroDetailsChanged);
         }
 
         private void OnHeroStateUpdated(DotaGameEvent e)
         {
-            HeroStateUpdated evt = (e as HeroStateUpdated);
+            HeroUpdated evt = (e as HeroUpdated);
 
             if (evt == null)
             {

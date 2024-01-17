@@ -6,9 +6,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Neutral Items update. 
     /// </summary>
-    public class NeutralItemsStateUpdated : UpdateEvent<NeutralItems>
+    public class NeutralItemsUpdated : UpdateEvent<NeutralItems>
     {
-        public NeutralItemsStateUpdated(NeutralItems new_value, NeutralItems previous_value) : base(new_value, previous_value)
+        public NeutralItemsUpdated(NeutralItems new_value, NeutralItems previous_value) : base(new_value, previous_value)
         {
         }
     }

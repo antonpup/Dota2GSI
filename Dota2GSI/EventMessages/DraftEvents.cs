@@ -6,9 +6,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Draft update. 
     /// </summary>
-    public class DraftStateUpdated : UpdateEvent<Draft>
+    public class DraftUpdated : UpdateEvent<Draft>
     {
-        public DraftStateUpdated(Draft new_value, Draft previous_value) : base(new_value, previous_value)
+        public DraftUpdated(Draft new_value, Draft previous_value) : base(new_value, previous_value)
         {
         }
     }

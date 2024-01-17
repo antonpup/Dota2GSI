@@ -6,9 +6,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Player update. 
     /// </summary>
-    public class PlayerStateUpdated : UpdateEvent<Player>
+    public class PlayerUpdated : UpdateEvent<Player>
     {
-        public PlayerStateUpdated(Player new_value, Player previous_value) : base(new_value, previous_value)
+        public PlayerUpdated(Player new_value, Player previous_value) : base(new_value, previous_value)
         {
         }
     }
