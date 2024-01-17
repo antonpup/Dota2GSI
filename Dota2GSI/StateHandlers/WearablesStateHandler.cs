@@ -6,17 +6,17 @@ namespace Dota2GSI
     {
         public WearablesStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<WearablesStateUpdated>(OnWearablesStateUpdated);
+            dispatcher.Subscribe<WearablesUpdated>(OnWearablesStateUpdated);
         }
 
         ~WearablesStateHandler()
         {
-            dispatcher.Unsubscribe<WearablesStateUpdated>(OnWearablesStateUpdated);
+            dispatcher.Unsubscribe<WearablesUpdated>(OnWearablesStateUpdated);
         }
 
         private void OnWearablesStateUpdated(DotaGameEvent e)
         {
-            WearablesStateUpdated evt = (e as WearablesStateUpdated);
+            WearablesUpdated evt = (e as WearablesUpdated);
 
             if (evt == null)
             {

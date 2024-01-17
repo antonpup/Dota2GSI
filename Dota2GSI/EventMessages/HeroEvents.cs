@@ -6,9 +6,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Hero update. 
     /// </summary>
-    public class HeroStateUpdated : UpdateEvent<Hero>
+    public class HeroUpdated : UpdateEvent<Hero>
     {
-        public HeroStateUpdated(Hero new_value, Hero previous_value) : base(new_value, previous_value)
+        public HeroUpdated(Hero new_value, Hero previous_value) : base(new_value, previous_value)
         {
         }
     }

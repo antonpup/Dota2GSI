@@ -6,9 +6,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Hero Abilities update. 
     /// </summary>
-    public class AbilitiesStateUpdated : UpdateEvent<Abilities>
+    public class AbilitiesUpdated : UpdateEvent<Abilities>
     {
-        public AbilitiesStateUpdated(Abilities new_value, Abilities previous_value) : base(new_value, previous_value)
+        public AbilitiesUpdated(Abilities new_value, Abilities previous_value) : base(new_value, previous_value)
         {
         }
     }

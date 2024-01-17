@@ -6,9 +6,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Minimap update. 
     /// </summary>
-    public class MinimapStateUpdated : UpdateEvent<Minimap>
+    public class MinimapUpdated : UpdateEvent<Minimap>
     {
-        public MinimapStateUpdated(Minimap new_value, Minimap previous_value) : base(new_value, previous_value)
+        public MinimapUpdated(Minimap new_value, Minimap previous_value) : base(new_value, previous_value)
         {
         }
     }

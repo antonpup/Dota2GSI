@@ -6,17 +6,17 @@ namespace Dota2GSI
     {
         public AuthStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<AuthStateUpdated>(OnAuthStateUpdated);
+            dispatcher.Subscribe<AuthUpdated>(OnAuthStateUpdated);
         }
 
         ~AuthStateHandler()
         {
-            dispatcher.Unsubscribe<AuthStateUpdated>(OnAuthStateUpdated);
+            dispatcher.Unsubscribe<AuthUpdated>(OnAuthStateUpdated);
         }
 
         private void OnAuthStateUpdated(DotaGameEvent e)
         {
-            AuthStateUpdated evt = (e as AuthStateUpdated);
+            AuthUpdated evt = (e as AuthUpdated);
 
             if (evt == null)
             {

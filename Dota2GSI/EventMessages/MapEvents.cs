@@ -5,9 +5,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Map update. 
     /// </summary>
-    public class MapStateUpdated : UpdateEvent<Map>
+    public class MapUpdated : UpdateEvent<Map>
     {
-        public MapStateUpdated(Map new_value, Map previous_value) : base(new_value, previous_value)
+        public MapUpdated(Map new_value, Map previous_value) : base(new_value, previous_value)
         {
         }
     }

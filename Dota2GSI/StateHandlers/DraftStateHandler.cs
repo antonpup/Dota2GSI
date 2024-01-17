@@ -6,17 +6,17 @@ namespace Dota2GSI
     {
         public DraftStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<DraftStateUpdated>(OnDraftStateUpdated);
+            dispatcher.Subscribe<DraftUpdated>(OnDraftStateUpdated);
         }
 
         ~DraftStateHandler()
         {
-            dispatcher.Unsubscribe<DraftStateUpdated>(OnDraftStateUpdated);
+            dispatcher.Unsubscribe<DraftUpdated>(OnDraftStateUpdated);
         }
 
         private void OnDraftStateUpdated(DotaGameEvent e)
         {
-            DraftStateUpdated evt = (e as DraftStateUpdated);
+            DraftUpdated evt = (e as DraftUpdated);
 
             if (evt == null)
             {

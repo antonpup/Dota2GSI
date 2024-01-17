@@ -9,19 +9,19 @@ namespace Dota2GSI
 
         public CouriersStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<CouriersStateUpdated>(OnCouriersStateUpdated);
-            dispatcher.Subscribe<PlayerStateUpdated>(OnPlayerStateUpdated);
+            dispatcher.Subscribe<CouriersUpdated>(OnCouriersStateUpdated);
+            dispatcher.Subscribe<PlayerUpdated>(OnPlayerStateUpdated);
         }
 
         ~CouriersStateHandler()
         {
-            dispatcher.Unsubscribe<CouriersStateUpdated>(OnCouriersStateUpdated);
-            dispatcher.Unsubscribe<PlayerStateUpdated>(OnPlayerStateUpdated);
+            dispatcher.Unsubscribe<CouriersUpdated>(OnCouriersStateUpdated);
+            dispatcher.Unsubscribe<PlayerUpdated>(OnPlayerStateUpdated);
         }
 
         private void OnPlayerStateUpdated(DotaGameEvent e)
         {
-            PlayerStateUpdated evt = (e as PlayerStateUpdated);
+            PlayerUpdated evt = (e as PlayerUpdated);
 
             if (evt == null)
             {
@@ -33,7 +33,7 @@ namespace Dota2GSI
 
         private void OnCouriersStateUpdated(DotaGameEvent e)
         {
-            CouriersStateUpdated evt = (e as CouriersStateUpdated);
+            CouriersUpdated evt = (e as CouriersUpdated);
 
             if (evt == null)
             {

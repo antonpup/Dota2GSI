@@ -6,17 +6,17 @@ namespace Dota2GSI
     {
         public LeagueStateHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<LeagueStateUpdated>(OnLeagueStateUpdated);
+            dispatcher.Subscribe<LeagueUpdated>(OnLeagueStateUpdated);
         }
 
         ~LeagueStateHandler()
         {
-            dispatcher.Unsubscribe<LeagueStateUpdated>(OnLeagueStateUpdated);
+            dispatcher.Unsubscribe<LeagueUpdated>(OnLeagueStateUpdated);
         }
 
         private void OnLeagueStateUpdated(DotaGameEvent e)
         {
-            LeagueStateUpdated evt = (e as LeagueStateUpdated);
+            LeagueUpdated evt = (e as LeagueUpdated);
 
             if (evt == null)
             {

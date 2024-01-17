@@ -1,14 +1,14 @@
-﻿using Dota2GSI.Nodes;
+using Dota2GSI.Nodes;
 using Dota2GSI.Nodes.EventsProvider;
 
 namespace Dota2GSI.EventMessages
 {
     /// <summary>
-    /// Event for overall Event update. 
+    /// Event for overall Events update. 
     /// </summary>
-    public class EventsStateUpdated : UpdateEvent<Events>
+    public class EventsUpdated : UpdateEvent<Events>
     {
-        public EventsStateUpdated(Events new_value, Events previous_value) : base(new_value, previous_value)
+        public EventsUpdated(Events new_value, Events previous_value) : base(new_value, previous_value)
         {
         }
     }

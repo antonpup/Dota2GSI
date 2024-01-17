@@ -6,9 +6,9 @@ namespace Dota2GSI.EventMessages
     /// <summary>
     /// Event for overall Items update. 
     /// </summary>
-    public class ItemsStateUpdated : UpdateEvent<Items>
+    public class ItemsUpdated : UpdateEvent<Items>
     {
-        public ItemsStateUpdated(Items new_value, Items previous_value) : base(new_value, previous_value)
+        public ItemsUpdated(Items new_value, Items previous_value) : base(new_value, previous_value)
         {
         }
     }
