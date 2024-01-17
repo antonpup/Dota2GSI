@@ -1,4 +1,4 @@
-using Dota2GSI.Nodes;
+﻿using Dota2GSI.Nodes;
 using Dota2GSI.Nodes.EventsProvider;
 
 namespace Dota2GSI.EventMessages
@@ -14,11 +14,11 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for Game Event.
+    /// Event for Gameplay Event.
     /// </summary>
-    public class GameEvent : ValueEvent<Event>
+    public class GameplayEvent : ValueEvent<Event>
     {
-        public GameEvent(Event value) : base(value)
+        public GameplayEvent(Event value) : base(value)
         {
         }
     }

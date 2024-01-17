@@ -1,4 +1,4 @@
-using Dota2GSI.EventMessages;
+﻿using Dota2GSI.EventMessages;
 using Dota2GSI.Nodes;
 using Dota2GSI.Nodes.EventsProvider;
 using System.Linq;
@@ -48,7 +48,7 @@ namespace Dota2GSI
 
                 if (found_event == null)
                 {
-                    dispatcher.Broadcast(new GameEvent(game_event));
+                    dispatcher.Broadcast(new GameplayEvent(game_event));
 
                     switch (game_event.EventType)
                     {
