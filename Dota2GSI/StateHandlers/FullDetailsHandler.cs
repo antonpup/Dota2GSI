@@ -35,7 +35,7 @@ namespace Dota2GSI
                 return;
             }
 
-            foreach(var player_kvp in evt.New.Players)
+            foreach (var player_kvp in evt.New.Players)
             {
                 if (!evt.Previous.Players.ContainsKey(player_kvp.Key))
                 {

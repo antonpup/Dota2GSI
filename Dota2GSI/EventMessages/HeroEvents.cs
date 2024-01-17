@@ -1,4 +1,5 @@
 ﻿using Dota2GSI.Nodes;
+using Dota2GSI.Nodes.Helpers;
 using Dota2GSI.Nodes.HeroProvider;
 
 namespace Dota2GSI.EventMessages
@@ -18,7 +19,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroDetailsChanged : PlayerUpdateEvent<HeroDetails>
     {
-        public HeroDetailsChanged(HeroDetails new_value, HeroDetails previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroDetailsChanged(HeroDetails new_value, HeroDetails previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -28,7 +29,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroLevelChanged : PlayerUpdateEvent<int>
     {
-        public HeroLevelChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroLevelChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -38,7 +39,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroHealthChanged : PlayerUpdateEvent<int>
     {
-        public HeroHealthChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroHealthChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -48,7 +49,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroDied : HeroHealthChanged
     {
-        public HeroDied(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroDied(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -58,7 +59,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroRespawned : HeroHealthChanged
     {
-        public HeroRespawned(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroRespawned(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -68,7 +69,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroTookDamage : HeroHealthChanged
     {
-        public HeroTookDamage(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroTookDamage(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -78,7 +79,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroManaChanged : PlayerUpdateEvent<int>
     {
-        public HeroManaChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroManaChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -88,7 +89,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroStateChanged : PlayerUpdateEvent<HeroState>
     {
-        public HeroStateChanged(HeroState new_value, HeroState previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroStateChanged(HeroState new_value, HeroState previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -98,7 +99,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroMuteStateChanged : PlayerUpdateEvent<bool>
     {
-        public HeroMuteStateChanged(bool new_value, bool previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroMuteStateChanged(bool new_value, bool previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -108,7 +109,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroSelectedChanged : PlayerUpdateEvent<bool>
     {
-        public HeroSelectedChanged(bool new_value, bool previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroSelectedChanged(bool new_value, bool previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -118,7 +119,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroTalentTreeChanged : PlayerUpdateEvent<TalentTreeSpec[]>
     {
-        public HeroTalentTreeChanged(TalentTreeSpec[] new_value, TalentTreeSpec[] previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroTalentTreeChanged(TalentTreeSpec[] new_value, TalentTreeSpec[] previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -128,7 +129,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class HeroAttributesLevelChanged : PlayerUpdateEvent<int>
     {
-        public HeroAttributesLevelChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public HeroAttributesLevelChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }

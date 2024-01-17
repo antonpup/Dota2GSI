@@ -1,4 +1,5 @@
 ﻿using Dota2GSI.Nodes;
+using Dota2GSI.Nodes.Helpers;
 
 namespace Dota2GSI.EventMessages
 {
@@ -26,14 +27,13 @@ namespace Dota2GSI.EventMessages
     public class PlayerValueEvent<T> : ValueEvent<T>
     {
         /// <summary>
-        /// The associated player ID.
-        /// When local player, the player ID is -1.
+        /// The associated player details.
         /// </summary>
-        public readonly int PlayerID;
+        public readonly FullPlayerDetails Player;
 
-        public PlayerValueEvent(T obj, int player_id = -1) : base(obj)
+        public PlayerValueEvent(T obj, FullPlayerDetails player) : base(obj)
         {
-            PlayerID = player_id;
+            Player = player;
         }
     }
 
@@ -84,14 +84,13 @@ namespace Dota2GSI.EventMessages
     public class PlayerUpdateEvent<T> : UpdateEvent<T>
     {
         /// <summary>
-        /// The associated player ID.
-        /// When local player, the player ID is -1.
+        /// The associated player.
         /// </summary>
-        public readonly int PlayerID;
+        public readonly FullPlayerDetails Player;
 
-        public PlayerUpdateEvent(T new_obj, T previous_obj, int player_id = -1) : base(new_obj, previous_obj)
+        public PlayerUpdateEvent(T new_obj, T previous_obj, FullPlayerDetails player) : base(new_obj, previous_obj)
         {
-            PlayerID = player_id;
+            Player = player;
         }
     }
 

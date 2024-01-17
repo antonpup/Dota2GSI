@@ -1,34 +1,35 @@
 ﻿using Dota2GSI.EventMessages;
-using Dota2GSI.Nodes;
+using Dota2GSI.Nodes.Helpers;
+using System.Collections.Generic;
 
 namespace Dota2GSI
 {
     public class CouriersHandler : EventHandler<DotaGameEvent>
     {
-        private Player current_player_state = new Player();
+        private Dictionary<int, FullPlayerDetails> _player_cache = new Dictionary<int, FullPlayerDetails>();
 
         public CouriersHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
+            dispatcher.Subscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
             dispatcher.Subscribe<CouriersUpdated>(OnCouriersStateUpdated);
-            dispatcher.Subscribe<PlayerUpdated>(OnPlayerStateUpdated);
         }
 
         ~CouriersHandler()
         {
+            dispatcher.Unsubscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
             dispatcher.Unsubscribe<CouriersUpdated>(OnCouriersStateUpdated);
-            dispatcher.Unsubscribe<PlayerUpdated>(OnPlayerStateUpdated);
         }
 
-        private void OnPlayerStateUpdated(DotaGameEvent e)
+        private void OnFullPlayerDetailsUpdated(DotaGameEvent e)
         {
-            PlayerUpdated evt = (e as PlayerUpdated);
+            FullPlayerDetailsUpdated evt = (e as FullPlayerDetailsUpdated);
 
             if (evt == null)
             {
                 return;
             }
 
-            current_player_state = evt.New;
+            _player_cache[evt.New.PlayerID] = evt.New;
         }
 
         private void OnCouriersStateUpdated(DotaGameEvent e)
@@ -45,10 +46,10 @@ namespace Dota2GSI
                 var previous_courier = evt.Previous.GetForPlayer(courier_kvp.Value.OwnerID);
                 if (!courier_kvp.Value.Equals(previous_courier))
                 {
-                    dispatcher.Broadcast(new CourierUpdated(courier_kvp.Value, previous_courier, courier_kvp.Value.OwnerID));
+                    var player_details = _player_cache[courier_kvp.Value.OwnerID];
+                    dispatcher.Broadcast(new CourierUpdated(courier_kvp.Value, previous_courier, player_details));
 
-                    var courier_team = current_player_state.GetForPlayer(courier_kvp.Value.OwnerID).Team;
-                    dispatcher.Broadcast(new TeamCourierUpdated(courier_kvp.Value, previous_courier, courier_team));
+                    dispatcher.Broadcast(new TeamCourierUpdated(courier_kvp.Value, previous_courier, player_details.Details.Team));
                 }
             }
         }

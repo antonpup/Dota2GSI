@@ -1,5 +1,6 @@
 ﻿using Dota2GSI.Nodes;
 using Dota2GSI.Nodes.AbilitiesProvider;
+using Dota2GSI.Nodes.Helpers;
 
 namespace Dota2GSI.EventMessages
 {
@@ -18,7 +19,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class AbilityDetailsChanged : PlayerUpdateEvent<AbilityDetails>
     {
-        public AbilityDetailsChanged(AbilityDetails new_value, AbilityDetails previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public AbilityDetailsChanged(AbilityDetails new_value, AbilityDetails previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -28,7 +29,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class AbilityAdded : PlayerValueEvent<Ability>
     {
-        public AbilityAdded(Ability value, int player_id = -1) : base(value, player_id)
+        public AbilityAdded(Ability value, FullPlayerDetails player) : base(value, player)
         {
         }
     }
@@ -38,7 +39,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class AbilityRemoved : PlayerValueEvent<Ability>
     {
-        public AbilityRemoved(Ability value, int player_id = -1) : base(value, player_id)
+        public AbilityRemoved(Ability value, FullPlayerDetails player) : base(value, player)
         {
         }
     }
@@ -48,7 +49,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class AbilityUpdated : PlayerUpdateEvent<Ability>
     {
-        public AbilityUpdated(Ability new_value, Ability previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public AbilityUpdated(Ability new_value, Ability previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }

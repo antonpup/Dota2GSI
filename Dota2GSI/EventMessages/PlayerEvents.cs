@@ -1,4 +1,5 @@
 ﻿using Dota2GSI.Nodes;
+using Dota2GSI.Nodes.Helpers;
 using Dota2GSI.Nodes.PlayerProvider;
 
 namespace Dota2GSI.EventMessages
@@ -18,7 +19,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerDetailsChanged : PlayerUpdateEvent<PlayerDetails>
     {
-        public PlayerDetailsChanged(PlayerDetails new_value, PlayerDetails previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerDetailsChanged(PlayerDetails new_value, PlayerDetails previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -28,7 +29,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerKillsChanged : PlayerUpdateEvent<int>
     {
-        public PlayerKillsChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerKillsChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -38,7 +39,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerDeathsChanged : PlayerUpdateEvent<int>
     {
-        public PlayerDeathsChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerDeathsChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -48,7 +49,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerAssistsChanged : PlayerUpdateEvent<int>
     {
-        public PlayerAssistsChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerAssistsChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -58,7 +59,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerLastHitsChanged : PlayerUpdateEvent<int>
     {
-        public PlayerLastHitsChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerLastHitsChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -68,7 +69,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerDeniesChanged : PlayerUpdateEvent<int>
     {
-        public PlayerDeniesChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerDeniesChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -78,7 +79,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerKillStreakChanged : PlayerUpdateEvent<int>
     {
-        public PlayerKillStreakChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerKillStreakChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -88,7 +89,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerGoldChanged : PlayerUpdateEvent<int>
     {
-        public PlayerGoldChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerGoldChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -98,7 +99,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerWardsPurchasedChanged : PlayerUpdateEvent<int>
     {
-        public PlayerWardsPurchasedChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerWardsPurchasedChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -108,7 +109,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerWardsPlacedChanged : PlayerUpdateEvent<int>
     {
-        public PlayerWardsPlacedChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerWardsPlacedChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -118,7 +119,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerWardsDestroyedChanged : PlayerUpdateEvent<int>
     {
-        public PlayerWardsDestroyedChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerWardsDestroyedChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -128,7 +129,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerRunesActivatedChanged : PlayerUpdateEvent<int>
     {
-        public PlayerRunesActivatedChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerRunesActivatedChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -138,7 +139,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerCampsStackedChanged : PlayerUpdateEvent<int>
     {
-        public PlayerCampsStackedChanged(int new_value, int previous_value, int player_id = -1) : base(new_value, previous_value, player_id)
+        public PlayerCampsStackedChanged(int new_value, int previous_value, FullPlayerDetails player) : base(new_value, previous_value, player)
         {
         }
     }

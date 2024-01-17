@@ -1,17 +1,35 @@
 ﻿using Dota2GSI.EventMessages;
+using Dota2GSI.Nodes.Helpers;
+using System.Collections.Generic;
 
 namespace Dota2GSI
 {
     public class ItemsHandler : EventHandler<DotaGameEvent>
     {
+        private Dictionary<int, FullPlayerDetails> _player_cache = new Dictionary<int, FullPlayerDetails>();
+
         public ItemsHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
+            dispatcher.Subscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
             dispatcher.Subscribe<ItemsUpdated>(OnItemsStateUpdated);
         }
 
         ~ItemsHandler()
         {
+            dispatcher.Unsubscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
             dispatcher.Unsubscribe<ItemsUpdated>(OnItemsStateUpdated);
+        }
+
+        private void OnFullPlayerDetailsUpdated(DotaGameEvent e)
+        {
+            FullPlayerDetailsUpdated evt = (e as FullPlayerDetailsUpdated);
+
+            if (evt == null)
+            {
+                return;
+            }
+
+            _player_cache[evt.New.PlayerID] = evt.New;
         }
 
         private void OnItemsStateUpdated(DotaGameEvent e)
@@ -25,7 +43,7 @@ namespace Dota2GSI
 
             if (!evt.New.LocalPlayer.Equals(evt.Previous.LocalPlayer))
             {
-                dispatcher.Broadcast(new ItemDetailsChanged(evt.New.LocalPlayer, evt.Previous.LocalPlayer));
+                dispatcher.Broadcast(new ItemDetailsChanged(evt.New.LocalPlayer, evt.Previous.LocalPlayer, _player_cache[-1]));
             }
 
             foreach (var team_kvp in evt.New.Teams)
@@ -37,7 +55,7 @@ namespace Dota2GSI
 
                     if (!player_kvp.Value.Equals(previous_hero_details))
                     {
-                        dispatcher.Broadcast(new ItemDetailsChanged(player_kvp.Value, previous_hero_details, player_kvp.Key));
+                        dispatcher.Broadcast(new ItemDetailsChanged(player_kvp.Value, previous_hero_details, _player_cache[player_kvp.Key]));
                     }
                 }
             }

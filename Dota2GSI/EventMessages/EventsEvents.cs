@@ -1,5 +1,6 @@
 ﻿using Dota2GSI.Nodes;
 using Dota2GSI.Nodes.EventsProvider;
+using Dota2GSI.Nodes.Helpers;
 
 namespace Dota2GSI.EventMessages
 {
@@ -38,7 +39,7 @@ namespace Dota2GSI.EventMessages
     /// </summary>
     public class PlayerEvent : PlayerValueEvent<Event>
     {
-        public PlayerEvent(Event value, int player_id) : base(value, player_id)
+        public PlayerEvent(Event value, FullPlayerDetails player) : base(value, player)
         {
         }
     }

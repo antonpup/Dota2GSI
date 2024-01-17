@@ -1,36 +1,37 @@
 ﻿using Dota2GSI.EventMessages;
-using Dota2GSI.Nodes;
 using Dota2GSI.Nodes.EventsProvider;
+using Dota2GSI.Nodes.Helpers;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Dota2GSI
 {
     public class EventsHandler : EventHandler<DotaGameEvent>
     {
-        private Player current_player_state = new Player();
+        private Dictionary<int, FullPlayerDetails> _player_cache = new Dictionary<int, FullPlayerDetails>();
 
         public EventsHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
+            dispatcher.Subscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
             dispatcher.Subscribe<EventsUpdated>(OnEventsStateUpdated);
-            dispatcher.Subscribe<PlayerUpdated>(OnPlayerStateUpdated);
         }
 
         ~EventsHandler()
         {
+            dispatcher.Unsubscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
             dispatcher.Unsubscribe<EventsUpdated>(OnEventsStateUpdated);
-            dispatcher.Unsubscribe<PlayerUpdated>(OnPlayerStateUpdated);
         }
 
-        private void OnPlayerStateUpdated(DotaGameEvent e)
+        private void OnFullPlayerDetailsUpdated(DotaGameEvent e)
         {
-            PlayerUpdated evt = (e as PlayerUpdated);
+            FullPlayerDetailsUpdated evt = (e as FullPlayerDetailsUpdated);
 
             if (evt == null)
             {
                 return;
             }
 
-            current_player_state = evt.New;
+            _player_cache[evt.New.PlayerID] = evt.New;
         }
 
         private void OnEventsStateUpdated(DotaGameEvent e)
@@ -53,28 +54,28 @@ namespace Dota2GSI
                     switch (game_event.EventType)
                     {
                         case EventType.Courier_killed:
-                            dispatcher.Broadcast(new PlayerEvent(game_event, game_event.KillerPlayerID));
+                            dispatcher.Broadcast(new PlayerEvent(game_event, _player_cache[game_event.KillerPlayerID]));
                             dispatcher.Broadcast(new TeamEvent(game_event, game_event.Team));
                             break;
                         case EventType.Roshan_killed:
-                            dispatcher.Broadcast(new PlayerEvent(game_event, game_event.KillerPlayerID));
+                            dispatcher.Broadcast(new PlayerEvent(game_event, _player_cache[game_event.KillerPlayerID]));
                             dispatcher.Broadcast(new TeamEvent(game_event, game_event.Team));
                             break;
                         case EventType.Aegis_picked_up:
-                            dispatcher.Broadcast(new PlayerEvent(game_event, game_event.PlayerID));
-                            dispatcher.Broadcast(new TeamEvent(game_event, current_player_state.GetForPlayer(game_event.PlayerID).Team));
+                            dispatcher.Broadcast(new PlayerEvent(game_event, _player_cache[game_event.PlayerID]));
+                            dispatcher.Broadcast(new TeamEvent(game_event, _player_cache[game_event.PlayerID].Details.Team));
                             break;
                         case EventType.Aegis_denied:
-                            dispatcher.Broadcast(new PlayerEvent(game_event, game_event.PlayerID));
-                            dispatcher.Broadcast(new TeamEvent(game_event, current_player_state.GetForPlayer(game_event.PlayerID).Team));
+                            dispatcher.Broadcast(new PlayerEvent(game_event, _player_cache[game_event.PlayerID]));
+                            dispatcher.Broadcast(new TeamEvent(game_event, _player_cache[game_event.PlayerID].Details.Team));
                             break;
                         case EventType.Tip:
-                            dispatcher.Broadcast(new PlayerEvent(game_event, game_event.PlayerID));
-                            dispatcher.Broadcast(new PlayerEvent(game_event, game_event.TipReceiverPlayerID));
-                            dispatcher.Broadcast(new TeamEvent(game_event, current_player_state.GetForPlayer(game_event.TipReceiverPlayerID).Team));
+                            dispatcher.Broadcast(new PlayerEvent(game_event, _player_cache[game_event.PlayerID]));
+                            dispatcher.Broadcast(new PlayerEvent(game_event, _player_cache[game_event.TipReceiverPlayerID]));
+                            dispatcher.Broadcast(new TeamEvent(game_event, _player_cache[game_event.TipReceiverPlayerID].Details.Team));
                             break;
                         case EventType.Bounty_rune_pickup:
-                            dispatcher.Broadcast(new PlayerEvent(game_event, game_event.PlayerID));
+                            dispatcher.Broadcast(new PlayerEvent(game_event, _player_cache[game_event.PlayerID]));
                             dispatcher.Broadcast(new TeamEvent(game_event, game_event.Team));
                             break;
                         default:
