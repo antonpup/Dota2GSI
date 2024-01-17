@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +24,22 @@ namespace Dota2GSI.Nodes
         internal Node(JObject parsed_data)
         {
             _ParsedData = parsed_data;
+        }
+
+        internal T ToEnum<T>(string str)
+        {
+            if (!string.IsNullOrWhiteSpace(str))
+            {
+                try
+                {
+                    return (T)Enum.Parse(typeof(T), str, true);
+                }
+                catch
+                {
+                }
+            }
+
+            return (T)Enum.Parse(typeof(T), "Undefined", true);
         }
 
         internal JToken GetJToken(string property_name)
@@ -120,18 +136,7 @@ namespace Dota2GSI.Nodes
         {
             var string_value = GetString(property_name);
 
-            if (!string.IsNullOrWhiteSpace(string_value))
-            {
-                try
-                {
-                    return (T)Enum.Parse(typeof(T), string_value, true);
-                }
-                catch
-                {
-                }
-            }
-
-            return (T)Enum.Parse(typeof(T), "Undefined", true);
+            return ToEnum<T>(string_value);
         }
 
         internal bool GetBool(string Name)
