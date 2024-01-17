@@ -84,7 +84,7 @@ namespace Dota2GSI
         private BuildingsHandler _buildings_handler = new BuildingsHandler(ref _dispatcher);
         private CouriersHandler _couriers_handler = new CouriersHandler(ref _dispatcher);
         private DraftHandler _draft_handler = new DraftHandler(ref _dispatcher);
-        private EventsHandler _events_handler = new EventsHandler(ref _dispatcher);
+        private GameplayEventsHandler _gameplay_events_handler = new GameplayEventsHandler(ref _dispatcher);
         private HeroHandler _hero_handler = new HeroHandler(ref _dispatcher);
         private ItemsHandler _items_handler = new ItemsHandler(ref _dispatcher);
         private LeagueHandler _league_handler = new LeagueHandler(ref _dispatcher);

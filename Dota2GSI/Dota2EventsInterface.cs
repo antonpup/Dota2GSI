@@ -146,15 +146,15 @@ namespace Dota2GSI
         /// <inheritdoc cref="Dota2GSI.EventMessages.GameplayEvent" />
         public event GameplayEventHandler GameplayEvent = delegate { };
 
-        public delegate void TeamEventHandler(TeamEvent game_event);
+        public delegate void TeamGameplayEventHandler(TeamGameplayEvent game_event);
 
-        /// <inheritdoc cref="Dota2GSI.EventMessages.TeamEvent" />
-        public event TeamEventHandler TeamEvent = delegate { };
+        /// <inheritdoc cref="Dota2GSI.EventMessages.TeamGameplayEvent" />
+        public event TeamGameplayEventHandler TeamGameplayEvent = delegate { };
 
-        public delegate void PlayerEventHandler(PlayerEvent game_event);
+        public delegate void PlayerGameplayEventHandler(PlayerGameplayEvent game_event);
 
-        /// <inheritdoc cref="Dota2GSI.EventMessages.PlayerEvent" />
-        public event PlayerEventHandler PlayerEvent = delegate { };
+        /// <inheritdoc cref="Dota2GSI.EventMessages.PlayerGameplayEvent" />
+        public event PlayerGameplayEventHandler PlayerGameplayEvent = delegate { };
 
         #endregion
 
@@ -571,14 +571,14 @@ namespace Dota2GSI
                 RaiseEvent(GameplayEvent, e);
             }
 
-            if (e is TeamEvent)
+            if (e is TeamGameplayEvent)
             {
-                RaiseEvent(TeamEvent, e);
+                RaiseEvent(TeamGameplayEvent, e);
             }
 
-            if (e is PlayerEvent)
+            if (e is PlayerGameplayEvent)
             {
-                RaiseEvent(PlayerEvent, e);
+                RaiseEvent(PlayerGameplayEvent, e);
             }
 
             if (e is HeroUpdated)
