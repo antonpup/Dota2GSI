@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Dota2GSI\Dota2GSI\Dota2GSI.csproj" />
+    <ProjectReference Include="..\..\build\Dota2GSI\Dota2GSI.csproj" />
   </ItemGroup>
 
 </Project>

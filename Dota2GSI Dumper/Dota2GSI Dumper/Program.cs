@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Dota2GSI;
 using Dota2GSI.Nodes;
 using Newtonsoft.Json.Linq;
@@ -232,6 +232,10 @@ namespace Dota2GSI_Dumper
                     else if (Regex.IsMatch(property_name, @"wearable\d+"))
                     {
                         property_name = "wearable#";
+                    }
+                    else if (Regex.IsMatch(property_name, @"weapon_\d+"))
+                    {
+                        property_name = "weapon_#";
                     }
                 }
 
