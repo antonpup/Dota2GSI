@@ -16,8 +16,10 @@ PROJECT(${PRODUCT} VERSION ${PRODUCT_VERSION} LANGUAGES CSharp)
 INCLUDE(CSharpUtilities)
 
 SET(SOURCES
+    Dota2EventsInterface.cs
     EventDispatcher.cs
     EventHandler.cs
+    EventsInterface.cs
     GameState.cs
     GameStateListener.cs
     GameStateHandler.cs
