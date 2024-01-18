@@ -65,7 +65,7 @@ namespace Dota2GSI.Nodes.DraftProvider
             }
 
             return obj is DraftDetails other &&
-                IsHomeTeam == other.IsHomeTeam &&
+                IsHomeTeam.Equals(other.IsHomeTeam) &&
                 PickIDs.Equals(other.PickIDs) &&
                 PickHeroIDs.Equals(other.PickHeroIDs);
         }

@@ -50,7 +50,6 @@ namespace Dota2GSI
 
         public void RegisterPreProcessor<MessageType>(Func<T, T> callback) where MessageType : T
         {
-
             var event_type = typeof(MessageType);
 
             lock (subscriptions_lock)
@@ -66,7 +65,6 @@ namespace Dota2GSI
 
         public void UnregisterPreProcessor<MessageType>(Func<T, T> callback) where MessageType : T
         {
-
             var event_type = typeof(MessageType);
 
             lock (subscriptions_lock)

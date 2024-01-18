@@ -14,11 +14,31 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
+    /// Event for a Minimap Element addition. 
+    /// </summary>
+    public class MinimapElementAdded : EntityValueEvent<MinimapElement>
+    {
+        public MinimapElementAdded(MinimapElement value, string entity_id) : base(value, entity_id)
+        {
+        }
+    }
+
+    /// <summary>
     /// Event for a Minimap Element update. 
     /// </summary>
     public class MinimapElementUpdated : EntityUpdateEvent<MinimapElement>
     {
         public MinimapElementUpdated(MinimapElement new_value, MinimapElement previous_value, string entity_id) : base(new_value, previous_value, entity_id)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Event for a Minimap Element removal. 
+    /// </summary>
+    public class MinimapElementRemoved : EntityValueEvent<MinimapElement>
+    {
+        public MinimapElementRemoved(MinimapElement value, string entity_id) : base(value, entity_id)
         {
         }
     }

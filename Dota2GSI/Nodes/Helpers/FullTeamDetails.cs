@@ -94,14 +94,14 @@ namespace Dota2GSI.Nodes.Helpers
             }
 
             return obj is FullTeamDetails other &&
-                Team == other.Team &&
+                Team.Equals(other.Team) &&
                 Players.Equals(other.Players) &&
                 Draft.Equals(other.Draft) &&
                 NeutralItems.Equals(other.NeutralItems) &&
                 Buildings.Equals(other.Buildings) &&
                 MinimapElements.Equals(other.MinimapElements) &&
                 Events.Equals(other.Events) &&
-                IsWinner == other.IsWinner;
+                IsWinner.Equals(other.IsWinner);
         }
 
         /// <inheritdoc/>

@@ -15,7 +15,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific Hero Ability Details change.
+    /// Event for specific player's Hero Ability Details change.
     /// </summary>
     public class AbilityDetailsChanged : PlayerUpdateEvent<AbilityDetails>
     {
@@ -25,7 +25,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific Hero Ability addition.
+    /// Event for specific player's Hero Ability addition.
     /// </summary>
     public class AbilityAdded : PlayerValueEvent<Ability>
     {
@@ -35,7 +35,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific Hero Ability removal.
+    /// Event for specific player's Hero Ability removal.
     /// </summary>
     public class AbilityRemoved : PlayerValueEvent<Ability>
     {
@@ -45,7 +45,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific Hero Ability update.
+    /// Event for specific player's Hero Ability update.
     /// </summary>
     public class AbilityUpdated : PlayerUpdateEvent<Ability>
     {

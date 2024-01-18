@@ -85,13 +85,13 @@ namespace Dota2GSI.Nodes
             }
 
             return obj is Roshan other &&
-                Health == other.Health &&
-                MaxHealth == other.MaxHealth &&
-                IsAlive == other.IsAlive &&
-                SpawnPhase == other.SpawnPhase &&
-                PhaseTimeRemaining == other.PhaseTimeRemaining &&
+                Health.Equals(other.Health) &&
+                MaxHealth.Equals(other.MaxHealth) &&
+                IsAlive.Equals(other.IsAlive) &&
+                SpawnPhase.Equals(other.SpawnPhase) &&
+                PhaseTimeRemaining.Equals(other.PhaseTimeRemaining) &&
                 Location.Equals(other.Location) &&
-                Rotation == other.Rotation &&
+                Rotation.Equals(other.Rotation) &&
                 Drops.Equals(other.Drops);
         }
 

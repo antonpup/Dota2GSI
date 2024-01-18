@@ -85,7 +85,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Victory.
+    /// Event for specific team's Victory.
     /// </summary>
     public class TeamVictory : DotaGameEvent
     {
@@ -101,7 +101,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Defeat.
+    /// Event for specific team's Defeat.
     /// </summary>
     public class TeamDefeat : DotaGameEvent
     {

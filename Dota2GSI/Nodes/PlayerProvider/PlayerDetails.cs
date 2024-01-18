@@ -335,42 +335,42 @@ namespace Dota2GSI.Nodes.PlayerProvider
                 SteamID.Equals(other.SteamID) &&
                 AccountID.Equals(other.AccountID) &&
                 Name.Equals(other.Name) &&
-                Activity == other.Activity &&
-                Kills == other.Kills &&
-                Deaths == other.Deaths &&
-                Assists == other.Assists &&
-                LastHits == other.LastHits &&
-                Denies == other.Denies &&
-                KillStreak == other.KillStreak &&
-                CommandsIssued == other.CommandsIssued &&
+                Activity.Equals(other.Activity) &&
+                Kills.Equals(other.Kills) &&
+                Deaths.Equals(other.Deaths) &&
+                Assists.Equals(other.Assists) &&
+                LastHits.Equals(other.LastHits) &&
+                Denies.Equals(other.Denies) &&
+                KillStreak.Equals(other.KillStreak) &&
+                CommandsIssued.Equals(other.CommandsIssued) &&
                 KillList.Equals(other.KillList) &&
-                Team == other.Team &&
-                PlayerSlot == other.PlayerSlot &&
+                Team.Equals(other.Team) &&
+                PlayerSlot.Equals(other.PlayerSlot) &&
                 PlayerTeamSlot.Equals(other.PlayerTeamSlot) &&
-                Gold == other.Gold &&
-                GoldReliable == other.GoldReliable &&
-                GoldUnreliable == other.GoldUnreliable &&
-                GoldFromHeroKills == other.GoldFromHeroKills &&
-                GoldFromCreepKills == other.GoldFromCreepKills &&
-                GoldFromIncome == other.GoldFromIncome &&
-                GoldFromShared == other.GoldFromShared &&
-                GoldPerMinute == other.GoldPerMinute &&
-                ExperiencePerMinute == other.ExperiencePerMinute &&
-                OnstageSeat == other.OnstageSeat &&
-                NetWorth == other.NetWorth &&
-                HeroDamage == other.HeroDamage &&
-                HeroHealing == other.HeroHealing &&
-                TowerDamage == other.TowerDamage &&
-                SupportGoldSpent == other.SupportGoldSpent &&
-                ConsumableGoldSpent == other.ConsumableGoldSpent &&
-                ItemGoldSpent == other.ItemGoldSpent &&
-                GoldLostToDeath == other.GoldLostToDeath &&
-                GoldSpentOnBuybacks == other.GoldSpentOnBuybacks &&
-                WardsPurchased == other.WardsPurchased &&
-                WardsPlaced == other.WardsPlaced &&
-                WardsDestroyed == other.WardsDestroyed &&
-                RunesActivated == other.RunesActivated &&
-                CampsStacked == other.CampsStacked;
+                Gold.Equals(other.Gold) &&
+                GoldReliable.Equals(other.GoldReliable) &&
+                GoldUnreliable.Equals(other.GoldUnreliable) &&
+                GoldFromHeroKills.Equals(other.GoldFromHeroKills) &&
+                GoldFromCreepKills.Equals(other.GoldFromCreepKills) &&
+                GoldFromIncome.Equals(other.GoldFromIncome) &&
+                GoldFromShared.Equals(other.GoldFromShared) &&
+                GoldPerMinute.Equals(other.GoldPerMinute) &&
+                ExperiencePerMinute.Equals(other.ExperiencePerMinute) &&
+                OnstageSeat.Equals(other.OnstageSeat) &&
+                NetWorth.Equals(other.NetWorth) &&
+                HeroDamage.Equals(other.HeroDamage) &&
+                HeroHealing.Equals(other.HeroHealing) &&
+                TowerDamage.Equals(other.TowerDamage) &&
+                SupportGoldSpent.Equals(other.SupportGoldSpent) &&
+                ConsumableGoldSpent.Equals(other.ConsumableGoldSpent) &&
+                ItemGoldSpent.Equals(other.ItemGoldSpent) &&
+                GoldLostToDeath.Equals(other.GoldLostToDeath) &&
+                GoldSpentOnBuybacks.Equals(other.GoldSpentOnBuybacks) &&
+                WardsPurchased.Equals(other.WardsPurchased) &&
+                WardsPlaced.Equals(other.WardsPlaced) &&
+                WardsDestroyed.Equals(other.WardsDestroyed) &&
+                RunesActivated.Equals(other.RunesActivated) &&
+                CampsStacked.Equals(other.CampsStacked);
         }
 
         /// <inheritdoc/>

@@ -92,14 +92,14 @@ namespace Dota2GSI.Nodes.MinimapProvider
 
             return obj is MinimapElement other &&
                 Location.Equals(other.Location) &&
-                RemainingTime == other.RemainingTime &&
-                EventDuration == other.EventDuration &&
+                RemainingTime.Equals(other.RemainingTime) &&
+                EventDuration.Equals(other.EventDuration) &&
                 Image.Equals(other.Image) &&
-                Team == other.Team &&
+                Team.Equals(other.Team) &&
                 Name.Equals(other.Name) &&
-                Rotation == other.Rotation &&
+                Rotation.Equals(other.Rotation) &&
                 UnitName.Equals(other.UnitName) &&
-                VisionRange == other.VisionRange;
+                VisionRange.Equals(other.VisionRange);
         }
 
         /// <inheritdoc/>

@@ -14,7 +14,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Draft Details update.
+    /// Event for specific team's Draft Details update.
     /// </summary>
     public class TeamDraftDetailsUpdated : TeamUpdateEvent<DraftDetails>
     {

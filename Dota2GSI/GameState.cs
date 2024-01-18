@@ -129,12 +129,12 @@ namespace Dota2GSI
         {
             get
             {
-                if (local_player_details == null)
+                if (_local_player_details == null)
                 {
-                    local_player_details = new FullPlayerDetails(this);
+                    _local_player_details = new FullPlayerDetails(this);
                 }
 
-                return local_player_details;
+                return _local_player_details;
             }
         }
 
@@ -146,12 +146,12 @@ namespace Dota2GSI
         {
             get
             {
-                if (radiant_team_details == null)
+                if (_radiant_team_details == null)
                 {
-                    radiant_team_details = new FullTeamDetails(PlayerTeam.Radiant, this);
+                    _radiant_team_details = new FullTeamDetails(PlayerTeam.Radiant, this);
                 }
 
-                return radiant_team_details;
+                return _radiant_team_details;
             }
         }
 
@@ -163,12 +163,12 @@ namespace Dota2GSI
         {
             get
             {
-                if (dire_team_details == null)
+                if (_dire_team_details == null)
                 {
-                    dire_team_details = new FullTeamDetails(PlayerTeam.Dire, this);
+                    _dire_team_details = new FullTeamDetails(PlayerTeam.Dire, this);
                 }
 
-                return dire_team_details;
+                return _dire_team_details;
             }
         }
 
@@ -180,12 +180,12 @@ namespace Dota2GSI
         {
             get
             {
-                if (neutral_team_details == null)
+                if (_neutral_team_details == null)
                 {
-                    neutral_team_details = new FullTeamDetails(PlayerTeam.Neutrals, this);
+                    _neutral_team_details = new FullTeamDetails(PlayerTeam.Neutrals, this);
                 }
 
-                return neutral_team_details;
+                return _neutral_team_details;
             }
         }
 
@@ -219,10 +219,10 @@ namespace Dota2GSI
 
         // Helpers
 
-        private FullPlayerDetails local_player_details;
-        private FullTeamDetails radiant_team_details;
-        private FullTeamDetails dire_team_details;
-        private FullTeamDetails neutral_team_details;
+        private FullPlayerDetails _local_player_details;
+        private FullTeamDetails _radiant_team_details;
+        private FullTeamDetails _dire_team_details;
+        private FullTeamDetails _neutral_team_details;
 
 
         /// <summary>

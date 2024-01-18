@@ -14,7 +14,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Building Layout update.
+    /// Event for specific team's Building Layout update.
     /// </summary>
     public class BuildingsLayoutUpdated : TeamUpdateEvent<BuildingLayout>
     {
@@ -65,7 +65,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Building update.
+    /// Event for specific team's Building update.
     /// </summary>
     public class TeamBuildingUpdated : BuildingUpdated
     {
@@ -84,7 +84,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Building destruction.
+    /// Event for specific team's Building destruction.
     /// </summary>
     public class TeamBuildingDestroyed : TeamBuildingUpdated
     {
@@ -94,7 +94,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Tower update.
+    /// Event for specific team's Tower update.
     /// </summary>
     public class TowerUpdated : TeamBuildingUpdated
     {
@@ -104,7 +104,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Tower destruction.
+    /// Event for specific team's Tower destruction.
     /// </summary>
     public class TowerDestroyed : TeamBuildingDestroyed
     {
@@ -114,7 +114,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Racks update.
+    /// Event for specific team's Racks update.
     /// </summary>
     public class RacksUpdated : TeamBuildingUpdated
     {
@@ -130,7 +130,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Racks destruction.
+    /// Event for specific team's Racks destruction.
     /// </summary>
     public class RacksDestroyed : TeamBuildingDestroyed
     {
@@ -146,7 +146,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Ancient update.
+    /// Event for specific team's Ancient update.
     /// </summary>
     public class AncientUpdated : TeamBuildingUpdated
     {
@@ -156,7 +156,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Ancient destruction.
+    /// Event for specific team's Ancient destruction.
     /// </summary>
     public class AncientDestroyed : TeamBuildingDestroyed
     {

@@ -282,7 +282,7 @@ namespace Dota2GSI.Nodes
                 }
                 else
                 {
-                    return_string += $", ";
+                    return_string += ", ";
                 }
 
                 return_string += $"{kvp.Key}: {kvp.Value}";
@@ -347,7 +347,7 @@ namespace Dota2GSI.Nodes
                 }
                 else
                 {
-                    return_string += $", ";
+                    return_string += ", ";
                 }
 
                 return_string += $"{item}";

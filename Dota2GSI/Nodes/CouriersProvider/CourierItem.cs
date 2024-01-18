@@ -42,7 +42,7 @@ namespace Dota2GSI.Nodes.CouriersProvider
 
             return obj is CourierItem other &&
                 Name.Equals(other.Name) &&
-                OwnerID == other.OwnerID;
+                OwnerID.Equals(other.OwnerID);
         }
 
         /// <inheritdoc/>

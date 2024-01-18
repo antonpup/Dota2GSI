@@ -61,13 +61,14 @@ namespace Dota2GSI
             {
                 dispatcher.Broadcast(new TeamVictory(evt.New.WinningTeam));
 
-                if (evt.New.WinningTeam == Nodes.PlayerTeam.Radiant)
+                switch (evt.New.WinningTeam)
                 {
-                    dispatcher.Broadcast(new TeamDefeat(Nodes.PlayerTeam.Dire));
-                }
-                else if (evt.New.WinningTeam == Nodes.PlayerTeam.Dire)
-                {
-                    dispatcher.Broadcast(new TeamDefeat(Nodes.PlayerTeam.Radiant));
+                    case Nodes.PlayerTeam.Radiant:
+                        dispatcher.Broadcast(new TeamDefeat(Nodes.PlayerTeam.Dire));
+                        break;
+                    case Nodes.PlayerTeam.Dire:
+                        dispatcher.Broadcast(new TeamDefeat(Nodes.PlayerTeam.Radiant));
+                        break;
                 }
             }
 

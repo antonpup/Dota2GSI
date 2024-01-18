@@ -67,7 +67,7 @@ namespace Dota2GSI_Example_program
 
         private static void OnPauseStateChanged(PauseStateChanged game_event)
         {
-            Console.WriteLine($"New pause state is {game_event.New}");
+            Console.WriteLine($"New pause state is {(game_event.New ? "paused" : "not paused")}");
         }
 
         private static void OnPlayerGameplayEvent(PlayerGameplayEvent game_event)

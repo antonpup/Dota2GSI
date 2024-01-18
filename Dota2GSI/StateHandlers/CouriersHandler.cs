@@ -87,7 +87,7 @@ namespace Dota2GSI
             {
                 if (!evt.New.InventoryContains(item.Value.Name))
                 {
-                    // Player lost an inventory item.
+                    // Courier lost an inventory item.
                     dispatcher.Broadcast(new CourierItemRemoved(item.Value, evt.New, evt.Player));
                 }
             }

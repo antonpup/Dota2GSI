@@ -105,7 +105,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific player's Hero selection.
+    /// Event for specific player's Hero selection update.
     /// </summary>
     public class HeroSelectedChanged : PlayerUpdateEvent<bool>
     {

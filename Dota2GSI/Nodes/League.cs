@@ -254,32 +254,32 @@ namespace Dota2GSI.Nodes
             }
 
             return obj is League other &&
-                SeriesType == other.SeriesType &&
+                SeriesType.Equals(other.SeriesType) &&
                 SelectionPriority.Equals(other.SelectionPriority) &&
-                LeagueID == other.LeagueID &&
-                MatchID == other.MatchID &&
+                LeagueID.Equals(other.LeagueID) &&
+                MatchID.Equals(other.MatchID) &&
                 Name.Equals(other.Name) &&
-                Tier == other.Tier &&
-                Region == other.Region &&
+                Tier.Equals(other.Tier) &&
+                Region.Equals(other.Region) &&
                 Url.Equals(other.Url) &&
                 Description.Equals(other.Description) &&
                 Notes.Equals(other.Notes) &&
-                StartTimestamp == other.StartTimestamp &&
-                EndTimestamp == other.EndTimestamp &&
-                ProCircuitPoints == other.ProCircuitPoints &&
-                ImageBits == other.ImageBits &&
-                Status == other.Status &&
-                MostRecentActivity == other.MostRecentActivity &&
-                RegistrationPeriod == other.RegistrationPeriod &&
-                BasePrizePool == other.BasePrizePool &&
-                TotalPrizePool == other.TotalPrizePool &&
-                LeagueNoteID == other.LeagueNoteID &&
+                StartTimestamp.Equals(other.StartTimestamp) &&
+                EndTimestamp.Equals(other.EndTimestamp) &&
+                ProCircuitPoints.Equals(other.ProCircuitPoints) &&
+                ImageBits.Equals(other.ImageBits) &&
+                Status.Equals(other.Status) &&
+                MostRecentActivity.Equals(other.MostRecentActivity) &&
+                RegistrationPeriod.Equals(other.RegistrationPeriod) &&
+                BasePrizePool.Equals(other.BasePrizePool) &&
+                TotalPrizePool.Equals(other.TotalPrizePool) &&
+                LeagueNoteID.Equals(other.LeagueNoteID) &&
                 RadiantTeam.Equals(other.RadiantTeam) &&
                 DireTeam.Equals(other.DireTeam) &&
-                SeriesID == other.SeriesID &&
-                StartTime == other.StartTime &&
-                FirstTeamID == other.FirstTeamID &&
-                SecondTeamID == other.SecondTeamID &&
+                SeriesID.Equals(other.SeriesID) &&
+                StartTime.Equals(other.StartTime) &&
+                FirstTeamID.Equals(other.FirstTeamID) &&
+                SecondTeamID.Equals(other.SecondTeamID) &&
                 Streams.Equals(other.Streams);
         }
 

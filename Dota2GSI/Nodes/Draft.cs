@@ -95,11 +95,11 @@ namespace Dota2GSI.Nodes
             }
 
             return obj is Draft other &&
-                ActiveTeam == other.ActiveTeam &&
-                Pick == other.Pick &&
-                ActiveTeamRemainingTime == other.ActiveTeamRemainingTime &&
-                RadiantBonusTime == other.RadiantBonusTime &&
-                DireBonusTime == other.DireBonusTime &&
+                ActiveTeam.Equals(other.ActiveTeam) &&
+                Pick.Equals(other.Pick) &&
+                ActiveTeamRemainingTime.Equals(other.ActiveTeamRemainingTime) &&
+                RadiantBonusTime.Equals(other.RadiantBonusTime) &&
+                DireBonusTime.Equals(other.DireBonusTime) &&
                 Teams.Equals(other.Teams);
         }
 

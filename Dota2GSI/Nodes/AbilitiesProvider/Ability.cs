@@ -98,15 +98,15 @@ namespace Dota2GSI.Nodes.AbilitiesProvider
 
             return obj is Ability other &&
                 Name.Equals(other.Name) &&
-                Level == other.Level &&
-                CanCast == other.CanCast &&
-                IsPassive == other.IsPassive &&
-                IsActive == other.IsActive &&
-                Cooldown == other.Cooldown &&
-                IsUltimate == other.IsUltimate &&
-                Charges == other.Charges &&
-                MaxCharges == other.MaxCharges &&
-                ChargeCooldown == other.ChargeCooldown;
+                Level.Equals(other.Level) &&
+                CanCast.Equals(other.CanCast) &&
+                IsPassive.Equals(other.IsPassive) &&
+                IsActive.Equals(other.IsActive) &&
+                Cooldown.Equals(other.Cooldown) &&
+                IsUltimate.Equals(other.IsUltimate) &&
+                Charges.Equals(other.Charges) &&
+                MaxCharges.Equals(other.MaxCharges) &&
+                ChargeCooldown.Equals(other.ChargeCooldown);
         }
 
         /// <inheritdoc/>

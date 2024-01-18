@@ -14,9 +14,9 @@ namespace Dota2GSI.EventMessages
         /// </summary>
         public readonly T Value;
 
-        public ValueEvent(T obj)
+        public ValueEvent(T value)
         {
-            Value = obj;
+            Value = value;
         }
     }
 
@@ -31,7 +31,7 @@ namespace Dota2GSI.EventMessages
         /// </summary>
         public readonly FullPlayerDetails Player;
 
-        public PlayerValueEvent(T obj, FullPlayerDetails player) : base(obj)
+        public PlayerValueEvent(T value, FullPlayerDetails player) : base(value)
         {
             Player = player;
         }
@@ -48,7 +48,7 @@ namespace Dota2GSI.EventMessages
         /// </summary>
         public readonly PlayerTeam Team;
 
-        public TeamValueEvent(T obj, PlayerTeam team) : base(obj)
+        public TeamValueEvent(T value, PlayerTeam team) : base(value)
         {
             Team = team;
         }
@@ -70,10 +70,10 @@ namespace Dota2GSI.EventMessages
         /// </summary>
         public readonly T Previous;
 
-        public UpdateEvent(T new_obj, T previous_obj)
+        public UpdateEvent(T new_value, T previous_value)
         {
-            New = new_obj;
-            Previous = previous_obj;
+            New = new_value;
+            Previous = previous_value;
         }
     }
 
@@ -88,7 +88,7 @@ namespace Dota2GSI.EventMessages
         /// </summary>
         public readonly FullPlayerDetails Player;
 
-        public PlayerUpdateEvent(T new_obj, T previous_obj, FullPlayerDetails player) : base(new_obj, previous_obj)
+        public PlayerUpdateEvent(T new_value, T previous_value, FullPlayerDetails player) : base(new_value, previous_value)
         {
             Player = player;
         }
@@ -105,9 +105,26 @@ namespace Dota2GSI.EventMessages
         /// </summary>
         public readonly PlayerTeam Team;
 
-        public TeamUpdateEvent(T new_obj, T previous_obj, PlayerTeam team) : base(new_obj, previous_obj)
+        public TeamUpdateEvent(T new_value, T previous_value, PlayerTeam team) : base(new_value, previous_value)
         {
             Team = team;
+        }
+    }
+
+    /// <summary>
+    /// Event for specific entity's single value update.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class EntityValueEvent<T> : ValueEvent<T>
+    {
+        /// <summary>
+        /// The associated entity ID.
+        /// </summary>
+        public readonly string EntityID;
+
+        public EntityValueEvent(T value, string entity_id) : base(value)
+        {
+            EntityID = entity_id;
         }
     }
 
@@ -122,7 +139,7 @@ namespace Dota2GSI.EventMessages
         /// </summary>
         public readonly string EntityID;
 
-        public EntityUpdateEvent(T new_obj, T previous_obj, string entity_id) : base(new_obj, previous_obj)
+        public EntityUpdateEvent(T new_value, T previous_value, string entity_id) : base(new_value, previous_value)
         {
             EntityID = entity_id;
         }

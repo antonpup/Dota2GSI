@@ -1,5 +1,4 @@
-﻿
-namespace Dota2GSI.EventMessages
+﻿namespace Dota2GSI.EventMessages
 {
     public interface BaseEvent
     {

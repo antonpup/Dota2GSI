@@ -34,7 +34,6 @@ namespace Dota2GSI.EventMessages
         }
     }
 
-
     /// <summary>
     /// Event for specific player's courier gaining an item in their inventory.
     /// </summary>

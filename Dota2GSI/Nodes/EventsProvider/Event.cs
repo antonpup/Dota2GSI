@@ -162,16 +162,16 @@ namespace Dota2GSI.Nodes.EventsProvider
             }
 
             return obj is Event other &&
-                GameTime == other.GameTime &&
-                EventType == other.EventType &&
-                Team == other.Team &&
-                KillerPlayerID == other.KillerPlayerID &&
-                PlayerID == other.PlayerID &&
-                WasSnatched == other.WasSnatched &&
-                TipReceiverPlayerID == other.TipReceiverPlayerID &&
-                TipAmount == other.TipAmount &&
-                BountyValue == other.BountyValue &&
-                TeamGold == other.TeamGold;
+                GameTime.Equals(other.GameTime) &&
+                EventType.Equals(other.EventType) &&
+                Team.Equals(other.Team) &&
+                KillerPlayerID.Equals(other.KillerPlayerID) &&
+                PlayerID.Equals(other.PlayerID) &&
+                WasSnatched.Equals(other.WasSnatched) &&
+                TipReceiverPlayerID.Equals(other.TipReceiverPlayerID) &&
+                TipAmount.Equals(other.TipAmount) &&
+                BountyValue.Equals(other.BountyValue) &&
+                TeamGold.Equals(other.TeamGold);
         }
 
         /// <inheritdoc/>

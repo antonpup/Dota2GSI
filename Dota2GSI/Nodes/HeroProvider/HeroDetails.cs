@@ -166,6 +166,46 @@ namespace Dota2GSI.Nodes.HeroProvider
         /// </summary>
         public readonly HeroState HeroState;
 
+        /// <summary> 
+        /// A boolean representing whether the hero is silenced. 
+        /// </summary> 
+        public bool IsSilenced => HeroState.HasFlag(HeroState.Silenced);
+
+        /// <summary> 
+        /// A boolean representing whether the hero is stunned. 
+        /// </summary> 
+        public bool IsStunned => HeroState.HasFlag(HeroState.Stunned);
+
+        /// <summary> 
+        /// A boolean representing whether the hero is disarmed. 
+        /// </summary> 
+        public bool IsDisarmed => HeroState.HasFlag(HeroState.Disarmed);
+
+        /// <summary> 
+        /// A boolean representing whether the hero is magic immune. 
+        /// </summary> 
+        public bool IsMagicImmune => HeroState.HasFlag(HeroState.MagicImmune);
+
+        /// <summary> 
+        /// A boolean representing whether the hero is hexed. 
+        /// </summary> 
+        public bool IsHexed => HeroState.HasFlag(HeroState.Hexed);
+
+        /// <summary> 
+        /// A boolean representing whether the hero is broken. 
+        /// </summary> 
+        public bool IsBreak => HeroState.HasFlag(HeroState.Broken);
+
+        /// <summary> 
+        /// A boolean representing whether the hero is smoked. 
+        /// </summary> 
+        public bool IsSmoked => HeroState.HasFlag(HeroState.Smoked);
+
+        /// <summary> 
+        /// A boolean representing whether the hero is debuffed. 
+        /// </summary> 
+        public bool HasDebuff => HeroState.HasFlag(HeroState.Debuffed);
+
         /// <summary>
         /// A boolean representing whether the hero is muted.
         /// </summary>
@@ -330,26 +370,26 @@ namespace Dota2GSI.Nodes.HeroProvider
 
             return obj is HeroDetails other &&
                 Location.Equals(other.Location) &&
-                ID == other.ID &&
+                ID.Equals(other.ID) &&
                 Name.Equals(other.Name) &&
-                Level == other.Level &&
-                Experience == other.Experience &&
-                IsAlive == other.IsAlive &&
-                SecondsToRespawn == other.SecondsToRespawn &&
-                BuybackCost == other.BuybackCost &&
-                BuybackCooldown == other.BuybackCooldown &&
-                Health == other.Health &&
-                MaxHealth == other.MaxHealth &&
-                HealthPercent == other.HealthPercent &&
-                Mana == other.Mana &&
-                MaxMana == other.MaxMana &&
-                ManaPercent == other.ManaPercent &&
-                IsMuted == other.IsMuted &&
-                HasAghanimsScepterUpgrade == other.HasAghanimsScepterUpgrade &&
-                HasAghanimsShardUpgrade == other.HasAghanimsShardUpgrade &&
-                SelectedUnit == other.SelectedUnit &&
+                Level.Equals(other.Level) &&
+                Experience.Equals(other.Experience) &&
+                IsAlive.Equals(other.IsAlive) &&
+                SecondsToRespawn.Equals(other.SecondsToRespawn) &&
+                BuybackCost.Equals(other.BuybackCost) &&
+                BuybackCooldown.Equals(other.BuybackCooldown) &&
+                Health.Equals(other.Health) &&
+                MaxHealth.Equals(other.MaxHealth) &&
+                HealthPercent.Equals(other.HealthPercent) &&
+                Mana.Equals(other.Mana) &&
+                MaxMana.Equals(other.MaxMana) &&
+                ManaPercent.Equals(other.ManaPercent) &&
+                IsMuted.Equals(other.IsMuted) &&
+                HasAghanimsScepterUpgrade.Equals(other.HasAghanimsScepterUpgrade) &&
+                HasAghanimsShardUpgrade.Equals(other.HasAghanimsShardUpgrade) &&
+                SelectedUnit.Equals(other.SelectedUnit) &&
                 Enumerable.SequenceEqual(TalentTree, other.TalentTree) &&
-                AttributesLevel == other.AttributesLevel;
+                AttributesLevel.Equals(other.AttributesLevel);
         }
 
         /// <inheritdoc/>

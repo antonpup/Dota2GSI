@@ -287,22 +287,22 @@ namespace Dota2GSI.Nodes
 
             return obj is Map other &&
                 Name.Equals(other.Name) &&
-                MatchID == other.MatchID &&
-                GameTime == other.GameTime &&
-                ClockTime == other.ClockTime &&
-                IsDaytime == other.IsDaytime &&
-                IsNightstalkerNight == other.IsNightstalkerNight &&
-                RadiantScore == other.RadiantScore &&
-                DireScore == other.DireScore &&
-                GameState == other.GameState &&
-                IsPaused == other.IsPaused &&
-                WinningTeam == other.WinningTeam &&
+                MatchID.Equals(other.MatchID) &&
+                GameTime.Equals(other.GameTime) &&
+                ClockTime.Equals(other.ClockTime) &&
+                IsDaytime.Equals(other.IsDaytime) &&
+                IsNightstalkerNight.Equals(other.IsNightstalkerNight) &&
+                RadiantScore.Equals(other.RadiantScore) &&
+                DireScore.Equals(other.DireScore) &&
+                GameState.Equals(other.GameState) &&
+                IsPaused.Equals(other.IsPaused) &&
+                WinningTeam.Equals(other.WinningTeam) &&
                 CustomGameName.Equals(other.CustomGameName) &&
-                WardPurchaseCooldown == other.WardPurchaseCooldown &&
-                RadiantWardPurchaseCooldown == other.RadiantWardPurchaseCooldown &&
-                DireWardPurchaseCooldown == other.DireWardPurchaseCooldown &&
-                RoshanState == other.RoshanState &&
-                RoshanStateEndTime == other.RoshanStateEndTime;
+                WardPurchaseCooldown.Equals(other.WardPurchaseCooldown) &&
+                RadiantWardPurchaseCooldown.Equals(other.RadiantWardPurchaseCooldown) &&
+                DireWardPurchaseCooldown.Equals(other.DireWardPurchaseCooldown) &&
+                RoshanState.Equals(other.RoshanState) &&
+                RoshanStateEndTime.Equals(other.RoshanStateEndTime);
         }
 
         /// <inheritdoc/>
