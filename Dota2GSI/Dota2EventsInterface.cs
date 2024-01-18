@@ -239,6 +239,41 @@ namespace Dota2GSI
         /// <inheritdoc cref="Dota2GSI.EventMessages.ItemDetailsChanged" />
         public event ItemDetailsChangedHandler ItemDetailsChanged = delegate { };
 
+        public delegate void ItemUpdatedHandler(ItemUpdated game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.ItemUpdated" />
+        public event ItemUpdatedHandler ItemUpdated = delegate { };
+
+        public delegate void InventoryItemAddedHandler(InventoryItemAdded game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.InventoryItemAdded" />
+        public event InventoryItemAddedHandler InventoryItemAdded = delegate { };
+
+        public delegate void InventoryItemRemovedHandler(InventoryItemRemoved game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.InventoryItemRemoved" />
+        public event InventoryItemRemovedHandler InventoryItemRemoved = delegate { };
+
+        public delegate void InventoryItemUpdatedHandler(InventoryItemUpdated game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.InventoryItemUpdated" />
+        public event InventoryItemUpdatedHandler InventoryItemUpdated = delegate { };
+
+        public delegate void StashItemAddedHandler(StashItemAdded game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.StashItemAdded" />
+        public event StashItemAddedHandler StashItemAdded = delegate { };
+
+        public delegate void StashItemRemovedHandler(StashItemRemoved game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.StashItemRemoved" />
+        public event StashItemRemovedHandler StashItemRemoved = delegate { };
+
+        public delegate void StashItemUpdatedHandler(StashItemUpdated game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.StashItemUpdated" />
+        public event StashItemUpdatedHandler StashItemUpdated = delegate { };
+
         #endregion
 
         #region LeagueEvents
@@ -654,6 +689,41 @@ namespace Dota2GSI
             if (e is ItemDetailsChanged)
             {
                 RaiseEvent(ItemDetailsChanged, e);
+            }
+
+            if (e is ItemUpdated)
+            {
+                RaiseEvent(ItemUpdated, e);
+            }
+
+            if (e is InventoryItemAdded)
+            {
+                RaiseEvent(InventoryItemAdded, e);
+            }
+
+            if (e is InventoryItemRemoved)
+            {
+                RaiseEvent(InventoryItemRemoved, e);
+            }
+
+            if (e is InventoryItemUpdated)
+            {
+                RaiseEvent(InventoryItemUpdated, e);
+            }
+
+            if (e is StashItemAdded)
+            {
+                RaiseEvent(StashItemAdded, e);
+            }
+
+            if (e is StashItemRemoved)
+            {
+                RaiseEvent(StashItemRemoved, e);
+            }
+
+            if (e is StashItemUpdated)
+            {
+                RaiseEvent(StashItemUpdated, e);
             }
 
             if (e is LeagueUpdated)
