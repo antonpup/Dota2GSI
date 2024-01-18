@@ -12,12 +12,14 @@ namespace Dota2GSI
         {
             dispatcher.Subscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
             dispatcher.Subscribe<ItemsUpdated>(OnItemsStateUpdated);
+            dispatcher.Subscribe<ItemDetailsChanged>(OnItemDetailsChanged);
         }
 
         ~ItemsHandler()
         {
             dispatcher.Unsubscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
             dispatcher.Unsubscribe<ItemsUpdated>(OnItemsStateUpdated);
+            dispatcher.Unsubscribe<ItemDetailsChanged>(OnItemDetailsChanged);
         }
 
         private void OnFullPlayerDetailsUpdated(DotaGameEvent e)
@@ -58,6 +60,82 @@ namespace Dota2GSI
                         dispatcher.Broadcast(new ItemDetailsChanged(player_kvp.Value, previous_hero_details, _player_cache[player_kvp.Key]));
                     }
                 }
+            }
+        }
+
+        private void OnItemDetailsChanged(DotaGameEvent e)
+        {
+            ItemDetailsChanged evt = (e as ItemDetailsChanged);
+
+            if (evt == null)
+            {
+                return;
+            }
+
+            foreach (var item in evt.New.Inventory)
+            {
+                if (!evt.Previous.InventoryContains(item.Name))
+                {
+                    // Player gained an inventory item.
+                    dispatcher.Broadcast(new InventoryItemAdded(item, evt.Player));
+                    continue;
+                }
+
+                var previous_item = evt.Previous.GetInventoryItem(item.Name);
+
+                if (!item.Equals(previous_item))
+                {
+                    // Item updated.
+                    dispatcher.Broadcast(new InventoryItemUpdated(item, previous_item, evt.Player));
+                }
+            }
+
+            foreach (var item in evt.Previous.Inventory)
+            {
+                if (!evt.New.InventoryContains(item.Name))
+                {
+                    // Player lost an inventory item.
+                    dispatcher.Broadcast(new InventoryItemRemoved(item, evt.Player));
+                }
+            }
+
+            foreach (var item in evt.New.Stash)
+            {
+                if (!evt.Previous.StashContains(item.Name))
+                {
+                    // Player gained a stash item.
+                    dispatcher.Broadcast(new StashItemAdded(item, evt.Player));
+                    continue;
+                }
+
+                var previous_item = evt.Previous.GetStashItem(item.Name);
+
+                if (!item.Equals(previous_item))
+                {
+                    // Stash item updated.
+                    dispatcher.Broadcast(new StashItemUpdated(item, previous_item, evt.Player));
+                }
+            }
+
+            foreach (var item in evt.Previous.Inventory)
+            {
+                if (!evt.New.StashContains(item.Name))
+                {
+                    // Player lost a stash item.
+                    dispatcher.Broadcast(new StashItemRemoved(item, evt.Player));
+                }
+            }
+
+            if (!evt.New.Teleport.Equals(evt.Previous.Teleport))
+            {
+                // Teleport item updated.
+                dispatcher.Broadcast(new ItemUpdated(evt.New.Teleport, evt.Previous.Teleport, evt.Player));
+            }
+
+            if (!evt.New.Neutral.Equals(evt.Previous.Neutral))
+            {
+                // Neutral item updated.
+                dispatcher.Broadcast(new ItemUpdated(evt.New.Neutral, evt.Previous.Neutral, evt.Player));
             }
         }
     }
