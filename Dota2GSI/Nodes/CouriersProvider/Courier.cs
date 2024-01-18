@@ -89,6 +89,73 @@ namespace Dota2GSI.Nodes.CouriersProvider
             });
         }
 
+        /// <summary>
+        /// Gets the inventory item at the specified index.
+        /// </summary>
+        /// <param name="index">The index.</param>
+        /// <returns>The inventory item.</returns>
+        public CourierItem GetItemAt(int index)
+        {
+            if (index < 0 || index > Items.Count - 1)
+            {
+                return new CourierItem();
+            }
+
+            return Items[index];
+        }
+
+        /// <summary>
+        /// Gets the inventory item by item name.
+        /// </summary>
+        /// <param name="item_name">The item name to look for.</param>
+        /// <returns>The inventory item.</returns>
+        public CourierItem GetInventoryItem(string item_name)
+        {
+            foreach (var item in Items)
+            {
+                if (item.Value.Name.Equals(item_name))
+                {
+                    return item.Value;
+                }
+            }
+
+            return new CourierItem();
+        }
+
+        /// <summary>
+        /// Checks if item exists in the inventory.
+        /// </summary>
+        /// <param name="item_name">The item name.</param>
+        /// <returns>True if item is in the inventory, false otherwise.</returns>
+        public bool InventoryContains(string item_name)
+        {
+            var found_index = InventoryIndexOf(item_name);
+            if (found_index > -1)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Gets index of the first occurence of the item in the inventory.
+        /// </summary>
+        /// <param name="item_name">The item name.</param>
+        /// <returns>The first index at which item is found, -1 if not found.</returns>
+        public int InventoryIndexOf(string item_name)
+        {
+            for (int x = 0; x < Items.Count; x++)
+            {
+                if (Items[x].Name == item_name)
+                {
+                    return x;
+                }
+            }
+
+            return -1;
+        }
+
         /// <inheritdoc/>
         public override string ToString()
         {

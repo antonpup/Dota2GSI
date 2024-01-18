@@ -118,6 +118,21 @@ namespace Dota2GSI
         /// <inheritdoc cref="Dota2GSI.EventMessages.TeamCourierUpdated" />
         public event TeamCourierUpdatedHandler TeamCourierUpdated = delegate { };
 
+        public delegate void CourierItemAddedHandler(CourierItemAdded game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.CourierItemAdded" />
+        public event CourierItemAddedHandler CourierItemAdded = delegate { };
+
+        public delegate void CourierItemRemovedHandler(CourierItemRemoved game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.CourierItemRemoved" />
+        public event CourierItemRemovedHandler CourierItemRemoved = delegate { };
+
+        public delegate void CourierItemUpdatedHandler(CourierItemUpdated game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.CourierItemUpdated" />
+        public event CourierItemUpdatedHandler CourierItemUpdated = delegate { };
+
         #endregion
 
         #region DraftEvents
@@ -584,6 +599,21 @@ namespace Dota2GSI
             if (e is TeamCourierUpdated)
             {
                 RaiseEvent(TeamCourierUpdated, e);
+            }
+
+            if (e is CourierItemAdded)
+            {
+                RaiseEvent(CourierItemAdded, e);
+            }
+
+            if (e is CourierItemRemoved)
+            {
+                RaiseEvent(CourierItemRemoved, e);
+            }
+
+            if (e is CourierItemUpdated)
+            {
+                RaiseEvent(CourierItemUpdated, e);
             }
 
             if (e is DraftUpdated)
