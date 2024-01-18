@@ -117,7 +117,7 @@ namespace Dota2GSI
                 }
             }
 
-            foreach (var item in evt.Previous.Inventory)
+            foreach (var item in evt.Previous.Stash)
             {
                 if (!evt.New.StashContains(item.Name))
                 {

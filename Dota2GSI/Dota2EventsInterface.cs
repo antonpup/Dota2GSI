@@ -149,7 +149,7 @@ namespace Dota2GSI
 
         #endregion
 
-        #region EventsEvents
+        #region GameplayEvents
 
         public delegate void EventsUpdatedHandler(EventsUpdated game_event);
 
@@ -361,10 +361,20 @@ namespace Dota2GSI
         /// <inheritdoc cref="Dota2GSI.EventMessages.MinimapUpdated" />
         public event MinimapUpdatedHandler MinimapUpdated = delegate { };
 
+        public delegate void MinimapElementAddedHandler(MinimapElementAdded game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.MinimapElementAdded" />
+        public event MinimapElementAddedHandler MinimapElementAdded = delegate { };
+
         public delegate void MinimapElementUpdatedHandler(MinimapElementUpdated game_event);
 
         /// <inheritdoc cref="Dota2GSI.EventMessages.MinimapElementUpdated" />
         public event MinimapElementUpdatedHandler MinimapElementUpdated = delegate { };
+
+        public delegate void MinimapElementRemovedHandler(MinimapElementRemoved game_event);
+
+        /// <inheritdoc cref="Dota2GSI.EventMessages.MinimapElementRemoved" />
+        public event MinimapElementRemovedHandler MinimapElementRemoved = delegate { };
 
         public delegate void TeamMinimapElementUpdatedHandler(TeamMinimapElementUpdated game_event);
 
@@ -382,7 +392,7 @@ namespace Dota2GSI
 
         public delegate void TeamNeutralItemsUpdatedHandler(TeamNeutralItemsUpdated game_event);
 
-        /// <inheritdoc cref="Dota2GSI.EventMessages.NeutralItemsUpdated" />
+        /// <inheritdoc cref="Dota2GSI.EventMessages.TeamNeutralItemsUpdated" />
         public event TeamNeutralItemsUpdatedHandler TeamNeutralItemsUpdated = delegate { };
 
         #endregion
@@ -421,17 +431,17 @@ namespace Dota2GSI
 
         public delegate void PlayerDeniesChangedHandler(PlayerDeniesChanged game_event);
 
-        /// <inheritdoc cref="Dota2GSI.EventMessages.PlayerLastHitsChanged" />
+        /// <inheritdoc cref="Dota2GSI.EventMessages.PlayerDeniesChanged" />
         public event PlayerDeniesChangedHandler PlayerDeniesChanged = delegate { };
 
         public delegate void PlayerKillStreakChangedHandler(PlayerKillStreakChanged game_event);
 
-        /// <inheritdoc cref="Dota2GSI.EventMessages.PlayerLastHitsChanged" />
+        /// <inheritdoc cref="Dota2GSI.EventMessages.PlayerKillStreakChanged" />
         public event PlayerKillStreakChangedHandler PlayerKillStreakChanged = delegate { };
 
         public delegate void PlayerGoldChangedHandler(PlayerGoldChanged game_event);
 
-        /// <inheritdoc cref="Dota2GSI.EventMessages.PlayerLastHitsChanged" />
+        /// <inheritdoc cref="Dota2GSI.EventMessages.PlayerGoldChanged" />
         public event PlayerGoldChangedHandler PlayerGoldChanged = delegate { };
 
         public delegate void PlayerWardsPurchasedChangedHandler(PlayerWardsPurchasedChanged game_event);
@@ -816,9 +826,19 @@ namespace Dota2GSI
                 RaiseEvent(MinimapUpdated, e);
             }
 
+            if (e is MinimapElementAdded)
+            {
+                RaiseEvent(MinimapElementAdded, e);
+            }
+
             if (e is MinimapElementUpdated)
             {
                 RaiseEvent(MinimapElementUpdated, e);
+            }
+
+            if (e is MinimapElementRemoved)
+            {
+                RaiseEvent(MinimapElementRemoved, e);
             }
 
             if (e is TeamMinimapElementUpdated)

@@ -69,10 +69,10 @@ namespace Dota2GSI.Nodes.LeagueProvider
             }
 
             return obj is Stream other &&
-                StreamID == other.StreamID &&
-                Language == other.Language &&
+                StreamID.Equals(other.StreamID) &&
+                Language.Equals(other.Language) &&
                 Name.Equals(other.Name) &&
-                BroadcastProvider == other.BroadcastProvider &&
+                BroadcastProvider.Equals(other.BroadcastProvider) &&
                 StreamURL.Equals(other.StreamURL) &&
                 VodURL.Equals(other.VodURL);
         }

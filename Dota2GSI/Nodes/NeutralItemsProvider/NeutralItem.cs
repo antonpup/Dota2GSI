@@ -109,10 +109,10 @@ namespace Dota2GSI.Nodes.NeutralItemsProvider
 
             return obj is NeutralItem other &&
                 Name.Equals(other.Name) &&
-                Tier == other.Tier &&
-                Charges == other.Charges &&
-                State == other.State &&
-                PlayerID == other.PlayerID;
+                Tier.Equals(other.Tier) &&
+                Charges.Equals(other.Charges) &&
+                State.Equals(other.State) &&
+                PlayerID.Equals(other.PlayerID);
         }
 
         /// <inheritdoc/>

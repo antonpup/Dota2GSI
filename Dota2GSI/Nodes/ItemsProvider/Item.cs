@@ -179,17 +179,17 @@ namespace Dota2GSI.Nodes.ItemsProvider
 
             return obj is Item other &&
                 Name.Equals(other.Name) &&
-                Purchaser == other.Purchaser &&
-                ItemLevel == other.ItemLevel &&
-                ContainsRune == other.ContainsRune &&
-                CanCast == other.CanCast &&
-                Cooldown == other.Cooldown &&
-                IsPassive == other.IsPassive &&
-                ItemCharges == other.ItemCharges &&
-                AbilityCharges == other.AbilityCharges &&
-                MaxCharges == other.MaxCharges &&
-                ChargeCooldown == other.ChargeCooldown &&
-                Charges == other.Charges;
+                Purchaser.Equals(other.Purchaser) &&
+                ItemLevel.Equals(other.ItemLevel) &&
+                ContainsRune.Equals(other.ContainsRune) &&
+                CanCast.Equals(other.CanCast) &&
+                Cooldown.Equals(other.Cooldown) &&
+                IsPassive.Equals(other.IsPassive) &&
+                ItemCharges.Equals(other.ItemCharges) &&
+                AbilityCharges.Equals(other.AbilityCharges) &&
+                MaxCharges.Equals(other.MaxCharges) &&
+                ChargeCooldown.Equals(other.ChargeCooldown) &&
+                Charges.Equals(other.Charges);
         }
 
         /// <inheritdoc/>

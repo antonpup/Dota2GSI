@@ -27,6 +27,8 @@ namespace Dota2GSI
             {
                 if (!evt.Previous.Elements.ContainsKey(element_kvp.Key))
                 {
+                    // The element did not exist before.
+                    dispatcher.Broadcast(new MinimapElementAdded(element_kvp.Value, element_kvp.Key.ToString()));
                     continue;
                 }
 
@@ -40,6 +42,15 @@ namespace Dota2GSI
                     {
                         dispatcher.Broadcast(new TeamMinimapElementUpdated(element_kvp.Value, previous_element, element_kvp.Value.Team));
                     }
+                }
+            }
+
+            foreach (var element_kvp in evt.Previous.Elements)
+            {
+                if (!evt.New.Elements.ContainsKey(element_kvp.Key))
+                {
+                    // The element does not exist anymore.
+                    dispatcher.Broadcast(new MinimapElementRemoved(element_kvp.Value, element_kvp.Key.ToString()));
                 }
             }
         }

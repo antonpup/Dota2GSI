@@ -1,4 +1,8 @@
 ﻿using Dota2GSI.EventMessages;
+using Dota2GSI.Nodes;
+using Dota2GSI.Nodes.BuildingsProvider;
+using System;
+using System.Collections.Generic;
 
 namespace Dota2GSI
 {
@@ -8,12 +12,20 @@ namespace Dota2GSI
         {
             dispatcher.Subscribe<BuildingsUpdated>(OnBuildingsUpdated);
             dispatcher.Subscribe<BuildingsLayoutUpdated>(OnBuildingsLayoutUpdated);
+            dispatcher.Subscribe<TowerUpdated>(OnTowerUpdated);
+            dispatcher.Subscribe<RacksUpdated>(OnRacksUpdated);
+            dispatcher.Subscribe<AncientUpdated>(OnAncientUpdated);
+            dispatcher.Subscribe<TeamBuildingUpdated>(OnTeamBuildingUpdated);
         }
 
         ~BuildingsHandler()
         {
             dispatcher.Unsubscribe<BuildingsUpdated>(OnBuildingsUpdated);
             dispatcher.Unsubscribe<BuildingsLayoutUpdated>(OnBuildingsLayoutUpdated);
+            dispatcher.Unsubscribe<TowerUpdated>(OnTowerUpdated);
+            dispatcher.Unsubscribe<RacksUpdated>(OnRacksUpdated);
+            dispatcher.Unsubscribe<AncientUpdated>(OnAncientUpdated);
+            dispatcher.Unsubscribe<TeamBuildingUpdated>(OnTeamBuildingUpdated);
         }
 
         private void OnBuildingsUpdated(DotaGameEvent e)
@@ -48,183 +60,59 @@ namespace Dota2GSI
                 return;
             }
 
-            if (!evt.New.TopTowers.Equals(evt.Previous.TopTowers))
+            Dictionary<BuildingLocation, Tuple<NodeMap<int, Building>, NodeMap<int, Building>>> towers = new Dictionary<BuildingLocation, Tuple<NodeMap<int, Building>, NodeMap<int, Building>>>()
             {
-                BuildingLocation location = BuildingLocation.TopLane;
+                { BuildingLocation.TopLane, new Tuple<NodeMap<int, Building>, NodeMap<int, Building>>(evt.New.TopTowers, evt.Previous.TopTowers) },
+                { BuildingLocation.MiddleLane, new Tuple<NodeMap<int, Building>, NodeMap<int, Building>>(evt.New.MiddleTowers, evt.Previous.MiddleTowers) },
+                { BuildingLocation.BottomLane, new Tuple<NodeMap<int, Building>, NodeMap<int, Building>>(evt.New.BottomTowers, evt.Previous.BottomTowers) }
+            };
 
-                foreach (var building_kvp in evt.New.TopTowers)
+            foreach (var tower_kvp in towers)
+            {
+                if (!tower_kvp.Value.Item1.Equals(tower_kvp.Value.Item2))
                 {
-                    if (!evt.Previous.TopTowers.ContainsKey(building_kvp.Key))
+                    foreach (var building_kvp in tower_kvp.Value.Item1)
                     {
-                        // Not much point in having "TowerAdded" event for Dota gameplay.
-                        continue;
-                    }
-
-                    var previous_building = evt.Previous.TopTowers[building_kvp.Key];
-
-                    if (!building_kvp.Value.Equals(previous_building))
-                    {
-                        dispatcher.Broadcast(new TowerUpdated(building_kvp.Value, previous_building, "", evt.Team, location));
-
-                        if (building_kvp.Value.Health == 0)
+                        if (!tower_kvp.Value.Item2.ContainsKey(building_kvp.Key))
                         {
-                            dispatcher.Broadcast(new TowerDestroyed(building_kvp.Value, previous_building, "", evt.Team, location));
+                            // Not much point in having "TowerAdded" event for Dota gameplay.
+                            continue;
+                        }
+
+                        var previous_building = tower_kvp.Value.Item2[building_kvp.Key];
+
+                        if (!building_kvp.Value.Equals(previous_building))
+                        {
+                            dispatcher.Broadcast(new TowerUpdated(building_kvp.Value, previous_building, "", evt.Team, tower_kvp.Key));
                         }
                     }
                 }
             }
 
-            if (!evt.New.MiddleTowers.Equals(evt.Previous.MiddleTowers))
+            Dictionary<BuildingLocation, Tuple<NodeMap<RacksType, Building>, NodeMap<RacksType, Building>>> racks = new Dictionary<BuildingLocation, Tuple<NodeMap<RacksType, Building>, NodeMap<RacksType, Building>>>()
             {
-                BuildingLocation location = BuildingLocation.MiddleLane;
+                { BuildingLocation.TopLane, new Tuple<NodeMap<RacksType, Building>, NodeMap<RacksType, Building>>(evt.New.TopRacks, evt.Previous.TopRacks) },
+                { BuildingLocation.MiddleLane, new Tuple<NodeMap<RacksType, Building>, NodeMap<RacksType, Building>>(evt.New.MiddleRacks, evt.Previous.MiddleRacks) },
+                { BuildingLocation.BottomLane, new Tuple<NodeMap<RacksType, Building>, NodeMap<RacksType, Building>>(evt.New.BottomRacks, evt.Previous.BottomRacks) }
+            };
 
-                foreach (var building_kvp in evt.New.MiddleTowers)
+            foreach (var rack_kvp in racks)
+            {
+                if (!rack_kvp.Value.Item1.Equals(rack_kvp.Value.Item2))
                 {
-                    if (!evt.Previous.MiddleTowers.ContainsKey(building_kvp.Key))
+                    foreach (var building_kvp in rack_kvp.Value.Item1)
                     {
-                        // Not much point in having "TowerAdded" event for Dota gameplay.
-                        continue;
-                    }
-
-                    var previous_building = evt.Previous.MiddleTowers[building_kvp.Key];
-
-                    if (!building_kvp.Value.Equals(previous_building))
-                    {
-                        dispatcher.Broadcast(new TowerUpdated(building_kvp.Value, previous_building, "", evt.Team, location));
-
-                        if (building_kvp.Value.Health == 0)
+                        if (!rack_kvp.Value.Item2.ContainsKey(building_kvp.Key))
                         {
-                            dispatcher.Broadcast(new TowerDestroyed(building_kvp.Value, previous_building, "", evt.Team, location));
+                            // Not much point in having "RacksAdded" event for Dota gameplay.
+                            continue;
                         }
-                    }
-                }
-            }
 
-            if (!evt.New.BottomTowers.Equals(evt.Previous.BottomTowers))
-            {
-                BuildingLocation location = BuildingLocation.BottomLane;
+                        var previous_building = rack_kvp.Value.Item2[building_kvp.Key];
 
-                foreach (var building_kvp in evt.New.BottomTowers)
-                {
-                    if (!evt.Previous.BottomTowers.ContainsKey(building_kvp.Key))
-                    {
-                        // Not much point in having "TowerAdded" event for Dota gameplay.
-                        continue;
-                    }
-
-                    var previous_building = evt.Previous.BottomTowers[building_kvp.Key];
-
-                    if (!building_kvp.Value.Equals(previous_building))
-                    {
-                        dispatcher.Broadcast(new TowerUpdated(building_kvp.Value, previous_building, "", evt.Team, location));
-
-                        if (building_kvp.Value.Health == 0)
+                        if (!building_kvp.Value.Equals(previous_building))
                         {
-                            dispatcher.Broadcast(new TowerDestroyed(building_kvp.Value, previous_building, "", evt.Team, location));
-                        }
-                    }
-                }
-            }
-
-            if (!evt.New.BottomTowers.Equals(evt.Previous.BottomTowers))
-            {
-                BuildingLocation location = BuildingLocation.BottomLane;
-
-                foreach (var building_kvp in evt.New.BottomTowers)
-                {
-                    if (!evt.Previous.BottomTowers.ContainsKey(building_kvp.Key))
-                    {
-                        // Not much point in having "TowerAdded" event for Dota gameplay.
-                        continue;
-                    }
-
-                    var previous_building = evt.Previous.BottomTowers[building_kvp.Key];
-
-                    if (!building_kvp.Value.Equals(previous_building))
-                    {
-                        dispatcher.Broadcast(new TowerUpdated(building_kvp.Value, previous_building, "", evt.Team, location));
-
-                        if (building_kvp.Value.Health == 0)
-                        {
-                            dispatcher.Broadcast(new TowerDestroyed(building_kvp.Value, previous_building, "", evt.Team, location));
-                        }
-                    }
-                }
-            }
-
-            if (!evt.New.TopRacks.Equals(evt.Previous.TopRacks))
-            {
-                BuildingLocation location = BuildingLocation.TopLane;
-
-                foreach (var building_kvp in evt.New.TopRacks)
-                {
-                    if (!evt.Previous.TopRacks.ContainsKey(building_kvp.Key))
-                    {
-                        // Not much point in having "RacksAdded" event for Dota gameplay.
-                        continue;
-                    }
-
-                    var previous_building = evt.Previous.TopRacks[building_kvp.Key];
-
-                    if (!building_kvp.Value.Equals(previous_building))
-                    {
-                        dispatcher.Broadcast(new RacksUpdated(building_kvp.Value, previous_building, building_kvp.Key, "", evt.Team, location));
-
-                        if (building_kvp.Value.Health == 0)
-                        {
-                            dispatcher.Broadcast(new RacksDestroyed(building_kvp.Value, previous_building, building_kvp.Key, "", evt.Team, location));
-                        }
-                    }
-                }
-            }
-
-            if (!evt.New.MiddleRacks.Equals(evt.Previous.MiddleRacks))
-            {
-                BuildingLocation location = BuildingLocation.MiddleLane;
-
-                foreach (var building_kvp in evt.New.MiddleRacks)
-                {
-                    if (!evt.Previous.MiddleRacks.ContainsKey(building_kvp.Key))
-                    {
-                        // Not much point in having "RacksAdded" event for Dota gameplay.
-                        continue;
-                    }
-
-                    var previous_building = evt.Previous.MiddleRacks[building_kvp.Key];
-
-                    if (!building_kvp.Value.Equals(previous_building))
-                    {
-                        dispatcher.Broadcast(new RacksUpdated(building_kvp.Value, previous_building, building_kvp.Key, "", evt.Team, location));
-
-                        if (building_kvp.Value.Health == 0)
-                        {
-                            dispatcher.Broadcast(new RacksDestroyed(building_kvp.Value, previous_building, building_kvp.Key, "", evt.Team, location));
-                        }
-                    }
-                }
-            }
-
-            if (!evt.New.BottomRacks.Equals(evt.Previous.BottomRacks))
-            {
-                BuildingLocation location = BuildingLocation.BottomLane;
-
-                foreach (var building_kvp in evt.New.BottomRacks)
-                {
-                    if (!evt.Previous.BottomRacks.ContainsKey(building_kvp.Key))
-                    {
-                        // Not much point in having "RacksAdded" event for Dota gameplay.
-                        continue;
-                    }
-
-                    var previous_building = evt.Previous.BottomRacks[building_kvp.Key];
-
-                    if (!building_kvp.Value.Equals(previous_building))
-                    {
-                        dispatcher.Broadcast(new RacksUpdated(building_kvp.Value, previous_building, building_kvp.Key, "", evt.Team, location));
-
-                        if (building_kvp.Value.Health == 0)
-                        {
-                            dispatcher.Broadcast(new RacksDestroyed(building_kvp.Value, previous_building, building_kvp.Key, "", evt.Team, location));
+                            dispatcher.Broadcast(new RacksUpdated(building_kvp.Value, previous_building, building_kvp.Key, "", evt.Team, rack_kvp.Key));
                         }
                     }
                 }
@@ -237,11 +125,6 @@ namespace Dota2GSI
                 if (!evt.New.Ancient.Equals(evt.Previous.Ancient))
                 {
                     dispatcher.Broadcast(new AncientUpdated(evt.New.Ancient, evt.Previous.Ancient, "", evt.Team, location));
-
-                    if (evt.New.Ancient.Health == 0)
-                    {
-                        dispatcher.Broadcast(new AncientDestroyed(evt.New.Ancient, evt.Previous.Ancient, "", evt.Team, location));
-                    }
                 }
             }
 
@@ -262,13 +145,68 @@ namespace Dota2GSI
                     if (!building_kvp.Value.Equals(previous_building))
                     {
                         dispatcher.Broadcast(new TeamBuildingUpdated(building_kvp.Value, previous_building, building_kvp.Key, evt.Team, location));
-
-                        if (building_kvp.Value.Health == 0)
-                        {
-                            dispatcher.Broadcast(new TeamBuildingDestroyed(building_kvp.Value, previous_building, building_kvp.Key, evt.Team, location));
-                        }
                     }
                 }
+            }
+        }
+
+        private void OnTowerUpdated(DotaGameEvent e)
+        {
+            TowerUpdated evt = (e as TowerUpdated);
+
+            if (evt == null)
+            {
+                return;
+            }
+
+            if (evt.New.Health == 0 && evt.Previous.Health > 0)
+            {
+                dispatcher.Broadcast(new TowerDestroyed(evt.New, evt.Previous, evt.EntityID, evt.Team, evt.Location));
+            }
+        }
+
+        private void OnRacksUpdated(DotaGameEvent e)
+        {
+            RacksUpdated evt = (e as RacksUpdated);
+
+            if (evt == null)
+            {
+                return;
+            }
+
+            if (evt.New.Health == 0 && evt.Previous.Health > 0)
+            {
+                dispatcher.Broadcast(new RacksDestroyed(evt.New, evt.Previous, evt.RacksType, evt.EntityID, evt.Team, evt.Location));
+            }
+        }
+
+        private void OnAncientUpdated(DotaGameEvent e)
+        {
+            AncientUpdated evt = (e as AncientUpdated);
+
+            if (evt == null)
+            {
+                return;
+            }
+
+            if (evt.New.Health == 0 && evt.Previous.Health > 0)
+            {
+                dispatcher.Broadcast(new AncientDestroyed(evt.New, evt.Previous, evt.EntityID, evt.Team, evt.Location));
+            }
+        }
+
+        private void OnTeamBuildingUpdated(DotaGameEvent e)
+        {
+            TeamBuildingUpdated evt = (e as TeamBuildingUpdated);
+
+            if (evt == null)
+            {
+                return;
+            }
+
+            if (evt.New.Health == 0 && evt.Previous.Health > 0)
+            {
+                dispatcher.Broadcast(new TeamBuildingDestroyed(evt.New, evt.Previous, evt.EntityID, evt.Team, evt.Location));
             }
         }
     }

@@ -21,7 +21,7 @@ namespace Dota2GSI.Nodes.Helpers
         /// <summary>
         /// True if player details are for the local player.
         /// </summary>
-        public readonly bool IsLocalPlayer;
+        public bool IsLocalPlayer => PlayerID.Equals(-1);
 
         /// <summary>
         /// Player's basic details.
@@ -60,7 +60,6 @@ namespace Dota2GSI.Nodes.Helpers
 
         internal FullPlayerDetails(int player_id, GameState game_state)
         {
-            IsLocalPlayer = false;
             PlayerID = player_id;
             Details = game_state.Player.GetForPlayer(player_id);
             Hero = game_state.Hero.GetForPlayer(player_id);
@@ -73,7 +72,6 @@ namespace Dota2GSI.Nodes.Helpers
 
         internal FullPlayerDetails(GameState game_state)
         {
-            IsLocalPlayer = true;
             PlayerID = -1;
             Details = game_state.Player.LocalPlayer;
             Hero = game_state.Hero.LocalPlayer;

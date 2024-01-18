@@ -25,7 +25,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific team Gameplay Event.
+    /// Event for specific team's Gameplay Event.
     /// </summary>
     public class TeamGameplayEvent : TeamValueEvent<Event>
     {
@@ -35,7 +35,7 @@ namespace Dota2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for specific player Event.
+    /// Event for specific player's Event.
     /// </summary>
     public class PlayerGameplayEvent : PlayerValueEvent<Event>
     {

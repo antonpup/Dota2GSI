@@ -136,12 +136,12 @@ namespace Dota2GSI.Nodes.LeagueProvider
             }
 
             return obj is SelectionPriority other &&
-                Rules == other.Rules &&
-                PreviousPriorityTeamID == other.PreviousPriorityTeamID &&
-                CurrentPriorityTeamID == other.CurrentPriorityTeamID &&
-                PriorityTeamChoice == other.PriorityTeamChoice &&
-                NonPriorityTeamChoice == other.NonPriorityTeamChoice &&
-                UsedCoinToss == other.UsedCoinToss;
+                Rules.Equals(other.Rules) &&
+                PreviousPriorityTeamID.Equals(other.PreviousPriorityTeamID) &&
+                CurrentPriorityTeamID.Equals(other.CurrentPriorityTeamID) &&
+                PriorityTeamChoice.Equals(other.PriorityTeamChoice) &&
+                NonPriorityTeamChoice.Equals(other.NonPriorityTeamChoice) &&
+                UsedCoinToss.Equals(other.UsedCoinToss);
         }
 
         /// <inheritdoc/>

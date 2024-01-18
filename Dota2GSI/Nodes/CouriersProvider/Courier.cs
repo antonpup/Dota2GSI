@@ -130,12 +130,7 @@ namespace Dota2GSI.Nodes.CouriersProvider
         public bool InventoryContains(string item_name)
         {
             var found_index = InventoryIndexOf(item_name);
-            if (found_index > -1)
-            {
-                return true;
-            }
-
-            return false;
+            return found_index > -1;
         }
 
         /// <summary>
@@ -145,11 +140,11 @@ namespace Dota2GSI.Nodes.CouriersProvider
         /// <returns>The first index at which item is found, -1 if not found.</returns>
         public int InventoryIndexOf(string item_name)
         {
-            for (int x = 0; x < Items.Count; x++)
+            foreach (var item_kvp in Items)
             {
-                if (Items[x].Name == item_name)
+                if (item_kvp.Value.Name == item_name)
                 {
-                    return x;
+                    return item_kvp.Key;
                 }
             }
 
@@ -183,16 +178,16 @@ namespace Dota2GSI.Nodes.CouriersProvider
             }
 
             return obj is Courier other &&
-                Health == other.Health &&
-                MaxHealth == other.MaxHealth &&
-                IsAlive == other.IsAlive &&
-                RemainingRespawnTime == other.RemainingRespawnTime &&
+                Health.Equals(other.Health) &&
+                MaxHealth.Equals(other.MaxHealth) &&
+                IsAlive.Equals(other.IsAlive) &&
+                RemainingRespawnTime.Equals(other.RemainingRespawnTime) &&
                 Location.Equals(other.Location) &&
-                Rotation == other.Rotation &&
+                Rotation.Equals(other.Rotation) &&
                 OwnerID.Equals(other.OwnerID) &&
-                HasFlyingUpgrade == other.HasFlyingUpgrade &&
-                IsShielded == other.IsShielded &&
-                IsBoosted == other.IsBoosted &&
+                HasFlyingUpgrade.Equals(other.HasFlyingUpgrade) &&
+                IsShielded.Equals(other.IsShielded) &&
+                IsBoosted.Equals(other.IsBoosted) &&
                 Items.Equals(other.Items);
         }
 

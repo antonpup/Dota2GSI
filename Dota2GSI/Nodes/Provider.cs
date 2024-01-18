@@ -56,8 +56,8 @@ namespace Dota2GSI.Nodes
 
             return obj is Provider other &&
                 Name.Equals(other.Name) &&
-                AppID == other.AppID &&
-                Version == other.Version &&
+                AppID.Equals(other.AppID) &&
+                Version.Equals(other.Version) &&
                 TimeStamp.Equals(other.TimeStamp);
         }
 

@@ -40,8 +40,8 @@ namespace Dota2GSI.Nodes.WearablesProvider
             }
 
             return obj is WearableItem other &&
-                ID == other.ID &&
-                Style == other.Style;
+                ID.Equals(other.ID) &&
+                Style.Equals(other.Style);
         }
 
         /// <inheritdoc/>

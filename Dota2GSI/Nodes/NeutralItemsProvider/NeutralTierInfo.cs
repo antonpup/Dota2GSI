@@ -48,9 +48,9 @@ namespace Dota2GSI.Nodes.NeutralItemsProvider
             }
 
             return obj is NeutralTierInfo other &&
-                Tier == other.Tier &&
-                MaxCount == other.MaxCount &&
-                DropAfterTime == other.DropAfterTime;
+                Tier.Equals(other.Tier) &&
+                MaxCount.Equals(other.MaxCount) &&
+                DropAfterTime.Equals(other.DropAfterTime);
         }
 
         /// <inheritdoc/>

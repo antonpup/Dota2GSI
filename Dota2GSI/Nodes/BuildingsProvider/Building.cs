@@ -41,8 +41,8 @@ namespace Dota2GSI.Nodes.BuildingsProvider
             }
 
             return obj is Building other &&
-                Health == other.Health &&
-                MaxHealth == other.MaxHealth;
+                Health.Equals(other.Health) &&
+                MaxHealth.Equals(other.MaxHealth);
         }
 
         /// <inheritdoc/>

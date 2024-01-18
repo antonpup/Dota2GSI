@@ -55,10 +55,10 @@ namespace Dota2GSI.Nodes.LeagueProvider
             }
 
             return obj is LeagueTeam other &&
-                TeamID == other.TeamID &&
+                TeamID.Equals(other.TeamID) &&
                 TeamTag.Equals(other.TeamTag) &&
                 TeamName.Equals(other.TeamName) &&
-                SeriesWins == other.SeriesWins;
+                SeriesWins.Equals(other.SeriesWins);
         }
 
         /// <inheritdoc/>

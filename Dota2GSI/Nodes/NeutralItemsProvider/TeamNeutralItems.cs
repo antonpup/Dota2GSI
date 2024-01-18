@@ -70,7 +70,7 @@ namespace Dota2GSI.Nodes.NeutralItemsProvider
             }
 
             return obj is TeamNeutralItems other &&
-                ItemsFound == other.ItemsFound &&
+                ItemsFound.Equals(other.ItemsFound) &&
                 TeamItems.Equals(other.TeamItems);
         }
 
