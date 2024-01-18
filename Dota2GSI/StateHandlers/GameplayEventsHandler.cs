@@ -13,13 +13,13 @@ namespace Dota2GSI
         public GameplayEventsHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
-            dispatcher.Subscribe<EventsUpdated>(OnEventsStateUpdated);
+            dispatcher.Subscribe<EventsUpdated>(OnEventsUpdated);
         }
 
         ~GameplayEventsHandler()
         {
             dispatcher.Unsubscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
-            dispatcher.Unsubscribe<EventsUpdated>(OnEventsStateUpdated);
+            dispatcher.Unsubscribe<EventsUpdated>(OnEventsUpdated);
         }
 
         private void OnFullPlayerDetailsUpdated(DotaGameEvent e)
@@ -34,7 +34,7 @@ namespace Dota2GSI
             _player_cache[evt.New.PlayerID] = evt.New;
         }
 
-        private void OnEventsStateUpdated(DotaGameEvent e)
+        private void OnEventsUpdated(DotaGameEvent e)
         {
             EventsUpdated evt = (e as EventsUpdated);
 

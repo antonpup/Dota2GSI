@@ -13,14 +13,14 @@ namespace Dota2GSI
         public AbilitiesHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
-            dispatcher.Subscribe<AbilitiesUpdated>(OnAbilitiesStateUpdated);
+            dispatcher.Subscribe<AbilitiesUpdated>(OnAbilitiesUpdated);
             dispatcher.Subscribe<AbilityDetailsChanged>(OnAbilityDetailsChanged);
         }
 
         ~AbilitiesHandler()
         {
             dispatcher.Unsubscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
-            dispatcher.Unsubscribe<AbilitiesUpdated>(OnAbilitiesStateUpdated);
+            dispatcher.Unsubscribe<AbilitiesUpdated>(OnAbilitiesUpdated);
             dispatcher.Unsubscribe<AbilityDetailsChanged>(OnAbilityDetailsChanged);
         }
 
@@ -36,7 +36,7 @@ namespace Dota2GSI
             _player_cache[evt.New.PlayerID] = evt.New;
         }
 
-        private void OnAbilitiesStateUpdated(DotaGameEvent e)
+        private void OnAbilitiesUpdated(DotaGameEvent e)
         {
             AbilitiesUpdated evt = (e as AbilitiesUpdated);
 

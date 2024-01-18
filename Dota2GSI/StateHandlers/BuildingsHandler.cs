@@ -6,17 +6,17 @@ namespace Dota2GSI
     {
         public BuildingsHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<BuildingsUpdated>(OnBuildingsStateUpdated);
+            dispatcher.Subscribe<BuildingsUpdated>(OnBuildingsUpdated);
             dispatcher.Subscribe<BuildingsLayoutUpdated>(OnBuildingsLayoutUpdated);
         }
 
         ~BuildingsHandler()
         {
-            dispatcher.Unsubscribe<BuildingsUpdated>(OnBuildingsStateUpdated);
+            dispatcher.Unsubscribe<BuildingsUpdated>(OnBuildingsUpdated);
             dispatcher.Unsubscribe<BuildingsLayoutUpdated>(OnBuildingsLayoutUpdated);
         }
 
-        private void OnBuildingsStateUpdated(DotaGameEvent e)
+        private void OnBuildingsUpdated(DotaGameEvent e)
         {
             BuildingsUpdated evt = (e as BuildingsUpdated);
 

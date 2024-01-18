@@ -6,15 +6,15 @@ namespace Dota2GSI
     {
         public MapHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<MapUpdated>(OnMapStateUpdated);
+            dispatcher.Subscribe<MapUpdated>(OnMapUpdated);
         }
 
         ~MapHandler()
         {
-            dispatcher.Unsubscribe<MapUpdated>(OnMapStateUpdated);
+            dispatcher.Unsubscribe<MapUpdated>(OnMapUpdated);
         }
 
-        private void OnMapStateUpdated(DotaGameEvent e)
+        private void OnMapUpdated(DotaGameEvent e)
         {
             MapUpdated evt = (e as MapUpdated);
 
