@@ -1,60 +1,271 @@
-# Dota 2 GSI (Game State Integration)
+Dota 2 GSI (Game State Integration)
+===================================
+
+[![.NET](https://github.com/antonpup/Dota2GSI/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/antonpup/Dota2GSI/actions/workflows/dotnet.yml)
+![GitHub Release](https://img.shields.io/github/v/release/antonpup/Dota2GSI)
+[![NuGet Version](https://img.shields.io/nuget/v/Dota2GSI)](https://www.nuget.org/packages/Dota2GSI)
+
 A C# library to interface with the Game State Integration found in Dota 2.
 
-## What is Game State Integration
+## About Dota 2 GSI
+
+This library provides an easy way to implement Game State Integration from Dota 2 into C# applications through exposing a number of events.
+
+Underneath the hood, once the library is started, it continuously listens for HTTP POST requests made by the game on a specific address and port. When a request is received, the JSON data is parsed into [GameState object](#game-state-structure) and is offered to your C# application through `NewGameState` event. The library also subscribes to `NewGameState` to determine more granular changes to raise more specific events _(such as `TimeOfDayChanged`, `InventoryItemAdded`, or `TowerDestroyed` to name a few)_. A full list of exposed Game Events can be found in the [Implemented Game Events](#implemented-game-events) section.
+
+## About Game State Integration
+
+Game State Integration is Valve's implementation for exposing current game state _(such as player health, mana, ammo, etc.)_ and game events without the need to read game memory or risking anti-cheat detection. The information exposed by GSI is limited to what Valve has determined to expose. For example, the game can expose information about all players in the game while spectating a match, but will only expose local player's infomration when playing a game. While the information is limited, there is enough information to create a live game analysis tool, create custom RGB ligthing effects, or create live streaming plugin to show additional game information. For example, GSI can be seen used during competitive tournament live streams to show currently spectated player's information and in-game statistics.
+
 You can read about Game State Integration for Counter-Strike: Global Offensive [here](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration).
 
-## About Dota 2 GSI
-This library provides easy means of implementing Game State Integration from Dota 2 into C# applications. Library listens for HTTP POST requests made by the game on a specific address and port. Upon receiving a request, the game state is parsed and can be used.
-
-JSON parsing is done though help of Newtonsoft's [JSON.Net Framework](http://www.newtonsoft.com/json).
-
-After starting the `GameStateListener` instance, it will continuously listen for incoming HTTP requests. Upon a received request, the contents will be parsed into a `GameState` object.
-
 ## Installation
+
 Install from [nuget](https://www.nuget.org/packages/Dota2GSI).
 
-## Manual installation:
-1. Get the [latest binaries](https://github.com/antonpup/Dota2GSI/releases/latest)
-2. Get the [JSON Framework .dll by Newtonsoft](https://github.com/JamesNK/Newtonsoft.Json/releases)
-3. Extract Newtonsoft.Json.dll from `Bin\Net80\Newtonsoft.Json.dll`
-4. Add a reference to both Dota2GSI.dll and Newtonsoft.Json.dll in your project
+## Building Dota 2 GSI
 
-## Build Dota 2 GSI
 1. Make sure you have Visual Studio installed with `.NET desktop development` workload and `.Net 8.0 Runtime` individual component.
 2. Make sure you have CMake 3.26 or later installed from [https://cmake.org/](https://cmake.org/).
 3. In the repository root directory run: `cmake -B build/ .` to generate the project solution file.
 4. Open the project solution located in `build/Dota2GSI.sln`.
 
-## Usage
-1. Create a `GameStateListener` instance by providing a port or passing a specific URI:
+## How to use
 
-```C#
-GameStateListener gsl = new GameStateListener(3000); //http://localhost:3000/
-GameStateListener gsl = new GameStateListener("http://127.0.0.1:81/");
+1. Before `Dota2GSI` can be used, you must create a Game State Integration configuration file where you would specify the URI for the HTTP Requests and select which providers the game should expose to your application. To do this you must create a new configuration file in `<PATH TO GAME DIRECTORY>/game/dota/cfg/gamestate_integration/gamestate_integration_<CUSTOM NAME>.cfg` where `<CUSTOM NAME>` should be the name of your application (it can be anything). Add the following content to your configuration file (make sure you replace `<CUSTOM NAME>` with your application's name, `<CUSTOM PORT>` with the port you would like to use for your application, and other values can also be tweaked as you wish):
 ```
-
-**Please note**: If your application needs to listen to a URI other than `http://localhost:*/` (for example `http://192.168.2.2:100/`), you need to ensure that it is run with administrator privileges.  
-In this case, `http://127.0.0.1:*/` is **not** equivalent to `http://localhost:*/`.
-
-2. Create a handler:
-
-```C#
-void OnNewGameState(GameState gs)
+"<CUSTOM NAME> Integration Configuration"
 {
-    //do stuff
+    "uri"           "http://localhost:<CUSTOM PORT>/"
+    "timeout"       "5.0"
+    "buffer"        "0.1"
+    "throttle"      "0.1"
+    "heartbeat"     "30.0"
+    "data"
+    {
+        "auth"          "1"
+        "provider"      "1"
+        "map"           "1"
+        "player"        "1"
+        "hero"          "1"
+        "abilities"     "1"
+        "items"         "1"
+        "events"        "1"
+        "buildings"     "1"
+        "league"        "1"
+        "draft"         "1"
+        "wearables"     "1"
+        "minimap"       "1"
+        "roshan"        "1"
+        "couriers"      "1"
+        "neutralitems"  "1"
+    }
 }
 ```
 
-3. Subscribe to the `NewGameState` event:
-
+2. After installing the [Dota2GSI nuget package](https://www.nuget.org/packages/Dota2GSI) in your project, create an instance of `GameStateListener`, providing a custom port or custom URI you defined in the configuration file in the previous step.
 ```C#
-gsl.NewGameState += new NewGameStateHandler(OnNewGameState);
+GameStateListener gsl = new GameStateListener(3000); //http://localhost:3000/
+```
+or
+```C#
+GameStateListener gsl = new GameStateListener("http://127.0.0.1:1234/");
+```
+> **Please note**: If your application needs to listen to a URI other than `http://localhost:*/` (for example `http://192.168.0.2:100/`), you will need to run your application with administrator privileges.
+
+3. Create handlers and subscribe for events your application will be using. (A full list of exposed Game Events can be found in the [Implemented Game Events](#implemented-game-events) section.)
+If your application just needs `GameState` information, this is done by subscribing to `NewGameState` event and creating a handler for it:
+```C#
+...
+gsl.NewGameState += OnNewGameState;
+...
+
+void OnNewGameState(GameState gs)
+{
+    // Read information from the game state.
+}
+```
+If you would like to utilize `Game Events` in your application, this is done by subscribing to an event from the [Implemented Game Events](#implemented-game-events) list and creating a handler for it:
+```C#
+...
+gsl.GameEvent += OnGameEvent; // Will fire on every GameEvent
+gsl.TimeOfDayChanged += OnTimeOfDayChanged; // Will only fire on TimeOfDayChanged events.
+gsl.InventoryItemAdded += OnInventoryItemAdded; // Will only fire on InventoryItemAdded events.
+...
+
+void OnGameEvent(DotaGameEvent game_event)
+{
+    // Read information from the game event.
+    
+    if (game_event is TimeOfDayChanged tod_changed)
+    {
+        Console.WriteLine($"Is daytime: {tod_changed.IsDaytime} Is Nightstalker night: {tod_changed.IsNightstalkerNight}");
+    }
+}
+
+void OnTimeOfDayChanged(TimeOfDayChanged game_event)
+{
+    Console.WriteLine($"Is daytime: {game_event.IsDaytime} Is Nightstalker night: {game_event.IsNightstalkerNight}");
+}
+
+void OnInventoryItemAdded(InventoryItemAdded game_event)
+{
+    Console.WriteLine($"Player {game_event.Player.Details.Name} gained an item in their inventory: {game_event.Value.Name}");
+}
+```
+Both `NewGameState` and `Game Events` can be used alongside one another. The `Game Events` are generated based on the `GameState`, and are there to provide ease of use.
+
+4. Finally you want to start the `GameStateListener` to begin capturing HTTP POST requests. This is done by calling `Start()` method of `GameStateListener`. The method will return `True` if started successfully, or `False` when failed to start. Often the failure to start is due to insufficient permissions or another application is already using the same port.
+```C#
+if (!gsl.Start())
+{
+    // GameStateListener could not start.
+}
+// GameStateListener started and is listening for Game State requests.
 ```
 
-4. Use `GameStateListener.Start()` to start listening for HTTP POST requests from the game client. This method will return `false` if starting the listener fails (most likely due to insufficient privileges).
+## Implemented Game Events
 
-## Layout
+* `GameEvent` The base game event, will fire for all other listed events.
+
+### Abilities Events
+
+* `AbilitiesUpdated`
+* `AbilityDetailsChanged`
+* `AbilityAdded`
+* `AbilityRemoved`
+* `AbilityUpdated`
+
+### Auth Events
+
+* `AuthUpdated`
+
+### Buildings Events
+
+* `BuildingsUpdated`
+* `BuildingsLayoutUpdated`
+* `BuildingUpdated`
+* `TeamBuildingUpdated`
+* `TeamBuildingDestroyed`
+* `TowerUpdated`
+* `TowerDestroyed`
+* `RacksUpdated`
+* `RacksDestroyed`
+* `AncientUpdated`
+* `AncientDestroyed`
+
+### Couriers Events
+
+* `CouriersUpdated`
+* `CourierUpdated`
+* `TeamCourierUpdated`
+* `CourierItemAdded`
+* `CourierItemRemoved`
+* `CourierItemUpdated`
+
+### Draft Events
+
+* `DraftUpdated`
+* `TeamDraftDetailsUpdated`
+
+### Gameplay Events
+
+* `EventsUpdated`
+* `GameplayEvent`
+* `TeamGameplayEvent`
+* `PlayerGameplayEvent`
+
+### Hero Events
+
+* `HeroUpdated`
+* `HeroDetailsChanged`
+* `HeroLevelChanged`
+* `HeroHealthChanged`
+* `HeroDied`
+* `HeroRespawned`
+* `HeroTookDamage`
+* `HeroManaChanged`
+* `HeroStateChanged`
+* `HeroMuteStateChanged`
+* `HeroSelectedChanged`
+* `HeroTalentTreeChanged`
+* `HeroAttributesLevelChanged`
+
+### Items Events
+
+* `ItemsUpdated`
+* `ItemDetailsChanged`
+* `ItemUpdated`
+* `InventoryItemAdded`
+* `InventoryItemRemoved`
+* `InventoryItemUpdated`
+* `StashItemAdded`
+* `StashItemRemoved`
+* `StashItemUpdated`
+
+### League Events
+
+* `LeagueUpdated`
+
+### Map Events
+
+* `MapUpdated`
+* `TimeOfDayChanged`
+* `TeamScoreChanged`
+* `GameStateChanged`
+* `PauseStateChanged`
+* `GamePaused`
+* `GameResumed`
+* `TeamVictory`
+* `TeamDefeat`
+* `RoshanStateChanged`
+
+### Minimap Events
+
+* `MinimapUpdated`
+* `MinimapElementAdded`
+* `MinimapElementUpdated`
+* `MinimapElementRemoved`
+* `TeamMinimapElementUpdated`
+
+### NeutralItems Events
+
+* `NeutralItemsUpdated`
+* `TeamNeutralItemsUpdated`
+
+### Player Events
+
+* `PlayerUpdated`
+* `PlayerDetailsChanged`
+* `PlayerKillsChanged`
+* `PlayerDeathsChanged`
+* `PlayerAssistsChanged`
+* `PlayerLastHitsChanged`
+* `PlayerDeniesChanged`
+* `PlayerKillStreakChanged`
+* `PlayerGoldChanged`
+* `PlayerWardsPurchasedChanged`
+* `PlayerWardsPlacedChanged`
+* `PlayerWardsDestroyedChanged`
+* `PlayerRunesActivatedChanged`
+* `PlayerCampsStackedChanged`
+
+### Provider Events
+
+* `ProviderUpdated`
+
+### Roshan Events
+
+* `RoshanUpdated`
+
+### Wearables Events
+
+* `RoshanUpdated`
+* `WearablesUpdated`
+* `PlayerWearablesUpdated`
+
+## Game State Structure
+
 ```
 GameState
 +-- Auth
@@ -77,11 +288,11 @@ GameState
 |   +-- IsPaused
 |   +-- Winningteam
 |   +-- CustomGameName
+|   +-- WardPurchaseCooldown
 |   +-- RadiantWardPurchaseCooldown
 |   +-- DireWardPurchaseCooldown
 |   +-- RoshanState
 |   +-- RoshanStateEndTime
-|   +-- WardPurchaseCooldown
 +-- Player
 |   +-- LocalPlayer
 |   |   +-- SteamID
@@ -96,6 +307,9 @@ GameState
 |   |   +-- KillStreak
 |   |   +-- CommandsIssued
 |   |   +-- KillList
+|   |   |   \
+|   |   |   (Map of kill id to player id)
+|   |   |   ...
 |   |   +-- Team
 |   |   +-- PlayerSlot
 |   |   +-- PlayerTeamSlot
@@ -113,17 +327,19 @@ GameState
 |   |   +-- HeroDamage
 |   |   +-- HeroHealing
 |   |   +-- TowerDamage
-|   |   +-- WardsPurchased
-|   |   +-- WardsPlaced
-|   |   +-- WardsDestroyed
-|   |   +-- RunesActivated
-|   |   +-- CampsStacked
 |   |   +-- SupportGoldSpent
 |   |   +-- ConsumableGoldSpent
 |   |   +-- ItemGoldSpent
 |   |   +-- GoldLostToDeath
 |   |   +-- GoldSpentOnBuybacks
+|   |   +-- WardsPurchased
+|   |   +-- WardsPlaced
+|   |   +-- WardsDestroyed
+|   |   +-- RunesActivated
+|   |   +-- CampsStacked
 |   +-- Teams
+|   |   \
+|   |   (Multi-map of team to player id to Player Details)
 |   |   ...
 |   +-- GetForTeam( team )
 |   +-- GetForPlayer( player_id )
@@ -144,21 +360,24 @@ GameState
 |   |   +-- Mana
 |   |   +-- MaxMana
 |   |   +-- ManaPercent
+|   |   +-- HeroState
 |   |   +-- IsSilenced
 |   |   +-- IsStunned
 |   |   +-- IsDisarmed
 |   |   +-- IsMagicImmune
 |   |   +-- IsHexed
-|   |   +-- IsMuted
 |   |   +-- IsBreak
-|   |   +-- HasAghanimsScepterUpgrade
-|   |   +-- HasAghanimsShardUpgrade
 |   |   +-- IsSmoked
 |   |   +-- HasDebuff
+|   |   +-- IsMuted
+|   |   +-- HasAghanimsScepterUpgrade
+|   |   +-- HasAghanimsShardUpgrade
 |   |   +-- SelectedUnit
 |   |   +-- TalentTree[]
 |   |   +-- AttributesLevel
 |   +-- Teams
+|   |   \
+|   |   (Multi-map of team to player id to Hero Details)
 |   |   ...
 |   +-- GetForTeam( team )
 |   +-- GetForPlayer( player_id )
@@ -178,17 +397,35 @@ GameState
 |   |   |   +-- MaxCharges
 |   |   |   +-- ChargeCooldown
 |   +-- Teams
+|   |   \
+|   |   (Multi-map of team to player id to Ability Details)
 |   |   ...
 |   +-- GetForTeam( team )
 |   +-- GetForPlayer( player_id )
 +-- Items
 |   +-- LocalPlayer
-|   |   +-- Inventory
-|   |   +-- Stash
+|   |   +-- Inventory[]
+|   |   |   \
+|   |   |   +-- Name
+|   |   |   +-- Purchaser
+|   |   |   +-- ItemLevel
+|   |   |   +-- ContainsRune
+|   |   |   +-- CanCast
+|   |   |   +-- Cooldown
+|   |   |   +-- IsPassive
+|   |   |   +-- ItemCharges
+|   |   |   +-- AbilityCharges
+|   |   |   +-- MaxCharges
+|   |   |   +-- ChargeCooldown
+|   |   |   +-- Charges
+|   |   +-- Stash[]
+|   |   |   ...
 |   |   +-- CountInventory
 |   |   +-- CountStash
 |   |   +-- Teleport
+|   |   |   ...
 |   |   +-- Neutral
+|   |   |   ...
 |   |   +-- GetInventoryAt( index )
 |   |   +-- GetInventoryItem( item_name )
 |   |   +-- InventoryContains( item_name )
@@ -198,6 +435,8 @@ GameState
 |   |   +-- StashContains( item_name )
 |   |   +-- StashIndexOf( item_name )
 |   +-- Teams
+|   |   \
+|   |   (Multi-map of team to player id to Item Details)
 |   |   ...
 |   +-- GetForTeam( team )
 |   +-- GetForPlayer( player_id )
@@ -218,21 +457,52 @@ GameState
 +-- Buildings
 |   +-- RadiantBuildings
 |   |   +-- TopTowers
+|   |   |   \
+|   |   |   (Map of tower id to Building)
+|   |   |   +-- Health
+|   |   |   +-- MaxHealth
 |   |   +-- MiddleTowers
+|   |   |   \
+|   |   |   (Map of tower id to Building)
+|   |   |   ...
 |   |   +-- BottomTowers
+|   |   |   \
+|   |   |   (Map of tower id to Building)
+|   |   |   ...
 |   |   +-- TopRacks
+|   |   |   \
+|   |   |   (Map of Racks Type to Building)
+|   |   |   ...
 |   |   +-- MiddleRacks
+|   |   |   \
+|   |   |   (Map of Racks Type to Building)
+|   |   |   ...
 |   |   +-- BottomRacks
+|   |   |   \
+|   |   |   (Map of Racks Type to Building)
+|   |   |   ...
 |   |   +-- Ancient
+|   |   |   ...
 |   |   +-- OtherBuildings
+|   |   |   \
+|   |   |   (Map of building id to Building)
+|   |   |   ...
 |   +-- DireBuildings
 |   |   ...
 |   +-- AllBuildings
+|   |   \
+|   |   (Map of team to Building Layout)
 |   |   ...
 |   +-- GetForTeam( team )
 +-- League
 |   +-- SeriesType
 |   +-- SelectionPriority
+|   |   +-- Rules
+|   |   +-- PreviousPriorityTeamID
+|   |   +-- CurrentPriorityTeamID
+|   |   +-- PriorityTeamChoice
+|   |   +-- NonPriorityTeamChoice
+|   |   +-- UsedCoinToss
 |   +-- LeagueID
 |   +-- MatchID
 |   +-- Name
@@ -262,7 +532,7 @@ GameState
 |   +-- StartTime
 |   +-- FirstTeamID
 |   +-- SecondTeamID
-|   +-- Stream[]
+|   +-- Streams[]
 |   |   \
 |   |   +-- StreamID
 |   |   +-- Language
@@ -277,21 +547,33 @@ GameState
 |   +-- RadiantBonusTime
 |   +-- DireBonusTime
 |   +-- Teams
+|   |   |   \
+|   |   |   (Map of team to Draft Details)
 |   |   +-- IsHomeTeam
 |   |   +-- PickIDs
+|   |   |   \
+|   |   |   (Map of slot number to picked hero ID)
 |   |   +-- PickHeroIDs
+|   |   |   \
+|   |   |   (Map of slot number to picked hero name)
 |   +-- GetForTeam( team )
 +-- Wearables
 |   +-- LocalPlayer
 |   |   +-- Wearables
+|   |   |   \
+|   |   |   (Map of slot number to Wearable Item)
 |   |   |   +-- ID
 |   |   |   +-- Style
 |   +-- Teams
+|   |   \
+|   |   (Multi-map of team to player id to Item Wearable Item)
 |   |   ...
 |   +-- GetForTeam( team )
 |   +-- GetForPlayer( player_id )
 +-- Minimap
 |   +-- Elements
+|   |   |   \
+|   |   |   (Map of element ID to Minimap Element)
 |   |   +-- Location
 |   |   +-- RemainingTime
 |   |   +-- EventDuration
@@ -302,19 +584,23 @@ GameState
 |   |   +-- UnitName
 |   |   +-- VisionRange
 |   +-- GetForTeam( team )
-|   +-- GetForPlayer( player_id )
+|   +-- GetByUnitName( unit_name )
 +-- Roshan
-|   +-- Location
 |   +-- Health
 |   +-- MaxHealth
 |   +-- IsAlive
 |   +-- SpawnPhase
 |   +-- PhaseTimeRemaining
+|   +-- Location
 |   +-- Rotation
 |   +-- Drops
 |   |   +-- Items
+|   |   |   \
+|   |   |   (Map of item index to item name)
 +-- Couriers
 |   +-- CouriersMap
+|   |   \
+|   |   (Map of courier ID to Courier)
 |   |   +-- Health
 |   |   +-- MaxHealth
 |   |   +-- IsAlive
@@ -326,17 +612,29 @@ GameState
 |   |   +-- IsShielded
 |   |   +-- IsBoosted
 |   |   +-- Items
+|   |   |   \
+|   |   |   (Map of item index to Courier Item)
 |   |   |   +-- OwnerID
 |   |   |   +-- Name
+|   |   +-- GetItemAt( index )
+|   |   +-- GetInventoryItem( item_name )
+|   |   +-- InventoryContains( item_name )
+|   |   +-- InventoryIndexOf( item_name )
 |   +-- GetForPlayer( player_id )
 +-- NeutralItems
 |   +-- TierInfos
+|   |   |   \
+|   |   |   (Map of tier index to Neutral Tier Info)
 |   |   +-- Tier
 |   |   +-- MaxCount
 |   |   +-- DropAfterTime
 |   +-- TeamItems
+|   |   |   \
+|   |   |   (Map of team to Team Neutral Items)
 |   |   +-- ItemsFound
 |   |   +-- TeamItems
+|   |   |   \
+|   |   |   (Map of item index to Neutral Item)
 |   |   |   +-- Name
 |   |   |   +-- Tier
 |   |   |   +-- Charges
@@ -345,6 +643,8 @@ GameState
 |   +-- GetForTeam( team )
 +-- Previously (Previous information from Game State)
 +-- LocalPlayer
+|   +-- PlayerID
+|   +-- IsLocalPlayer
 |   +-- Details
 |   +-- Hero
 |   +-- Abilities
@@ -369,119 +669,31 @@ GameState
 +-- IsLocalPlayer
 ```
 
-### Item, and Hero names
-Item and hero names are presented in their "internal name" format. A full list of item names can be found [here](http://dota2.gamepedia.com/Cheats#Item_names) and a full list of heroes can be located [here](http://dota2.gamepedia.com/Cheats#Hero_names).
-
-##### Examples:
-```C#
-int Health = gs.Hero.LocalPlayer.Health; // 560
-int MaxHealth = gs.Hero.LocalPlayer.MaxHealth; // 560
-string HeroName = gs.Hero.LocalPlayer.Name; //npc_dota_hero_omniknight
-int Level = gs.Hero.LocalPlayer.Level; //1
-
-Console.WriteLine("You are playing as " + HeroName + " with " + Health + "/" + MaxHealth + " health and level " + Level);
-//You are playing as npc_dota_hero_omniknight with 560/560 health and level 1
-
-```
-
 ## Null value handling
-In case the JSON did not contain the requested information, these values will be returned:
 
-Type    |Default value
---------|-------------
-bool    | false
-int     | -1
-long    | -1
-float   | -1
-string  | String.Empty
+In the event that the game state is missing information, a default value will be returned:
 
-
-All Enums have a value `enum.Undefined` that serves the same purpose.
+| Type     | Default value  |
+|:---------|:---------------|
+| `bool`   | `False`        |
+| `int`    | `-1`           |
+| `long`   | `-1`           |
+| `float`  | `-1`           |
+| `string` | `String.Empty` |
+| `enum`   | `Undefined`    |
 
 ## Example program
-A user, [judge2020](https://github.com/judge2020), has created an example program to demonstrate Dota2GSI functionalities. It can be found in the "Dota2GSI Example program" folder.
 
-## Example implementation
-Prints "You bought an item" when you buy an item, and "It is night time" when it is night time.
+An example program for `Dota2GSI` can be found in the `Dota2GSI Example program` directory in the root of the repository. It was initially created by [judge2020](https://github.com/judge2020).
 
-```C#
-using Dota2GSI;
-using System;
+### Item and hero names
 
-namespace DOTA2GSI_sample
-{
-    static class Program
-    {
-        GameStateListener gsl;
-        
-        static void Main(string[] args)
-        {
-            gsl = new GameStateListener(4000);
-            gsl.NewGameState += new NewGameStateHandler(OnNewGameState);
+A full list of item names can be found [here](https://dota2.fandom.com/wiki/Cheats#Item_names).
 
-            if (!gsl.Start())
-            {
-                System.Windows.MessageBox.Show("GameStateListener could not start. Try running this program as Administrator.\r\nExiting.");
-                Environment.Exit(0);
-            }
-            Console.WriteLine("Listening for game integration calls...");
-        }
-
-        static void OnNewGameState(GameState gs)
-        {
-            if(gs.Map.GameState == DOTA_GameState.DOTA_GAMERULES_STATE_GAME_IN_PROGRESS)
-            {
-                if(gs.Previously.Items.LocalPlayer.CountInventory > gs.Items.LocalPlayer.CountInventory)
-                {
-                    Console.WriteLine("You bought an item");
-                }
-                
-                if(!gs.Map.IsDaytime || gs.Map.IsNightstalkerNight)
-                {
-                    Console.WriteLine("It is night time");
-                }
-            }
-        }
-    }
-}
-```
-
-You will also need to create a custom `gamestate_integration_*.cfg` in `game/dota/cfg/gamestate_integration/`, for example:  
-`gamestate_integration_test.cfg`:  
-```
-"Dota 2 Integration Configuration"
-{
-    "uri"           "http://localhost:4000/"
-    "timeout"       "5.0"
-    "buffer"        "0.1"
-    "throttle"      "0.1"
-    "heartbeat"     "30.0"
-    "data"
-    {
-        "auth"          "1"
-        "provider"      "1"
-        "map"           "1"
-        "player"        "1"
-        "hero"          "1"
-        "abilities"     "1"
-        "items"         "1"
-        "events"        "1"
-        "buildings"     "1"
-        "league"        "1"
-        "draft"         "1"
-        "wearables"     "1"
-        "minimap"       "1"
-        "roshan"        "1"
-        "couriers"      "1"
-        "neutralitems"  "1"
-    }
-}
-
-```
-
-**Please note**: In order to run this test application without explicit administrator privileges, you need to use the URI `http://localhost:<port>` in this configuration file.
+A full list of hero names can be found [here](https://dota2.fandom.com/wiki/Cheats#Hero_Names).
 
 ## Credits
-Special thanks to [rakijah](https://github.com/rakijah) for his CSGO Game State Integration library.
 
-Thanks to [judge2020](https://github.com/judge2020) for providing an example program.
+Thank you to [rakijah](https://github.com/rakijah) for his work on the CSGO Game State Integration library.
+
+Thank you to [judge2020](https://github.com/judge2020) for providing an example program.
