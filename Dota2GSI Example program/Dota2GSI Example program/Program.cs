@@ -25,8 +25,18 @@ namespace Dota2GSI_Example_program
             }
 
             _gsl = new GameStateListener(4000);
+
+            // There are many callbacks that can be subscribed.
+            // This example shows a few.
             // _gsl.NewGameState += OnNewGameState; // `NewGameState` can be used alongside `GameEvent`. Just not in this example.
             _gsl.GameEvent += OnGameEvent; // `GameEvent` can be used alongside `NewGameState`.
+            _gsl.TimeOfDayChanged += OnTimeOfDayChanged;
+            _gsl.TeamScoreChanged += OnTeamScoreChanged;
+            _gsl.PauseStateChanged += OnPauseStateChanged;
+            _gsl.PlayerGameplayEvent += OnPlayerGameplayEvent;
+            _gsl.TeamGameplayEvent += OnTeamGameplayEvent;
+            _gsl.InventoryItemAdded += OnInventoryItemAdded;
+            _gsl.InventoryItemRemoved += OnInventoryItemRemoved;
 
             if (!_gsl.Start())
             {
@@ -46,9 +56,43 @@ namespace Dota2GSI_Example_program
             } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
         }
 
+        private static void OnTimeOfDayChanged(TimeOfDayChanged game_event)
+        {
+            Console.WriteLine($"Is daytime: {game_event.IsDaytime} Is Nightstalker night: {game_event.IsNightstalkerNight}");
+        }
+        private static void OnTeamScoreChanged(TeamScoreChanged game_event)
+        {
+            Console.WriteLine($"New score for {game_event.Team} is {game_event.New}");
+        }
+
+        private static void OnPauseStateChanged(PauseStateChanged game_event)
+        {
+            Console.WriteLine($"New pause state is {game_event.New}");
+        }
+
+        private static void OnPlayerGameplayEvent(PlayerGameplayEvent game_event)
+        {
+            Console.WriteLine($"Player {game_event.Player.Details.Name} did a thing: " + game_event.Value.EventType);
+        }
+
+        private static void OnTeamGameplayEvent(TeamGameplayEvent game_event)
+        {
+            Console.WriteLine($"Team {game_event.Team} did a thing: " + game_event.Value.EventType);
+        }
+
+        private static void OnInventoryItemAdded(InventoryItemAdded game_event)
+        {
+            Console.WriteLine($"Player {game_event.Player.Details.Name} gained an item in their inventory: " + game_event.Value.Name);
+        }
+
+        private static void OnInventoryItemRemoved(InventoryItemRemoved game_event)
+        {
+            Console.WriteLine($"Player {game_event.Player.Details.Name} lost an item from their inventory: " + game_event.Value.Name);
+        }
+
         private static void OnGameEvent(DotaGameEvent game_event)
         {
-            if (game_event is ProviderStateUpdated provider)
+            if (game_event is ProviderUpdated provider)
             {
                 Console.WriteLine($"Current Game version: {provider.New.Version}");
                 Console.WriteLine($"Current Game time stamp: {provider.New.TimeStamp}");
@@ -58,51 +102,31 @@ namespace Dota2GSI_Example_program
                 Console.WriteLine($"Player Name: {player_details.New.Name}");
                 Console.WriteLine($"Player Account ID: {player_details.New.AccountID}");
             }
-            else if (game_event is TimeOfDayChanged time_of_day)
-            {
-                Console.WriteLine($"Is daytime: {time_of_day.IsDaytime} Is Nightstalker night: {time_of_day.IsNightstalkerNight}");
-            }
-            else if (game_event is TeamScoreChanged team_score)
-            {
-                Console.WriteLine($"New score for {team_score.Team} is {team_score.New}");
-            }
-            else if (game_event is PauseStateChanged paused_state)
-            {
-                Console.WriteLine($"New pause state is {paused_state.New}");
-            }
             else if (game_event is HeroDetailsChanged hero_details)
             {
-                Console.WriteLine($"Player {hero_details.PlayerID} Hero ID: " + hero_details.New.ID);
-                Console.WriteLine($"Player {hero_details.PlayerID} Hero XP: " + hero_details.New.Experience);
-                Console.WriteLine($"Player {hero_details.PlayerID} Hero has Aghanims Shard upgrade: " + hero_details.New.HasAghanimsShardUpgrade);
-                Console.WriteLine($"Player {hero_details.PlayerID} Hero Health: " + hero_details.New.Health);
-                Console.WriteLine($"Player {hero_details.PlayerID} Hero Mana: " + hero_details.New.Mana);
-                Console.WriteLine($"Player {hero_details.PlayerID} Hero Location: " + hero_details.New.Location);
+                Console.WriteLine($"Player {hero_details.Player.Details.Name} Hero ID: " + hero_details.New.ID);
+                Console.WriteLine($"Player {hero_details.Player.Details.Name} Hero XP: " + hero_details.New.Experience);
+                Console.WriteLine($"Player {hero_details.Player.Details.Name} Hero has Aghanims Shard upgrade: " + hero_details.New.HasAghanimsShardUpgrade);
+                Console.WriteLine($"Player {hero_details.Player.Details.Name} Hero Health: " + hero_details.New.Health);
+                Console.WriteLine($"Player {hero_details.Player.Details.Name} Hero Mana: " + hero_details.New.Mana);
+                Console.WriteLine($"Player {hero_details.Player.Details.Name} Hero Location: " + hero_details.New.Location);
             }
             else if (game_event is AbilityUpdated ability)
             {
-                Console.WriteLine($"Player {ability.PlayerID} updated their ability: " + ability.New);
+                Console.WriteLine($"Player {ability.Player.Details.Name} updated their ability: " + ability.New);
             }
             else if (game_event is ItemDetailsChanged item_details)
             {
-                Console.WriteLine($"Player {item_details.PlayerID} updated their items: " + item_details.New);
+                Console.WriteLine($"Player {item_details.Player.Details.Name} updated their items: " + item_details.New);
 
                 if (item_details.New.InventoryContains("item_blink"))
                 {
-                    Console.WriteLine($"Player {item_details.PlayerID} has a blink dagger.");
+                    Console.WriteLine($"Player {item_details.Player.Details.Name} has a blink dagger.");
                 }
                 else
                 {
-                    Console.WriteLine($"Player {item_details.PlayerID} DOES NOT have a blink dagger.");
+                    Console.WriteLine($"Player {item_details.Player.Details.Name} DOES NOT have a blink dagger.");
                 }
-            }
-            else if (game_event is PlayerEvent player_event)
-            {
-                Console.WriteLine($"Player {player_event.PlayerID} did a thing: " + player_event.Value.EventType);
-            }
-            else if (game_event is TeamEvent team_event)
-            {
-                Console.WriteLine($"Team {team_event.Team} did a thing: " + team_event.Value.EventType);
             }
             else if (game_event is TowerUpdated tower_updated)
             {
@@ -151,7 +175,7 @@ namespace Dota2GSI_Example_program
             }
             else if (game_event is CourierUpdated courier_updated)
             {
-                Console.WriteLine($"Player {courier_updated.PlayerID} courier updated: {courier_updated.New}");
+                Console.WriteLine($"Player {courier_updated.Player.Details.Name} courier updated: {courier_updated.New}");
             }
             else if (game_event is TeamDraftDetailsUpdated draft_details_updated)
             {
