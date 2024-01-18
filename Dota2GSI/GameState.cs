@@ -224,7 +224,6 @@ namespace Dota2GSI
         private FullTeamDetails _dire_team_details;
         private FullTeamDetails _neutral_team_details;
 
-
         /// <summary>
         /// Creates a GameState instance based on the given json data.
         /// </summary>

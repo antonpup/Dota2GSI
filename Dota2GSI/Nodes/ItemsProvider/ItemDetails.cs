@@ -112,12 +112,7 @@ namespace Dota2GSI.Nodes.ItemsProvider
         public bool InventoryContains(string item_name)
         {
             var found_index = InventoryIndexOf(item_name);
-            if (found_index > -1)
-            {
-                return true;
-            }
-
-            return false;
+            return found_index > -1;
         }
 
         /// <summary>
@@ -127,9 +122,9 @@ namespace Dota2GSI.Nodes.ItemsProvider
         /// <returns>The first index at which item is found, -1 if not found.</returns>
         public int InventoryIndexOf(string item_name)
         {
-            for (int x = 0; x < this.Inventory.Count; x++)
+            for (int x = 0; x < Inventory.Count; x++)
             {
-                if (this.Inventory[x].Name == item_name)
+                if (Inventory[x].Name == item_name)
                 {
                     return x;
                 }
@@ -179,12 +174,7 @@ namespace Dota2GSI.Nodes.ItemsProvider
         public bool StashContains(string item_name)
         {
             var found_index = StashIndexOf(item_name);
-            if (found_index > -1)
-            {
-                return true;
-            }
-
-            return false;
+            return found_index > -1;
         }
 
         /// <summary>
@@ -194,9 +184,9 @@ namespace Dota2GSI.Nodes.ItemsProvider
         /// <returns>The first index at which item is found, -1 if not found.</returns>
         public int StashIndexOf(string item_name)
         {
-            for (int x = 0; x < this.Stash.Count; x++)
+            for (int x = 0; x < Stash.Count; x++)
             {
-                if (this.Stash[x].Name == item_name)
+                if (Stash[x].Name == item_name)
                 {
                     return x;
                 }

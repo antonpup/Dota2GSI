@@ -397,7 +397,7 @@ namespace Dota2GSI
 
         #endregion
 
-        #region ProviderEvents
+        #region PlayerEvents
 
         public delegate void PlayerUpdatedHandler(PlayerUpdated game_event);
 
