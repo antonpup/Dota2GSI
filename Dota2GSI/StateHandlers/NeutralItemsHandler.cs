@@ -6,15 +6,15 @@ namespace Dota2GSI
     {
         public NeutralItemsHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<NeutralItemsUpdated>(OnNeutralItemsStateUpdated);
+            dispatcher.Subscribe<NeutralItemsUpdated>(OnNeutralItemsUpdated);
         }
 
         ~NeutralItemsHandler()
         {
-            dispatcher.Unsubscribe<NeutralItemsUpdated>(OnNeutralItemsStateUpdated);
+            dispatcher.Unsubscribe<NeutralItemsUpdated>(OnNeutralItemsUpdated);
         }
 
-        private void OnNeutralItemsStateUpdated(DotaGameEvent e)
+        private void OnNeutralItemsUpdated(DotaGameEvent e)
         {
             NeutralItemsUpdated evt = (e as NeutralItemsUpdated);
 

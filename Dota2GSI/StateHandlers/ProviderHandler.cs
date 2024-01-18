@@ -6,15 +6,15 @@ namespace Dota2GSI
     {
         public ProviderHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<ProviderUpdated>(OnProviderStateUpdated);
+            dispatcher.Subscribe<ProviderUpdated>(OnProviderUpdated);
         }
 
         ~ProviderHandler()
         {
-            dispatcher.Unsubscribe<ProviderUpdated>(OnProviderStateUpdated);
+            dispatcher.Unsubscribe<ProviderUpdated>(OnProviderUpdated);
         }
 
-        private void OnProviderStateUpdated(DotaGameEvent e)
+        private void OnProviderUpdated(DotaGameEvent e)
         {
             ProviderUpdated evt = (e as ProviderUpdated);
 

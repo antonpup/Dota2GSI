@@ -11,13 +11,13 @@ namespace Dota2GSI
         public WearablesHandler(ref EventDispatcher<DotaGameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
-            dispatcher.Subscribe<WearablesUpdated>(OnWearablesStateUpdated);
+            dispatcher.Subscribe<WearablesUpdated>(OnWearablesUpdated);
         }
 
         ~WearablesHandler()
         {
             dispatcher.Unsubscribe<FullPlayerDetailsUpdated>(OnFullPlayerDetailsUpdated);
-            dispatcher.Unsubscribe<WearablesUpdated>(OnWearablesStateUpdated);
+            dispatcher.Unsubscribe<WearablesUpdated>(OnWearablesUpdated);
         }
 
         private void OnFullPlayerDetailsUpdated(DotaGameEvent e)
@@ -32,7 +32,7 @@ namespace Dota2GSI
             _player_cache[evt.New.PlayerID] = evt.New;
         }
 
-        private void OnWearablesStateUpdated(DotaGameEvent e)
+        private void OnWearablesUpdated(DotaGameEvent e)
         {
             WearablesUpdated evt = (e as WearablesUpdated);
 
