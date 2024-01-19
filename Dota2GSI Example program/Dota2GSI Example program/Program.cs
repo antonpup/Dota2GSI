@@ -115,19 +115,6 @@ namespace Dota2GSI_Example_program
             {
                 Console.WriteLine($"Player {ability.Player.Details.Name} updated their ability: " + ability.New);
             }
-            else if (game_event is ItemDetailsChanged item_details)
-            {
-                Console.WriteLine($"Player {item_details.Player.Details.Name} updated their items: " + item_details.New);
-
-                if (item_details.New.InventoryContains("item_blink"))
-                {
-                    Console.WriteLine($"Player {item_details.Player.Details.Name} has a blink dagger.");
-                }
-                else
-                {
-                    Console.WriteLine($"Player {item_details.Player.Details.Name} DOES NOT have a blink dagger.");
-                }
-            }
             else if (game_event is TowerUpdated tower_updated)
             {
                 if (tower_updated.New.Health < tower_updated.Previous.Health)
