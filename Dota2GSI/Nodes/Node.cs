@@ -295,7 +295,7 @@ namespace Dota2GSI.Nodes
         public override bool Equals(object obj)
         {
             return obj is NodeMap<Key, Value> other &&
-                Count == other.Count && !this.Except(other).Any();
+                this.SequenceEqual(other);
         }
 
         /// <inheritdoc/>
@@ -360,7 +360,7 @@ namespace Dota2GSI.Nodes
         public override bool Equals(object obj)
         {
             return obj is NodeList<Value> other &&
-                Count == other.Count && !this.Except(other).Any();
+                this.SequenceEqual(other);
         }
 
         /// <inheritdoc/>
