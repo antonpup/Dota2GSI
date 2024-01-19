@@ -46,9 +46,10 @@ namespace Dota2GSI
             foreach (var courier_kvp in evt.New.CouriersMap)
             {
                 var previous_courier = evt.Previous.GetForPlayer(courier_kvp.Value.OwnerID);
-                if (!courier_kvp.Value.Equals(previous_courier))
+                var player_details = _player_cache.GetValueOrDefault(courier_kvp.Value.OwnerID, null);
+
+                if (!courier_kvp.Value.Equals(previous_courier) && player_details != null)
                 {
-                    var player_details = _player_cache[courier_kvp.Value.OwnerID];
                     dispatcher.Broadcast(new CourierUpdated(courier_kvp.Value, previous_courier, player_details));
 
                     dispatcher.Broadcast(new TeamCourierUpdated(courier_kvp.Value, previous_courier, player_details.Details.Team));

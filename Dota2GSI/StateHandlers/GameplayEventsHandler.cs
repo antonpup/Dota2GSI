@@ -54,29 +54,71 @@ namespace Dota2GSI
                     switch (game_event.EventType)
                     {
                         case EventType.Courier_killed:
-                            dispatcher.Broadcast(new PlayerGameplayEvent(game_event, _player_cache[game_event.KillerPlayerID]));
-                            dispatcher.Broadcast(new TeamGameplayEvent(game_event, game_event.Team));
+                            {
+                                var killer_player_details = _player_cache.GetValueOrDefault(game_event.KillerPlayerID, null);
+                                if (killer_player_details != null)
+                                {
+                                    dispatcher.Broadcast(new PlayerGameplayEvent(game_event, killer_player_details));
+                                }
+                                dispatcher.Broadcast(new TeamGameplayEvent(game_event, game_event.Team));
+                            }
                             break;
                         case EventType.Roshan_killed:
-                            dispatcher.Broadcast(new PlayerGameplayEvent(game_event, _player_cache[game_event.KillerPlayerID]));
-                            dispatcher.Broadcast(new TeamGameplayEvent(game_event, game_event.Team));
+                            {
+                                var killer_player_details = _player_cache.GetValueOrDefault(game_event.KillerPlayerID, null);
+                                if (killer_player_details != null)
+                                {
+                                    dispatcher.Broadcast(new PlayerGameplayEvent(game_event, killer_player_details));
+                                }
+                                dispatcher.Broadcast(new TeamGameplayEvent(game_event, game_event.Team));
+                            }
                             break;
                         case EventType.Aegis_picked_up:
-                            dispatcher.Broadcast(new PlayerGameplayEvent(game_event, _player_cache[game_event.PlayerID]));
-                            dispatcher.Broadcast(new TeamGameplayEvent(game_event, _player_cache[game_event.PlayerID].Details.Team));
+                            {
+                                var player_details = _player_cache.GetValueOrDefault(game_event.PlayerID, null);
+                                if (player_details != null)
+                                {
+                                    dispatcher.Broadcast(new PlayerGameplayEvent(game_event, player_details));
+                                    dispatcher.Broadcast(new TeamGameplayEvent(game_event, player_details.Details.Team));
+                                }
+                            }
                             break;
                         case EventType.Aegis_denied:
-                            dispatcher.Broadcast(new PlayerGameplayEvent(game_event, _player_cache[game_event.PlayerID]));
-                            dispatcher.Broadcast(new TeamGameplayEvent(game_event, _player_cache[game_event.PlayerID].Details.Team));
+                            {
+                                var player_details = _player_cache.GetValueOrDefault(game_event.PlayerID, null);
+                                if (player_details != null)
+                                {
+                                    dispatcher.Broadcast(new PlayerGameplayEvent(game_event, player_details));
+                                    dispatcher.Broadcast(new TeamGameplayEvent(game_event, player_details.Details.Team));
+                                }
+                            }
                             break;
                         case EventType.Tip:
-                            dispatcher.Broadcast(new PlayerGameplayEvent(game_event, _player_cache[game_event.PlayerID]));
-                            dispatcher.Broadcast(new PlayerGameplayEvent(game_event, _player_cache[game_event.TipReceiverPlayerID]));
-                            dispatcher.Broadcast(new TeamGameplayEvent(game_event, _player_cache[game_event.TipReceiverPlayerID].Details.Team));
+                            {
+                                var player_details = _player_cache.GetValueOrDefault(game_event.PlayerID, null);
+                                var tip_receiver_player_details = _player_cache.GetValueOrDefault(game_event.TipReceiverPlayerID, null);
+                                if (player_details != null)
+                                {
+                                    dispatcher.Broadcast(new PlayerGameplayEvent(game_event, player_details));
+                                }
+
+                                if (tip_receiver_player_details != null)
+                                {
+                                    dispatcher.Broadcast(new PlayerGameplayEvent(game_event, tip_receiver_player_details));
+                                    dispatcher.Broadcast(new TeamGameplayEvent(game_event, tip_receiver_player_details.Details.Team));
+                                }
+                            }
                             break;
                         case EventType.Bounty_rune_pickup:
-                            dispatcher.Broadcast(new PlayerGameplayEvent(game_event, _player_cache[game_event.PlayerID]));
-                            dispatcher.Broadcast(new TeamGameplayEvent(game_event, game_event.Team));
+                            {
+                                var player_details = _player_cache.GetValueOrDefault(game_event.PlayerID, null);
+                                if (player_details != null)
+                                {
+                                    dispatcher.Broadcast(new PlayerGameplayEvent(game_event, player_details));
+                                }
+
+                                dispatcher.Broadcast(new TeamGameplayEvent(game_event, game_event.Team));
+                            }
                             break;
                         default:
                             break;

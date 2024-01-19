@@ -507,7 +507,7 @@ namespace Dota2GSI
         {
         }
 
-        public override void OnNewGameEvent(DotaGameEvent e)
+        internal override void OnNewGameEvent(DotaGameEvent e)
         {
             base.OnNewGameEvent(e);
 

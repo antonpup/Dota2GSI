@@ -43,9 +43,11 @@ namespace Dota2GSI
                 return;
             }
 
-            if (!evt.New.LocalPlayer.Equals(evt.Previous.LocalPlayer))
+            var local_player_details = _player_cache.GetValueOrDefault(-1, null);
+
+            if (!evt.New.LocalPlayer.Equals(evt.Previous.LocalPlayer) && local_player_details != null)
             {
-                dispatcher.Broadcast(new PlayerDetailsChanged(evt.New.LocalPlayer, evt.Previous.LocalPlayer, _player_cache[-1]));
+                dispatcher.Broadcast(new PlayerDetailsChanged(evt.New.LocalPlayer, evt.Previous.LocalPlayer, local_player_details));
             }
 
             foreach (var team_kvp in evt.New.Teams)
@@ -54,9 +56,11 @@ namespace Dota2GSI
                 {
                     var previous_hero_details = evt.Previous.GetForPlayer(player_kvp.Key);
 
-                    if (!player_kvp.Value.Equals(previous_hero_details))
+                    var player_details = _player_cache.GetValueOrDefault(player_kvp.Key, null);
+
+                    if (!player_kvp.Value.Equals(previous_hero_details) && player_details != null)
                     {
-                        dispatcher.Broadcast(new PlayerDetailsChanged(player_kvp.Value, previous_hero_details, _player_cache[player_kvp.Key]));
+                        dispatcher.Broadcast(new PlayerDetailsChanged(player_kvp.Value, previous_hero_details, player_details));
                     }
                 }
             }
