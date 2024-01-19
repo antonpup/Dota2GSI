@@ -21,7 +21,7 @@ namespace Dota2GSI
         {
         }
 
-        public virtual void OnNewGameEvent(T e)
+        internal virtual void OnNewGameEvent(T e)
         {
             RaiseEvent(GameEvent, e);
         }
