@@ -1,9 +1,6 @@
 ﻿using Dota2GSI;
 using Dota2GSI.EventMessages;
-using Microsoft.Win32;
 using System;
-using System.Diagnostics;
-using System.IO;
 using System.Threading;
 
 namespace Dota2GSI_Example_program
@@ -14,17 +11,12 @@ namespace Dota2GSI_Example_program
 
         static void Main(string[] args)
         {
-            CreateGsifile();
-
-            Process[] pname = Process.GetProcessesByName("Dota2");
-            if (pname.Length == 0)
-            {
-                Console.WriteLine("Dota 2 is not running. Please start Dota 2.");
-                Console.ReadLine();
-                Environment.Exit(0);
-            }
-
             _gsl = new GameStateListener(4000);
+
+            if (!_gsl.GenerateGSIConfigFile("Example"))
+            {
+                Console.WriteLine("Could not generate GSI configuration file.");
+            }
 
             // There are many callbacks that can be subscribed.
             // This example shows a few.
@@ -245,61 +237,6 @@ namespace Dota2GSI_Example_program
             }
 
             Console.WriteLine("Press ESC to quit");
-        }
-
-        private static void CreateGsifile()
-        {
-            RegistryKey regKey = Registry.CurrentUser.OpenSubKey(@"Software\Valve\Steam");
-
-            if (regKey != null)
-            {
-                string gsifolder = regKey.GetValue("SteamPath") +
-                                   @"\steamapps\common\dota 2 beta\game\dota\cfg\gamestate_integration";
-                Directory.CreateDirectory(gsifolder);
-                string gsifile = gsifolder + @"\gamestate_integration_testGSI.cfg";
-                if (File.Exists(gsifile))
-                    return;
-
-                string[] contentofgsifile =
-                {
-                    "\"Dota 2 Integration Configuration\"",
-                    "{",
-                    "    \"uri\"           \"http://localhost:4000\"",
-                    "    \"timeout\"       \"5.0\"",
-                    "    \"buffer\"        \"0.1\"",
-                    "    \"throttle\"      \"0.1\"",
-                    "    \"heartbeat\"     \"30.0\"",
-                    "    \"data\"",
-                    "    {",
-                    "        \"auth\"           \"1\"",
-                    "        \"provider\"       \"1\"",
-                    "        \"map\"            \"1\"",
-                    "        \"player\"         \"1\"",
-                    "        \"hero\"           \"1\"",
-                    "        \"abilities\"      \"1\"",
-                    "        \"items\"          \"1\"",
-                    "        \"events\"         \"1\"",
-                    "        \"buildings\"      \"1\"",
-                    "        \"league\"         \"1\"",
-                    "        \"draft\"          \"1\"",
-                    "        \"wearables\"      \"1\"",
-                    "        \"minimap\"        \"1\"",
-                    "        \"roshan\"         \"1\"",
-                    "        \"couriers\"       \"1\"",
-                    "        \"neutralitems\"   \"1\"",
-                    "    }",
-                    "}",
-
-                };
-
-                File.WriteAllLines(gsifile, contentofgsifile);
-            }
-            else
-            {
-                Console.WriteLine("Registry key for steam not found, cannot create Gamestate Integration file");
-                Console.ReadLine();
-                Environment.Exit(0);
-            }
         }
     }
 }
