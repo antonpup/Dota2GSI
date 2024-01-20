@@ -56,7 +56,12 @@ namespace Dota2GSI
         /// <summary>
         /// Gets the port that is being listened.
         /// </summary>
-        public int Port { get { return _port; } }
+        public int Port => _port;
+
+        /// <summary> 
+        /// Gets the URI that is being listened. 
+        /// </summary> 
+        public string URI => _uri;
 
         /// <summary>
         /// Returns whether or not the listener is running.
@@ -70,6 +75,7 @@ namespace Dota2GSI
 
         private bool _is_running = false;
         private int _port;
+        private string _uri;
         private HttpListener _http_listener;
         private AutoResetEvent _wait_for_connection = new AutoResetEvent(false);
         private GameState _previous_game_state = new GameState();
@@ -117,8 +123,9 @@ namespace Dota2GSI
         public GameStateListener(int Port) : this()
         {
             _port = Port;
+            _uri = $"http://localhost:{_port}/";
             _http_listener = new HttpListener();
-            _http_listener.Prefixes.Add("http://localhost:" + Port + "/");
+            _http_listener.Prefixes.Add(_uri);
         }
 
         /// <summary>
@@ -141,9 +148,19 @@ namespace Dota2GSI
             }
 
             _port = Convert.ToInt32(PortMatch.Groups[1].Value);
-
+            _uri = URI;
             _http_listener = new HttpListener();
             _http_listener.Prefixes.Add(URI);
+        }
+
+        /// <summary> 
+        /// Attempts to create a Game State Integration configuraion file. 
+        /// </summary> 
+        /// <param name="name">The name of your integration.</param> 
+        /// <returns>Returns true on success, false otherwise.</returns> 
+        public bool GenerateGSIConfigFile(string name)
+        {
+            return Dota2GSIFile.CreateFile(name, _uri);
         }
 
         /// <summary>

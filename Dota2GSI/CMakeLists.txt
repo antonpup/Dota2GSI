@@ -17,6 +17,7 @@ INCLUDE(CSharpUtilities)
 
 SET(SOURCES
     Dota2EventsInterface.cs
+    Dota2GSIFile.cs
     EventDispatcher.cs
     EventHandler.cs
     EventsInterface.cs
