@@ -102,6 +102,7 @@ SET(SOURCES
     StateHandlers/ProviderHandler.cs
     StateHandlers/RoshanHandler.cs
     StateHandlers/WearablesHandler.cs
+    Utils/SteamUtils.cs
 )
 
 SET(README "${CMAKE_SOURCE_DIR}/README.md")
