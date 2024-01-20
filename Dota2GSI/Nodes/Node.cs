@@ -233,6 +233,7 @@ namespace Dota2GSI.Nodes
             }
 
             return obj is Node other &&
+                _ParsedData != null &&
                 _ParsedData.Equals(other._ParsedData) &&
                 _successfully_retrieved_any_value.Equals(other._successfully_retrieved_any_value);
         }
