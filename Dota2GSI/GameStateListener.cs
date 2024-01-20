@@ -1,4 +1,4 @@
-﻿using Dota2GSI.EventMessages;
+using Dota2GSI.EventMessages;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
@@ -43,13 +43,24 @@ namespace Dota2GSI
         {
             get
             {
-                return _current_game_state;
+                lock (gamestate_lock)
+                {
+                    return _current_game_state;
+                }
             }
             private set
             {
-                _previous_game_state = _current_game_state;
-                _current_game_state = value;
-                RaiseOnNewGameState(ref _current_game_state);
+                lock (gamestate_lock)
+                {
+                    if (_current_game_state.Equals(value))
+                    {
+                        return;
+                    }
+
+                    _previous_game_state = _current_game_state;
+                    _current_game_state = value;
+                    RaiseOnNewGameState(ref _current_game_state);
+                }
             }
         }
 
@@ -58,9 +69,9 @@ namespace Dota2GSI
         /// </summary>
         public int Port => _port;
 
-        /// <summary> 
-        /// Gets the URI that is being listened. 
-        /// </summary> 
+        /// <summary>
+        /// Gets the URI that is being listened.
+        /// </summary>
         public string URI => _uri;
 
         /// <summary>
@@ -72,6 +83,8 @@ namespace Dota2GSI
         /// Event for handing a newly received game state.
         /// </summary>
         public event NewGameStateHandler NewGameState = delegate { };
+
+        private readonly object gamestate_lock = new object();
 
         private bool _is_running = false;
         private int _port;
@@ -117,12 +130,12 @@ namespace Dota2GSI
         }
 
         /// <summary>
-        /// A GameStateListener that listens for connections on http://localhost:port/.
+        /// A GameStateListener that listens for connections on http://localhost:<c>port</c>/.
         /// </summary>
-        /// <param name="Port">The port to listen on.</param>
-        public GameStateListener(int Port) : this()
+        /// <param name="port">The port to listen on.</param>
+        public GameStateListener(int port) : this()
         {
-            _port = Port;
+            _port = port;
             _uri = $"http://localhost:{_port}/";
             _http_listener = new HttpListener();
             _http_listener.Prefixes.Add(_uri);
@@ -153,11 +166,11 @@ namespace Dota2GSI
             _http_listener.Prefixes.Add(URI);
         }
 
-        /// <summary> 
-        /// Attempts to create a Game State Integration configuraion file. 
-        /// </summary> 
-        /// <param name="name">The name of your integration.</param> 
-        /// <returns>Returns true on success, false otherwise.</returns> 
+        /// <summary>
+        /// Attempts to create a Game State Integration configuraion file.
+        /// </summary>
+        /// <param name="name">The name of your integration.</param>
+        /// <returns>Returns true on success, false otherwise.</returns>
         public bool GenerateGSIConfigFile(string name)
         {
             return Dota2GSIFile.CreateFile(name, _uri);
@@ -247,7 +260,7 @@ namespace Dota2GSI
         {
             RaiseEvent(NewGameState, game_state);
 
-            _game_state_handler.OnNewGameState(CurrentGameState);
+            _game_state_handler.OnNewGameState(game_state);
         }
 
         /// <summary>
