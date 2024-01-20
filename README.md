@@ -1,6 +1,7 @@
 Dota 2 GSI (Game State Integration)
 ===================================
 
+[![Dota 2](https://img.shields.io/badge/Dota_2-9f1d1c?style=flat&label=Game&labelColor=black)](https://store.steampowered.com/app/570/)
 [![.NET](https://github.com/antonpup/Dota2GSI/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/antonpup/Dota2GSI/actions/workflows/dotnet.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/antonpup/Dota2GSI)](https://github.com/antonpup/Dota2GSI/releases/latest)
 [![NuGet Version](https://img.shields.io/nuget/v/Dota2GSI)](https://www.nuget.org/packages/Dota2GSI)
@@ -12,11 +13,11 @@ A C# library to interface with the Game State Integration found in Dota 2.
 
 This library provides an easy way to implement Game State Integration from Dota 2 into C# applications through exposing a number of events.
 
-Underneath the hood, once the library is started, it continuously listens for HTTP POST requests made by the game on a specific address and port. When a request is received, the JSON data is parsed into [GameState object](#game-state-structure) and is offered to your C# application through `NewGameState` event. The library also subscribes to `NewGameState` to determine more granular changes to raise more specific events _(such as `TimeOfDayChanged`, `InventoryItemAdded`, or `TowerDestroyed` to name a few)_. A full list of exposed Game Events can be found in the [Implemented Game Events](#implemented-game-events) section.
+Underneath the hood, once the library is started, it continuously listens for HTTP POST requests made by the game on a specific address and port. When a request is received, the JSON data is parsed into [GameState object](#game-state-structure) and is offered to your C# application through the `NewGameState` event. The library also subscribes to `NewGameState` to determine more granular changes to raise more specific events _(such as `TimeOfDayChanged`, `InventoryItemAdded`, or `TowerDestroyed` to name a few)_. A full list of exposed Game Events can be found in the [Implemented Game Events](#implemented-game-events) section.
 
 ## About Game State Integration
 
-Game State Integration is Valve's implementation for exposing current game state _(such as player health, mana, ammo, etc.)_ and game events without the need to read game memory or risking anti-cheat detection. The information exposed by GSI is limited to what Valve has determined to expose. For example, the game can expose information about all players in the game while spectating a match, but will only expose local player's infomration when playing a game. While the information is limited, there is enough information to create a live game analysis tool, create custom RGB ligthing effects, or create live streaming plugin to show additional game information. For example, GSI can be seen used during competitive tournament live streams to show currently spectated player's information and in-game statistics.
+Game State Integration is Valve's implementation for exposing current game state _(such as player health, mana, ammo, etc.)_ and game events without the need to read game memory or risking anti-cheat detection. The information exposed by GSI is limited to what Valve has determined to expose. For example, the game can expose information about all players in the game while spectating a match, but will only expose local player's information when playing a game. While the information is limited, there is enough information to create a live game analysis tool, create custom RGB lighting effects, or create a live streaming plugin to show additional game information. For example, GSI can be seen used during competitive tournament live streams to show currently spectated player's information and in-game statistics.
 
 You can read about Game State Integration for Counter-Strike: Global Offensive [here](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration).
 
@@ -33,7 +34,7 @@ Install from [nuget](https://www.nuget.org/packages/Dota2GSI).
 
 ## How to use
 
-1. After installing the [Dota2GSI nuget package](https://www.nuget.org/packages/Dota2GSI) in your project, create an instance of `GameStateListener`, providing a custom port or custom URI you defined in the configuration file in the previous step.
+1. After installing the [Dota2GSI nuget package](https://www.nuget.org/packages/Dota2GSI) in your project, create an instance of `GameStateListener`, providing a custom port or custom URI.
 ```C#
 GameStateListener gsl = new GameStateListener(3000); //http://localhost:3000/
 ```
@@ -123,7 +124,7 @@ void OnInventoryItemAdded(InventoryItemAdded game_event)
 ```
 Both `NewGameState` and `Game Events` can be used alongside one another. The `Game Events` are generated based on the `GameState`, and are there to provide ease of use.
 
-4. Finally you want to start the `GameStateListener` to begin capturing HTTP POST requests. This is done by calling `Start()` method of `GameStateListener`. The method will return `True` if started successfully, or `False` when failed to start. Often the failure to start is due to insufficient permissions or another application is already using the same port.
+4. Finally you want to start the `GameStateListener` to begin capturing HTTP POST requests. This is done by calling the `Start()` method of `GameStateListener`. The method will return `True` if started successfully, or `False` when failed to start. Often the failure to start is due to insufficient permissions or another application is already using the same port.
 ```C#
 if (!gsl.Start())
 {
